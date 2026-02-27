@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load School Student Data - FeeFlow</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">FeeFlow</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="student/login.php">Student Portal</a></li>
+                <li><a href="admin/admin.php">Admin Panel</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container main-content">
+        <div style="max-width: 800px; margin: 3rem auto;">
+            <div style="background: white; padding: 3rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                <h1 style="text-align: center; margin-bottom: 1rem;">📚 Load School Student Data</h1>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Initialize the database with 15 realistic students and comprehensive fee records for testing.</p>
+
+                <div style="background: #fffbeb; border-left: 5px solid var(--warning); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                    <p style="margin: 0; color: #92400e;"><strong>⚠️ Important:</strong> This action will clear existing student data and load sample school records. This is for setup and testing only.</p>
+                </div>
+
+                <div style="background: #f0fdf4; border-left: 5px solid var(--success); padding: 2rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem;">✓ What Will Be Loaded:</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; color: var(--text-muted); font-size: 0.95rem;">
+                        <div>
+                            <p style="margin: 0 0 0.5rem; font-weight: 600;">👥 Students</p>
+                            <p style="margin: 0;">15 diverse students with different courses</p>
+                        </div>
+                        <div>
+                            <p style="margin: 0 0 0.5rem; font-weight: 600;">💰 Fees</p>
+                            <p style="margin: 0;">45+ fee records with various statuses</p>
+                        </div>
+                        <div>
+                            <p style="margin: 0 0 0.5rem; font-weight: 600;">⏰ Reminders</p>
+                            <p style="margin: 0;">10 payment deadlines with history</p>
+                        </div>
+                        <div>
+                            <p style="margin: 0 0 0.5rem; font-weight: 600;">📅 Appointments</p>
+                            <p style="margin: 0;">10 scheduled & completed appointments</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #f8fafc; padding: 2rem; border-radius: 0.5rem; border: 1px solid var(--border); margin-bottom: 2rem;">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem;">Sample Students (S101 - S115):</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; font-size: 0.9rem; color: var(--text-muted);">
+                        <div>🎓 Sarah Johnson - Computer Science</div>
+                        <div>🎓 Jackie Smith - Business Admin</div>
+                        <div>🎓 Winnie Davis - Engineering</div>
+                        <div>🎓 Michael Brown - Medicine</div>
+                        <div>🎓 Emily Wilson - Law</div>
+                        <div>🎓 David Miller - Architecture</div>
+                        <div>🎓 Jessica Taylor - Arts & Design</div>
+                        <div>🎓 James Anderson - Education</div>
+                        <div>🎓 Lisa Moore - Nursing</div>
+                        <div>🎓 Christopher Garcia - Finance</div>
+                        <div>🎓 Amanda Martinez - Psychology</div>
+                        <div>🎓 Ryan Thompson - Physics</div>
+                        <div>🎓 Sophia Lee - Chemistry</div>
+                        <div>🎓 Daniel White - Biology</div>
+                        <div>🎓 Olivia Harris - Mathematics</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+                    <a href="load_school_data.php" class="btn primary-btn" style="width: 100%; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; padding: 1rem;">
+                        ✓ Load School Data
+                    </a>
+                    <a href="index.html" class="btn secondary-btn" style="width: 100%; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; padding: 1rem; color: var(--primary); border: 1px solid var(--primary);">
+                        ← Go Back
+                    </a>
+                </div>
+
+                <div style="background: #dbeafe; border-left: 5px solid var(--primary); padding: 1.5rem; border-radius: 0.5rem;">
+                    <h4 style="margin-top: 0;">ℹ️ Login Credentials:</h4>
+                    <p style="margin: 0.5rem 0; color: #075985; font-size: 0.9rem;">
+                        <strong>All students:</strong> Password = <code style="background: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">password123</code>
+                    </p>
+                    <p style="margin: 0; color: #075985; font-size: 0.9rem;">
+                        <strong>Example:</strong> Select "Sarah Johnson (S101)" and use the password above to test
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <h3>FeeFlow</h3>
+                <p>University Fee Management System</p>
+            </div>
+            <div style="text-align: right; color: var(--text-muted); font-size: 0.9rem;">
+                <p style="margin: 0;">© 2024 FeeFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

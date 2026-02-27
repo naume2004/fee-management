@@ -1,0 +1,14 @@
+{
+  "name": "fee-management-firestore-seed",
+  "version": "1.0.0",
+  "description": "Scripts to seed Firestore from the local school_students.sql sample data",
+  "main": "scripts/import_sql_to_firestore.js",
+  "scripts": {
+    "seed": "node scripts/import_sql_to_firestore.js ./serviceAccountKey.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-admin": "^11.0.0"
+  }
+}

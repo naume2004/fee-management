@@ -1,0 +1,23 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "*.php",
+      "*.sql",
+      "db.php",
+      "setup.php",
+      "seed_test_data.php",
+      "run_init.php",
+      "load_school_data.php"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

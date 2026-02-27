@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeeFlow | Efficient Student Payments</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Fee<span>Flow</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="student/login.html">Student Portal</a></li>
+                <li><a href="admin/login.html" class="admin-link">Staff Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 id="dynamic-hero-title">Secure Student Payments Made Easy</h1>
+                <p>Manage your fees, track your payment history, and book finance appointments all in one professional platform.</p>
+                <div class="hero-btns">
+                    <a href="student/login.html" class="btn primary-btn">Student Dashboard</a>
+                </div>
+
+                <div class="quick-pay-container">
+                    <h3>Quick Payment Access</h3>
+                    <form id="quick-payment-form" class="quick-pay-form" action="student/payment_gateway.html" method="GET">
+                        <select name="sim_id" id="student-select" required>
+                            <option value="">Select your student account</option>
+                            <option value="S101">Sarah (S101) - Computer Science</option>
+                            <option value="S102">Jackie (S102) - Business Admin</option>
+                            <option value="S103">Winnie (S103) - Engineering</option>
+                        </select>
+                        <button type="submit" id="quick-pay-btn" class="btn primary-btn">Pay Now</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- University Stats Preview -->
+        <section class="home-stats" style="margin-bottom: 5rem; padding: 4rem 0;">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 1rem; font-size: 2.25rem;">University Payment Data At A Glance</h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">Real-time transparency for all university students.</p>
+                
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏢</div>
+                        <h3>Collections Rate</h3>
+                        <div class="value" style="font-size: 1.5rem; color: var(--success);">85.4%</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Current semester recovery</p>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👥</div>
+                        <h3>Active Students</h3>
+                        <div class="value" style="font-size: 1.5rem;">12,500+</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Registered university users</p>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💳</div>
+                        <h3>Daily Payments</h3>
+                        <div class="value" style="font-size: 1.5rem; color: var(--primary);">$45,200</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Processed today online</p>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⏱️</div>
+                        <h3>Avg Wait Time</h3>
+                        <div class="value" style="font-size: 1.5rem; color: var(--warning);">12 mins</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">With online appointments</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" style="padding: 4rem 0; background: white;">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.25rem; color: var(--text-main);">How we reduce your wait time</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card" style="text-align: left;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">💳</div>
+                        <h3>Multiple Payment Methods</h3>
+                        <p>Pay using credit cards, mobile money, bank transfers, or flexible installment plans.</p>
+                    </div>
+                    <div class="stat-card" style="text-align: left;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📅</div>
+                        <h3>Flexible Payment Plans</h3>
+                        <p>Split your fees over 2, 3, or 6 months with no interest charges. Easy budgeting made simple.</p>
+                    </div>
+                    <div class="stat-card" style="text-align: left;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🎓</div>
+                        <h3>Scholarships & Discounts</h3>
+                        <p>Access merit-based scholarships, need-based grants, and discount codes to reduce your fees.</p>
+                    </div>
+                    <div class="stat-card" style="text-align: left;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+                        <h3>Fee Calculator</h3>
+                        <p>Instantly calculate your costs and compare different payment scenarios.</p>
+                    </div>
+                    <div class="stat-card" style="text-align: left;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📜</div>
+                        <h3>Documents & Receipts</h3>
+                        <p>Download receipts, financial statements, and official certificates anytime.</p>
+                    </div>
+                    <div class="stat-card" style="text-align: left;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📅</div>
+                        <h3>Smart Appointments</h3>
+                        <p>Book convenient time slots with the finance office without the wait.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Reminders Section -->
+        <section class="reminders" style="padding: 5rem 0; background: #fee2e2; margin: 4rem 0; border-radius: 2rem;">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 1rem; font-size: 2.25rem; color: #7f1d1d;">⚠️ Stay on Top of Your Payments</h2>
+                <p style="text-align: center; color: #7f1d1d; margin-bottom: 3rem; font-size: 1.1rem;">Never miss a payment deadline with our smart reminder system</p>
+                
+                <div class="dashboard-grid">
+                    <div style="background: white; padding: 2rem; border-radius: 1rem; border-left: 5px solid var(--danger);">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📧</div>
+                        <h3 style="margin: 0 0 0.5rem; color: var(--text-main);">Email Reminders</h3>
+                        <p style="color: var(--text-muted); margin: 0;">Automatic email notifications when payments are due or overdue.</p>
+                    </div>
+                    
+                    <div style="background: white; padding: 2rem; border-radius: 1rem; border-left: 5px solid var(--warning);">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🔔</div>
+                        <h3 style="margin: 0 0 0.5rem; color: var(--text-main);">Dashboard Alerts</h3>
+                        <p style="color: var(--text-muted); margin: 0;">See payment status and reminders instantly when you log in.</p>
+                    </div>
+                    
+                    <div style="background: white; padding: 2rem; border-radius: 1rem; border-left: 5px solid var(--danger);">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
+                        <h3 style="margin: 0 0 0.5rem; color: var(--text-main);">Payment Timeline</h3>
+                        <p style="color: var(--text-muted); margin: 0;">Track overdue and upcoming deadlines in one dedicated reminders page.</p>
+                    </div>
+                    
+                    <div style="background: white; padding: 2rem; border-radius: 1rem; border-left: 5px solid var(--success);">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">✓</div>
+                        <h3 style="margin: 0 0 0.5rem; color: var(--text-main);">No More Late Fees</h3>
+                        <p style="color: var(--text-muted); margin: 0;">Pay on time and avoid late fees, penalties, and academic holds.</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 3rem; text-align: center;">
+                    <a href="student/login.html" class="btn primary-btn" style="background: var(--danger); color: white; display: inline-block; box-shadow: none;">Check Your Reminders</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta" style="background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%); padding: 6rem 0; border-radius: 2rem; margin: 4rem 0; text-align: center; color: white;">
+            <div class="container">
+                <h2 style="font-size: 2.5rem; font-weight: 800;">Ready to simplify your university fee payment?</h2>
+                <p style="margin: 1.5rem 0 2.5rem; opacity: 0.9; font-size: 1.25rem;">Join thousands of students already using FeeFlow for hassle-free fee management.</p>
+                <a href="student/login.html" class="btn primary-btn" style="background: white; color: var(--primary); border: none; box-shadow: var(--shadow-lg);">Login to Student Dashboard</a>
+            </div>
+        </section>
+
+        <!-- Trust Section -->
+        <section class="trust" style="padding: 4rem 0; background: #f8fafc; border-radius: 2rem; margin: 4rem 0;">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 3rem; color: var(--text-main);">Trusted by Universities Worldwide</h2>
+                
+                <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎓</div>
+                        <p style="color: var(--text-muted); font-weight: 600;">150+ Universities</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👥</div>
+                        <p style="color: var(--text-muted); font-weight: 600;">2M+ Students</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💰</div>
+                        <p style="color: var(--text-muted); font-weight: 600;">$500M+ Processed</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⭐</div>
+                        <p style="color: var(--text-muted); font-weight: 600;">4.9/5 Rating</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <h3>FeeFlow</h3>
+                <p>The leading digital solution for educational financial management. Empowering students with modern, cross-platform tools.</p>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Help Center</a></li>
+                </ul>
+                <p>&copy; 2026 FeeFlow Education. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('quick-payment-form').addEventListener('submit', function(e) {
+            var sel = document.getElementById('student-select');
+            if(!sel.value) {
+                alert('Please select your student account to continue.');
+                e.preventDefault();
+                return false;
+            }
+            localStorage.setItem('currentStudentId', sel.value);
+        });
+    </script>
+    <script>
+        const config = {
+            title: "Skip the line, Pay online"
+        };
+        document.title = config.title;
+        const heroTitle = document.getElementById('dynamic-hero-title');
+        if (heroTitle) heroTitle.textContent = config.title;
+    </script>
+</body>
+</html>

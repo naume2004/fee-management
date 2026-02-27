@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment Gateway - FeeFlow</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="../firebase-config.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">FeeFlow</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="dashboard.html">My Dashboard</a></li>
+                <li><a href="payment_gateway.html">Pay Online</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container main-content">
+
+<div class="payment-header" style="text-align: center; margin-bottom: 3rem;">
+    <h1>Secure Payment Gateway</h1>
+    <p style="color: var(--text-muted);">Choose your preferred payment method to settle your university fees.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 3rem;">
+    <aside class="payment-summary" style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); height: fit-content;">
+        <h2 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Payment Summary</h2>
+        
+        <div id="student-summary" style="margin-bottom: 2rem;">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Loading student...</p>
+        </div>
+        
+        <div style="border-top: 1px solid var(--border); padding-top: 1.5rem; margin-bottom: 2rem;">
+            <h3 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Outstanding Fees:</h3>
+            <ul id="pending-fees-list" style="list-style: none;">
+                <!-- Pending fees will be inserted here -->
+            </ul>
+        </div>
+        
+        <div style="background: #fef3c7; border-radius: 0.5rem; padding: 1rem; margin-bottom: 2rem; border-left: 4px solid #f59e0b;">
+            <p style="font-size: 0.8rem; color: #92400e; margin: 0;">
+                <strong>Total Due:</strong>
+            </p>
+            <p id="total-due-display" style="font-size: 1.5rem; color: var(--danger); font-weight: 900; margin: 0.5rem 0 0;">$0.00</p>
+        </div>
+        
+        <a href="dashboard.html" class="btn secondary-btn" style="width: 100%; color: var(--primary); text-align: center; display: block; text-decoration: none; border: 1px solid var(--primary); padding: 0.75rem; border-radius: 0.5rem;">← Back to Dashboard</a>
+    </aside>
+
+    <div class="payment-methods">
+        <h2 style="margin-bottom: 2rem;">Select Payment Method</h2>
+        
+        <!-- Credit Card Payment -->
+        <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border);">
+            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                <div style="font-size: 2rem; margin-right: 1rem;">💳</div>
+                <div>
+                    <h3 style="margin: 0; font-size: 1.1rem;">Credit/Debit Card</h3>
+                    <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">Visa, Mastercard, American Express</p>
+                </div>
+            </div>
+            <form id="card-payment-form" style="margin-top: 1rem;">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Card Number</label>
+                    <input type="text" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 0.5rem;">Expiry Date</label>
+                        <input type="text" placeholder="MM/YY" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
+                    </div>
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 0.5rem;">CVV</label>
+                        <input type="text" placeholder="123" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn primary-btn pay-btn" style="width: 100%; background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer;">Pay Now</button>
+            </form>
+        </div>
+
+        <!-- Mobile Money Payment -->
+        <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border);">
+            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                <div style="font-size: 2rem; margin-right: 1rem;">📱</div>
+                <div>
+                    <h3 style="margin: 0; font-size: 1.1rem;">Mobile Money</h3>
+                    <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">M-Pesa, Airtel Money, MTN Mobile Money</p>
+                </div>
+            </div>
+            <form id="mobile-payment-form" style="margin-top: 1rem;">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Phone Number</label>
+                    <input type="tel" placeholder="+254712345678" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Provider</label>
+                    <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
+                        <option value="">Select Provider</option>
+                        <option>M-Pesa (Kenya)</option>
+                        <option>Airtel Money</option>
+                        <option>MTN Mobile Money</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn primary-btn pay-btn" style="width: 100%; background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer;">Pay Now</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    </main>
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <h3>FeeFlow Student</h3>
+                <p>Digital payment and queue management portal.</p>
+            </div>
+            <div class="footer-links">
+                <p>&copy; 2026 FeeFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const studentId = localStorage.getItem('currentStudentId') || 'S101';
+        let pendingFeeDocs = [];
+
+        async function loadPaymentData() {
+            try {
+                // Fetch student details
+                const studentDoc = await db.collection('students').doc(studentId).get();
+                if (!studentDoc.exists) {
+                    alert('Student not found');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const student = studentDoc.data();
+                document.getElementById('student-summary').innerHTML = `
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">Student: <strong>${student.name}</strong></p>
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">ID: <strong>${student.student_id}</strong></p>
+                `;
+
+                // Fetch pending fees
+                const feesSnapshot = await db.collection('fees')
+                    .where('student_id', '==', studentId)
+                    .where('status', '==', 'Pending')
+                    .get();
+                
+                let totalDue = 0;
+                const feesList = document.getElementById('pending-fees-list');
+                feesList.innerHTML = '';
+                pendingFeeDocs = [];
+
+                feesSnapshot.forEach(doc => {
+                    const fee = doc.data();
+                    pendingFeeDocs.push(doc.id);
+                    const amount = parseFloat(fee.amount);
+                    totalDue += amount;
+
+                    const li = document.createElement('li');
+                    li.style.cssText = 'display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem;';
+                    li.innerHTML = `
+                        <span>${fee.fee_type}</span>
+                        <strong style="color: var(--danger);">$${amount.toFixed(2)}</strong>
+                    `;
+                    feesList.appendChild(li);
+                });
+
+                document.getElementById('total-due-display').textContent = `$${totalDue.toFixed(2)}`;
+                document.querySelectorAll('.pay-btn').forEach(btn => {
+                    btn.textContent = `Pay $${totalDue.toFixed(2)}`;
+                    if (totalDue === 0) btn.disabled = true;
+                });
+
+            } catch (error) {
+                console.error("Error loading payment data:", error);
+            }
+        }
+
+        async function processMockPayment(e) {
+            e.preventDefault();
+            if (pendingFeeDocs.length === 0) return;
+
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+
+            try {
+                const batch = db.batch();
+                pendingFeeDocs.forEach(id => {
+                    const ref = db.collection('fees').doc(id);
+                    batch.update(ref, {
+                        status: 'Paid',
+                        payment_method: e.target.id === 'card-payment-form' ? 'Card' : 'Mobile Money',
+                        payment_date: new Date()
+                    });
+                });
+
+                await batch.commit();
+                alert('Payment Successful!');
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                alert('Payment Failed: ' + error.message);
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        }
+
+        document.getElementById('card-payment-form').addEventListener('submit', processMockPayment);
+        document.getElementById('mobile-payment-form').addEventListener('submit', processMockPayment);
+
+        loadPaymentData();
+    </script>
+</body>
+</html>

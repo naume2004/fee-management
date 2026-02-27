@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal Login - FeeFlow</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="../firebase-config.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">FeeFlow</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container main-content">
+
+<div class="form-container" style="max-width: 500px; margin: 5rem auto;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">Student Portal Login</h2>
+    <p style="color: var(--text-muted); text-align: center; margin-bottom: 2rem;">Please select a student account to access the university payment dashboard.</p>
+    
+    <div class="form-card" style="padding: 2rem; width: 100%; background: white; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <form id="login-form">
+            <div class="form-group">
+                <label for="sim_id">Select Student Account</label>
+                <select name="sim_id" id="sim_id" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #ddd; margin-top: 0.5rem;">
+                    <option value="">Loading students...</option>
+                </select>
+            </div>
+            <button type="submit" class="btn primary-btn" style="width: 100%; margin-top: 1.5rem; background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer;">Login to Dashboard</button>
+        </form>
+        
+        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+            <p style="color: var(--text-muted); text-align: center; font-size: 0.9rem; margin-bottom: 1rem;">Or pay directly:</p>
+            <form id="direct-payment-form" style="display: flex; gap: 1rem;">
+                <select name="sim_id" id="payment_sim_id" style="flex: 1; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #ddd;">
+                    <option value="">Select to pay</option>
+                </select>
+                <button type="submit" class="btn secondary-btn" style="color: var(--primary); border: 1px solid var(--primary); background: transparent; padding: 0.75rem 1rem; border-radius: 0.5rem; cursor: pointer;">Go to Payments</button>
+            </form>
+        </div>
+    </div>
+    
+    <div style="margin-top: 2rem; text-align: center;">
+        <p style="font-size: 0.85rem; color: var(--text-muted);">This is a simulation portal for university payment data tracking.</p>
+    </div>
+</div>
+
+    </main>
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <h3>FeeFlow Student</h3>
+                <p>Digital payment and queue management portal.</p>
+            </div>
+            <div class="footer-links">
+                <p>&copy; 2026 FeeFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const studentSelect = document.getElementById('sim_id');
+        const paymentSelect = document.getElementById('payment_sim_id');
+
+        async function loadStudents() {
+            try {
+                const snapshot = await db.collection('students').get();
+                studentSelect.innerHTML = '';
+                paymentSelect.innerHTML = '<option value="">Select to pay</option>';
+
+                if (snapshot.empty) {
+                    studentSelect.innerHTML = '<option value="">No students found</option>';
+                    return;
+                }
+
+                snapshot.forEach(doc => {
+                    const student = doc.data();
+                    const option = document.createElement('option');
+                    option.value = student.student_id;
+                    option.textContent = `${student.name} (${student.student_id})`;
+                    studentSelect.appendChild(option);
+
+                    const payOption = option.cloneNode(true);
+                    paymentSelect.appendChild(payOption);
+                });
+            } catch (error) {
+                console.error("Error loading students:", error);
+                studentSelect.innerHTML = '<option value="">Error loading students</option>';
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const studentId = studentSelect.value;
+            if (studentId) {
+                localStorage.setItem('currentStudentId', studentId);
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        document.getElementById('direct-payment-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const studentId = paymentSelect.value;
+            if (studentId) {
+                localStorage.setItem('currentStudentId', studentId);
+                window.location.href = 'payment_gateway.html';
+            }
+        });
+
+        loadStudents();
+    </script>
+</body>
+</html>

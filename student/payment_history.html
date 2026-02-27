@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment History - FeeFlow</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="../firebase-config.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">FeeFlow</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="dashboard.html">My Dashboard</a></li>
+                <li><a href="payment_history.html">History</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container main-content">
+
+<div class="payment-header" style="text-align: center; margin-bottom: 3rem;">
+    <h1>Payment History & Receipts</h1>
+    <p style="color: var(--text-muted);">View your complete payment history and download receipts.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 300px; gap: 3rem;">
+    <div class="payment-list">
+        <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            <h2 style="margin-bottom: 1.5rem;">Transaction Records</h2>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="transaction-records-body">
+                    <!-- Transactions will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <aside class="payment-filters" style="height: fit-content;">
+        <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem;">Filter Transactions</h3>
+            
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem;">Status</label>
+                <select id="status-filter" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                    <option value="All">All</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Pending">Pending</option>
+                </select>
+            </div>
+            
+            <button id="apply-filter" class="btn primary-btn" style="width: 100%; background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer;">Apply Filter</button>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            <h3 style="margin-bottom: 1rem;">Export Options</h3>
+            
+            <button class="export-btn btn secondary-btn" style="width: 100%; margin-bottom: 0.75rem; color: var(--text-main); border: 1px solid var(--border); padding: 0.5rem; border-radius: 0.5rem; background: transparent; cursor: pointer;">📥 Download PDF</button>
+            <button class="export-btn btn secondary-btn" style="width: 100%; margin-bottom: 0.75rem; color: var(--text-main); border: 1px solid var(--border); padding: 0.5rem; border-radius: 0.5rem; background: transparent; cursor: pointer;">📊 Export Excel</button>
+            <button class="export-btn btn secondary-btn" style="width: 100%; color: var(--text-main); border: 1px solid var(--border); padding: 0.5rem; border-radius: 0.5rem; background: transparent; cursor: pointer;">📧 Email Receipts</button>
+        </div>
+    </aside>
+</div>
+
+    </main>
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <h3>FeeFlow Student</h3>
+                <p>Digital payment and queue management portal.</p>
+            </div>
+            <div class="footer-links">
+                <p>&copy; 2026 FeeFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const studentId = localStorage.getItem('currentStudentId') || 'S101';
+        const statusFilter = document.getElementById('status-filter');
+        const recordsBody = document.getElementById('transaction-records-body');
+
+        async function loadTransactions(status = 'All') {
+            try {
+                recordsBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">Loading transactions...</td></tr>';
+                
+                let query = db.collection('fees').where('student_id', '==', studentId).orderBy('created_at', 'desc');
+                
+                if (status !== 'All') {
+                    query = query.where('status', '==', status);
+                }
+
+                const snapshot = await query.get();
+                recordsBody.innerHTML = '';
+
+                if (snapshot.empty) {
+                    recordsBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No payment records found.</td></tr>';
+                    return;
+                }
+
+                snapshot.forEach(doc => {
+                    const trans = doc.data();
+                    const date = trans.created_at.toDate();
+                    const amount = parseFloat(trans.amount);
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                        <td>
+                            <strong>${trans.fee_type}</strong>
+                            ${trans.payment_method ? `<br><small style="color: var(--text-muted);">via ${trans.payment_method}</small>` : ''}
+                        </td>
+                        <td><strong>$${amount.toFixed(2)}</strong></td>
+                        <td>
+                            <span class="badge ${trans.status === 'Paid' ? 'badge-success' : 'badge-danger'}">
+                                ${trans.status}
+                            </span>
+                        </td>
+                        <td>
+                            ${trans.status === 'Paid' ? `<a href="#" style="color: var(--primary); font-size: 0.85rem; text-decoration: none;" onclick="alert('Receipt for ${trans.fee_type} - $${amount.toFixed(2)}')">View Receipt</a>` : '<span style="color: var(--text-muted); font-size: 0.85rem;">—</span>'}
+                        </td>
+                    `;
+                    recordsBody.appendChild(tr);
+                });
+
+            } catch (error) {
+                console.error("Error loading transactions:", error);
+                recordsBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--danger);">Error loading data.</td></tr>';
+            }
+        }
+
+        document.getElementById('apply-filter').addEventListener('click', () => {
+            loadTransactions(statusFilter.value);
+        });
+
+        document.querySelectorAll('.export-btn').forEach(btn => {
+            btn.addEventListener('click', () => alert('This feature is coming soon to the digital portal!'));
+        });
+
+        loadTransactions();
+    </script>
+</body>
+</html>
