@@ -24,7 +24,7 @@ include 'header.php';
 
 <div class="payment-header" style="text-align: center; margin-bottom: 3rem;">
     <h1>Fee Details & Breakdown</h1>
-    <p style="color: var(--text-muted);">Understand what each fee covers and how it's allocated to university services.</p>
+    <p style="color: var(--text-muted);">Understand what each fee covers and how it's allocated to school services.</p>
 </div>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem;">

@@ -19,7 +19,7 @@ include 'header.php';
 
 <div class="payment-header" style="text-align: center; margin-bottom: 3rem;">
     <h1>Financial Aid & Support</h1>
-    <p style="color: var(--text-muted);">Explore all available financial assistance options to help with your university fees.</p>
+    <p style="color: var(--text-muted);">Explore all available financial assistance options to help with your school fees.</p>
 </div>
 
 <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 3rem;">

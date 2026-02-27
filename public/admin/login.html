@@ -29,27 +29,28 @@
         </p>
     </div>
 
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error-message');
 
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                window.location.href = 'admin.html';
+            } catch (error) {
+                errorDiv.style.display = 'block';
+                errorDiv.textContent = error.message;
+            }
+        });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</html></body>    </script>        });            }                window.location.href = 'admin.html';            if (user) {
-n        auth.onAuthStateChanged(user => {        });            }                errorDiv.textContent = error.message;                errorDiv.style.display = 'block';            } catch (error) {                window.location.href = 'admin.html';                await auth.signInWithEmailAndPassword(email, password);
-n            try {            const errorDiv = document.getElementById('error-message');            const password = document.getElementById('password').value;            const email = document.getElementById('email').value;            e.preventDefault();        document.getElementById('login-form').addEventListener('submit', async (e) => {n    <script>
+        // Check if already logged in
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                window.location.href = 'admin.html';
+            }
+        });
+    </script>
+</body>
+</html>

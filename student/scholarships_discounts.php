@@ -13,7 +13,7 @@ include 'header.php';
 
 <div class="payment-header" style="text-align: center; margin-bottom: 3rem;">
     <h1>Scholarships & Discounts</h1>
-    <p style="color: var(--text-muted);">Apply for scholarships and use discount codes to reduce your university fees.</p>
+    <p style="color: var(--text-muted);">Apply for scholarships and use discount codes to reduce your school fees.</p>
 </div>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">

@@ -35,21 +35,21 @@ $hashed_pass = password_hash('password123', PASSWORD_DEFAULT);
 
 // ============= COMPREHENSIVE STUDENT DATA =============
 $students_data = [
-    ('S101', 'Sarah Johnson', 'sarah.johnson@university.edu', '$hashed_pass', 'Computer Science', 'Year 2'),
-    ('S102', 'Jackie Wilson', 'jackie.wilson@university.edu', '$hashed_pass', 'Business Administration', 'Year 3'),
-    ('S103', 'Winnie Omondi', 'winnie.omondi@university.edu', '$hashed_pass', 'Engineering', 'Year 1'),
-    ('S104', 'David Kipchoge', 'david.kipchoge@university.edu', '$hashed_pass', 'Computer Science', 'Year 3'),
-    ('S105', 'Emily Chen', 'emily.chen@university.edu', '$hashed_pass', 'Mathematics', 'Year 2'),
-    ('S106', 'Michael Brown', 'michael.brown@university.edu', '$hashed_pass', 'Physics', 'Year 1'),
-    ('S107', 'Lisa Anderson', 'lisa.anderson@university.edu', '$hashed_pass', 'Commerce', 'Year 4'),
-    ('S108', 'James Mwangi', 'james.mwangi@university.edu', '$hashed_pass', 'Engineering', 'Year 2'),
-    ('S109', 'Catherine Kipkemboi', 'catherine.kipkemboi@university.edu', '$hashed_pass', 'Law', 'Year 3'),
-    ('S110', 'Peter Kariuki', 'peter.kariuki@university.edu', '$hashed_pass', 'Medicine', 'Year 4'),
-    ('S111', 'Rachel Mutua', 'rachel.mutua@university.edu', '$hashed_pass', 'Nursing', 'Year 2'),
-    ('S112', 'Thomas Kiplagat', 'thomas.kiplagat@university.edu', '$hashed_pass', 'Agriculture', 'Year 1'),
-    ('S113', 'Jennifer Njoroge', 'jennifer.njoroge@university.edu', '$hashed_pass', 'Education', 'Year 3'),
-    ('S114', 'Daniel Kipketer', 'daniel.kipketer@university.edu', '$hashed_pass', 'Computer Science', 'Year 1'),
-    ('S115', 'Victoria Kimani', 'victoria.kimani@university.edu', '$hashed_pass', 'Psychology', 'Year 2'),
+    ('S101', 'Sarah Johnson', 'sarah.johnson@school.edu', '$hashed_pass', 'Computer Science', 'Year 2'),
+    ('S102', 'Jackie Wilson', 'jackie.wilson@school.edu', '$hashed_pass', 'Business Administration', 'Year 3'),
+    ('S103', 'Winnie Omondi', 'winnie.omondi@school.edu', '$hashed_pass', 'Engineering', 'Year 1'),
+    ('S104', 'David Kipchoge', 'david.kipchoge@school.edu', '$hashed_pass', 'Computer Science', 'Year 3'),
+    ('S105', 'Emily Chen', 'emily.chen@school.edu', '$hashed_pass', 'Mathematics', 'Year 2'),
+    ('S106', 'Michael Brown', 'michael.brown@school.edu', '$hashed_pass', 'Physics', 'Year 1'),
+    ('S107', 'Lisa Anderson', 'lisa.anderson@school.edu', '$hashed_pass', 'Commerce', 'Year 4'),
+    ('S108', 'James Mwangi', 'james.mwangi@school.edu', '$hashed_pass', 'Engineering', 'Year 2'),
+    ('S109', 'Catherine Kipkemboi', 'catherine.kipkemboi@school.edu', '$hashed_pass', 'Law', 'Year 3'),
+    ('S110', 'Peter Kariuki', 'peter.kariuki@school.edu', '$hashed_pass', 'Medicine', 'Year 4'),
+    ('S111', 'Rachel Mutua', 'rachel.mutua@school.edu', '$hashed_pass', 'Nursing', 'Year 2'),
+    ('S112', 'Thomas Kiplagat', 'thomas.kiplagat@school.edu', '$hashed_pass', 'Agriculture', 'Year 1'),
+    ('S113', 'Jennifer Njoroge', 'jennifer.njoroge@school.edu', '$hashed_pass', 'Education', 'Year 3'),
+    ('S114', 'Daniel Kipketer', 'daniel.kipketer@school.edu', '$hashed_pass', 'Computer Science', 'Year 1'),
+    ('S115', 'Victoria Kimani', 'victoria.kimani@school.edu', '$hashed_pass', 'Psychology', 'Year 2'),
 ];
 
 echo "<h3>Inserting Students...</h3>";

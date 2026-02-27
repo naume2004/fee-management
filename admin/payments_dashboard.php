@@ -33,8 +33,8 @@ include 'header.php';
 ?>
 
 <div class="admin-dashboard-header" style="margin-bottom: 3rem;">
-    <h1>University Payment Data Dashboard</h1>
-    <p style="color: var(--text-muted);">Real-time financial analytics and payment tracking for all university students.</p>
+    <h1>School Payment Data Dashboard</h1>
+    <p style="color: var(--text-muted);">Real-time financial analytics and payment tracking for all school students.</p>
 </div>
 
 <div class="dashboard-grid">
@@ -64,7 +64,7 @@ include 'header.php';
     <div class="left-panel">
         <div class="table-section">
             <h2>Collection by Fee Type</h2>
-            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">Distribution of payments across different university fee categories.</p>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">Distribution of payments across different school fee categories.</p>
             <table class="data-table">
                 <thead>
                     <tr>
@@ -91,7 +91,7 @@ include 'header.php';
     <div class="right-panel">
         <div class="table-section">
             <h2>Recent Payment Activities</h2>
-            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">The latest successful transactions processed by the university system.</p>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">The latest successful transactions processed by the school system.</p>
             <table class="data-table">
                 <thead>
                     <tr>

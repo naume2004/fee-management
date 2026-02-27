@@ -50,7 +50,7 @@ include 'header.php';
 
 <div class="admin-dashboard-header" style="margin-bottom: 3rem;">
     <h1>Advanced Payment Analytics</h1>
-    <p style="color: var(--text-muted);">Comprehensive insights into university payment collections and trends.</p>
+    <p style="color: var(--text-muted);">Comprehensive insights into school payment collections and trends.</p>
 </div>
 
 <!-- KPI Cards -->

@@ -15,8 +15,8 @@ include 'header.php';
 ?>
 
 <div class="admin-dashboard-header" style="margin-bottom: 3rem;">
-    <h1>University Students Registry</h1>
-    <p style="color: var(--text-muted);">View and manage payment data for all students enrolled in the university.</p>
+    <h1>School Students Registry</h1>
+    <p style="color: var(--text-muted);">View and manage payment data for all students enrolled in the school.</p>
 </div>
 
 <div class="table-section">

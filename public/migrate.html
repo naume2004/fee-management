@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Migrate Data to Firestore</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <h1>Migrate Data to Firestore</h1>
+    <p>This page will populate your Firestore database with the initial test data from school_students.sql.</p>
+    <button id="migrate-btn">Start Migration</button>
+    <button id="clear-btn" style="background: #ef4444; color: white;">Clear Firestore</button>
+    <div id="status" style="margin-top: 2rem; padding: 1rem; border: 1px solid #ccc; border-radius: 0.5rem; min-height: 100px;"></div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const migrateBtn = document.getElementById('migrate-btn');
+        const clearBtn = document.getElementById('clear-btn');
+
+        const students = [
+            { student_id: 'S101', name: 'Sarah Johnson', email: 'sarah.johnson@school.edu', course: 'Computer Science' },
+            { student_id: 'S102', name: 'Jackie Smith', email: 'jackie.smith@school.edu', course: 'Business Administration' },
+            { student_id: 'S103', name: 'Winnie Davis', email: 'winnie.davis@school.edu', course: 'Engineering' },
+            { student_id: 'S104', name: 'Michael Brown', email: 'michael.brown@school.edu', course: 'Medicine' },
+            { student_id: 'S105', name: 'Emily Wilson', email: 'emily.wilson@school.edu', course: 'Law' },
+            { student_id: 'S106', name: 'David Miller', email: 'david.miller@school.edu', course: 'Architecture' },
+            { student_id: 'S107', name: 'Jessica Taylor', email: 'jessica.taylor@school.edu', course: 'Arts & Design' },
+            { student_id: 'S108', name: 'James Anderson', email: 'james.anderson@school.edu', course: 'Education' },
+            { student_id: 'S109', name: 'Lisa Moore', email: 'lisa.moore@school.edu', course: 'Nursing' },
+            { student_id: 'S110', name: 'Christopher Garcia', email: 'christopher.garcia@school.edu', course: 'Finance' },
+            { student_id: 'S111', name: 'Amanda Martinez', email: 'amanda.martinez@school.edu', course: 'Psychology' },
+            { student_id: 'S112', name: 'Ryan Thompson', email: 'ryan.thompson@school.edu', course: 'Physics' },
+            { student_id: 'S113', name: 'Sophia Lee', email: 'sophia.lee@school.edu', course: 'Chemistry' },
+            { student_id: 'S114', name: 'Daniel White', email: 'daniel.white@school.edu', course: 'Biology' },
+            { student_id: 'S115', name: 'Olivia Harris', email: 'olivia.harris@school.edu', course: 'Mathematics' }
+        ];
+
+        const fees = [
+            // Tuition Fees
+            { student_id: 'S101', amount: 1200.00, fee_type: 'Tuition Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S102', amount: 1100.00, fee_type: 'Tuition Fee', status: 'Paid', payment_method: 'Card', payment_date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
+            { student_id: 'S103', amount: 1300.00, fee_type: 'Tuition Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S104', amount: 1500.00, fee_type: 'Tuition Fee', status: 'Paid', payment_method: 'Mobile Money', payment_date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000) },
+            { student_id: 'S105', amount: 1200.00, fee_type: 'Tuition Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S106', amount: 1350.00, fee_type: 'Tuition Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S107', amount: 1100.00, fee_type: 'Tuition Fee', status: 'Paid', payment_method: 'Bank Transfer', payment_date: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000) },
+            { student_id: 'S108', amount: 1200.00, fee_type: 'Tuition Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S109', amount: 1400.00, fee_type: 'Tuition Fee', status: 'Paid', payment_method: 'Card', payment_date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000) },
+            { student_id: 'S110', amount: 1250.00, fee_type: 'Tuition Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S111', amount: 1200.00, fee_type: 'Tuition Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S112', amount: 1300.00, fee_type: 'Tuition Fee', status: 'Paid', payment_method: 'Mobile Money', payment_date: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000) },
+            { student_id: 'S113', amount: 1200.00, fee_type: 'Tuition Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S114', amount: 1350.00, fee_type: 'Tuition Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S115', amount: 1100.00, fee_type: 'Tuition Fee', status: 'Paid', payment_method: 'Card', payment_date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 18 * 24 * 60 * 60 * 1000) },
+            // Library & Lab Fees
+            { student_id: 'S101', amount: 150.00, fee_type: 'Library Fee', status: 'Paid', payment_method: 'Card', payment_date: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000) },
+            { student_id: 'S102', amount: 150.00, fee_type: 'Library Fee', status: 'Paid', payment_method: 'Card', payment_date: new Date(Date.now() - 18 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000) },
+            { student_id: 'S103', amount: 200.00, fee_type: 'Lab Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S104', amount: 150.00, fee_type: 'Library Fee', status: 'Paid', payment_method: 'Card', payment_date: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000) },
+            { student_id: 'S105', amount: 150.00, fee_type: 'Library Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S106', amount: 250.00, fee_type: 'Lab Fee', status: 'Pending', payment_method: null, payment_date: null, created_at: new Date() },
+            { student_id: 'S115', amount: 150.00, fee_type: 'Library Fee', status: 'Paid', payment_method: 'Card', payment_date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), created_at: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000) }
+        ];
+
+        const appointments = [
+            { student_id: 'S101', appointment_date: '2026-03-01', appointment_time: '10:00:00', purpose: 'Payment arrangement', status: 'Scheduled', created_at: new Date() },
+            { student_id: 'S102', appointment_date: '2026-03-04', appointment_time: '14:30:00', purpose: 'Fee inquiry', status: 'Scheduled', created_at: new Date() },
+            { student_id: 'S103', appointment_date: '2026-02-28', appointment_time: '09:00:00', purpose: 'Payment plan discussion', status: 'Scheduled', created_at: new Date() }
+        ];
+
+        const queue = [
+            { token_number: 201, student_id: 'S103', status: 'Serving', counter_number: 1, created_at: new Date() },
+            { token_number: 202, student_id: 'S105', status: 'Waiting', counter_number: null, created_at: new Date(Date.now() - 5 * 60 * 1000) },
+            { token_number: 203, student_id: 'S108', status: 'Waiting', counter_number: null, created_at: new Date(Date.now() - 3 * 60 * 1000) }
+        ];
+
+        migrateBtn.addEventListener('click', async () => {
+            migrateBtn.disabled = true;
+            statusDiv.innerHTML = 'Starting migration...';
+            
+            try {
+                // Migrate Students
+                statusDiv.innerHTML = 'Migrating students...';
+                let batch = db.batch();
+                students.forEach(student => {
+                    const studentRef = db.collection('students').doc(student.student_id);
+                    batch.set(studentRef, student);
+                });
+                await batch.commit();
+
+                // Migrate Fees
+                statusDiv.innerHTML = 'Migrating fees...';
+                batch = db.batch();
+                fees.forEach(fee => {
+                    const feeRef = db.collection('fees').doc();
+                    batch.set(feeRef, fee);
+                });
+                await batch.commit();
+
+                // Migrate Appointments
+                statusDiv.innerHTML = 'Migrating appointments...';
+                batch = db.batch();
+                appointments.forEach(app => {
+                    const appRef = db.collection('appointments').doc();
+                    batch.set(appRef, app);
+                });
+                await batch.commit();
+
+                // Migrate Queue
+                statusDiv.innerHTML = 'Migrating queue...';
+                batch = db.batch();
+                queue.forEach(q => {
+                    const qRef = db.collection('queue').doc();
+                    batch.set(qRef, q);
+                });
+                await batch.commit();
+
+                statusDiv.innerHTML = 'Migration completed successfully!';
+                console.log('Migration complete.');
+            } catch (error) {
+                statusDiv.innerHTML = 'Error during migration: ' + error.message;
+                console.error(error);
+            }
+            migrateBtn.disabled = false;
+        });
+
+        clearBtn.addEventListener('click', async () => {
+            if (!confirm('This will delete all data in students, fees, appointments, and queue collections. Continue?')) return;
+            clearBtn.disabled = true;
+            statusDiv.innerHTML = 'Clearing collections...';
+            try {
+                const collections = ['students', 'fees', 'appointments', 'queue'];
+                for (const colName of collections) {
+                    const snapshot = await db.collection(colName).get();
+                    const batch = db.batch();
+                    snapshot.forEach(doc => batch.delete(doc.ref));
+                    await batch.commit();
+                    statusDiv.innerHTML += `<br>Cleared ${colName}.`;
+                }
+                statusDiv.innerHTML += '<br><strong>Done.</strong>';
+            } catch (error) {
+                statusDiv.innerHTML = 'Error clearing data: ' + error.message;
+            }
+            clearBtn.disabled = false;
+        });
+
+        // Auto-migrate on load if ?auto=true or if first visit
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('auto') === 'true') {
+                console.log('Auto-migration triggered...');
+                migrateBtn.click();
+            } else {
+                statusDiv.innerHTML = 'Ready to migrate. <a href="?auto=true" style="color: blue;">Enable Auto-Sync</a> (Runs migration automatically on load)';
+            }
+        };
+    </script>
+</body>
+</html>

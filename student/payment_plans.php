@@ -19,7 +19,7 @@ include 'header.php';
 
 <div class="payment-header" style="text-align: center; margin-bottom: 3rem;">
     <h1>Flexible Payment Plans</h1>
-    <p style="color: var(--text-muted);">Manage your university fees with customizable installment options.</p>
+    <p style="color: var(--text-muted);">Manage your school fees with customizable installment options.</p>
 </div>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">

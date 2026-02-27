@@ -134,7 +134,7 @@ include 'header.php';
                     <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">Verify your academic status</p>
                 </div>
             </div>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Certificate verifying you are in good academic standing with the university.</p>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Certificate verifying you are in good academic standing with the school.</p>
             <button class="btn secondary-btn" style="width: 100%; color: var(--text-main); border: 1px solid var(--border);">Download Certificate</button>
         </div>
 

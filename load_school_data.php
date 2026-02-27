@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['load_data'])) {
         <div class="container footer-container">
             <div class="footer-info">
                 <h3>FeeFlow</h3>
-                <p>Simplifying university fee payments</p>
+                <p>Simplifying school fee payments</p>
             </div>
         </div>
     </footer>

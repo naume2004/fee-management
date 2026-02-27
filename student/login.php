@@ -10,7 +10,7 @@ include 'header.php';
 
 <div class="form-container" style="max-width: 500px; margin-top: 5rem;">
     <h2 style="text-align: center; margin-bottom: 2rem;">Student Portal Login</h2>
-    <p style="color: var(--text-muted); text-align: center; margin-bottom: 2rem;">Please select a student account to access the university payment dashboard.</p>
+    <p style="color: var(--text-muted); text-align: center; margin-bottom: 2rem;">Please select a student account to access the school payment dashboard.</p>
     
     <div class="form-card" style="padding: 2rem; width: 100%;">
         <form action="dashboard.php" method="GET">
@@ -46,7 +46,7 @@ include 'header.php';
     </div>
     
     <div style="margin-top: 2rem; text-align: center;">
-        <p style="font-size: 0.85rem; color: var(--text-muted);">This is a simulation portal for university payment data tracking.</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">This is a simulation portal for school payment data tracking.</p>
     </div>
 </div>
 
