@@ -3,72 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Login - FeeFlow</title>
+    <title>Admin Login - FeeFlow</title>
     <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="../firebase-config.js"></script>
+    <style>
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        body {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .login-wrapper {
+            width: 100%; max-width: 420px;
+            animation: fadeUp 0.4s ease-out;
+        }
+        .logo-area {
+            text-align: center; margin-bottom: 2rem;
+        }
+        .logo-area .brand {
+            font-size: 2rem; font-weight: 800; color: white; letter-spacing: -0.5px;
+            text-decoration: none; display: inline-block;
+        }
+        .logo-area .admin-pill {
+            background: var(--primary); color: white; font-size: 0.6rem;
+            padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-weight: 700;
+            vertical-align: middle; margin-left: 0.5rem; letter-spacing: 0.05em;
+        }
+        .logo-area p {
+            color: rgba(255,255,255,0.5); margin-top: 0.4rem; font-size: 0.875rem;
+        }
+        .login-card {
+            background: white; border-radius: 1.25rem; padding: 2.5rem;
+            box-shadow: 0 25px 60px -12px rgba(0,0,0,0.6);
+        }
+        .login-card h2 { font-size: 1.5rem; margin: 0 0 0.25rem; }
+        .login-card .subtitle { color: var(--text-muted); font-size: 0.875rem; margin-bottom: 2rem; }
+        .field-label {
+            font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.4rem;
+        }
+        .field-input {
+            width: 100%; padding: 0.75rem 0.875rem; border: 1px solid #e2e8f0;
+            border-radius: 0.5rem; font-family: inherit; font-size: 0.9rem;
+            box-sizing: border-box; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .field-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+        }
+        .pw-wrapper { position: relative; }
+        .pw-toggle {
+            position: absolute; right: 0.875rem; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer; color: var(--text-muted);
+            font-size: 0.82rem; font-weight: 600; font-family: inherit;
+        }
+        .pw-toggle:hover { color: var(--primary); }
+        .error-box {
+            display: none; background: #fee2e2; color: #b91c1c;
+            padding: 0.875rem 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;
+            border-left: 4px solid #ef4444; font-size: 0.875rem; line-height: 1.5;
+        }
+        .submit-btn {
+            width: 100%; padding: 0.9rem; border: none; border-radius: 0.5rem;
+            background: var(--primary); color: white; font-size: 1rem;
+            font-weight: 600; cursor: pointer; font-family: inherit;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .submit-btn:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); }
+        .submit-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+        .back-link {
+            display: block; text-align: center; margin-top: 1.5rem;
+            font-size: 0.82rem; color: rgba(255,255,255,0.45); text-decoration: none;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: rgba(255,255,255,0.8); }
+        .hint {
+            text-align: center; margin-top: 1.5rem; padding-top: 1.25rem;
+            border-top: 1px solid #f1f5f9; font-size: 0.8rem; color: var(--text-muted);
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
-    <div class="form-container" style="max-width: 400px; margin: 8rem auto;">
-        <h2 style="text-align:center; margin-bottom:2rem;">Staff Login</h2>
-        <div id="error-message" style="display:none; background:#fee2e2; color:#b91c1c; padding:1rem; border-radius:0.5rem; margin-bottom:1.5rem; border-left: 4px solid #ef4444; font-size: 0.9rem; line-height: 1.4;"></div>
-        <form id="login-form">
-            <div class="form-group" style="margin-bottom:1rem;">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" style="width:100%; padding:0.75rem; border:1px solid #ddd; border-radius:0.5rem;" required>
+    <div class="login-wrapper">
+        <!-- Logo -->
+        <div class="logo-area">
+            <a href="../index.html" class="brand">
+                FeeFlow <span class="admin-pill">ADMIN</span>
+            </a>
+            <p>Staff &amp; Administrator Portal</p>
+        </div>
+
+        <!-- Card -->
+        <div class="login-card">
+            <h2>Welcome back</h2>
+            <p class="subtitle">Sign in to your admin account</p>
+
+            <div id="error-box" class="error-box"></div>
+
+            <form id="login-form">
+                <div class="form-group" style="margin-bottom:1.25rem;">
+                    <label class="field-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="field-input" placeholder="admin@school.edu" required>
+                </div>
+                <div class="form-group" style="margin-bottom:1.75rem;">
+                    <label class="field-label" for="password">Password</label>
+                    <div class="pw-wrapper">
+                        <input type="password" id="password" class="field-input" placeholder="••••••••" required>
+                        <button type="button" id="pw-toggle-btn" class="pw-toggle" onclick="togglePw()">Show</button>
+                    </div>
+                </div>
+
+                <button type="submit" id="login-btn" class="submit-btn">Sign In</button>
+            </form>
+
+            <div class="hint">
+                Admin access requires a Firebase Auth account.<br>
+                Contact your IT administrator for credentials.
             </div>
-            <div class="form-group" style="margin-bottom:1rem;">
-                <label for="password">Password</label>
-                <input type="password" id="password" style="width:100%; padding:0.75rem; border:1px solid #ddd; border-radius:0.5rem;" required>
-            </div>
-            <button type="submit" class="btn primary-btn" style="width:100%; background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer;">Login</button>
-        </form>
-        <p style="text-align:center; margin-top:1.5rem; font-size:0.85rem; color:var(--text-muted);">
-            Admin access requires a Firebase Auth account.
-        </p>
+        </div>
+
+        <a href="../index.html" class="back-link">&#8592; Back to Homepage</a>
     </div>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
+        function togglePw() {
+            const pw  = document.getElementById('password');
+            const btn = document.getElementById('pw-toggle-btn');
+            if (pw.type === 'password') { pw.type = 'text';     btn.textContent = 'Hide'; }
+            else                        { pw.type = 'password'; btn.textContent = 'Show'; }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async e => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const email    = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('error-message');
-            
-            // Clear previous error
-            errorDiv.style.display = 'none';
-            errorDiv.textContent = '';
+            const errBox   = document.getElementById('error-box');
+            const btn      = document.getElementById('login-btn');
+
+            errBox.style.display = 'none';
+            btn.textContent = 'Signing in…';
+            btn.disabled    = true;
 
             try {
                 await auth.signInWithEmailAndPassword(email, password);
-                // Redirect to the main admin portal
-                window.location.href = 'index.php';
-            } catch (error) {
-                errorDiv.style.display = 'block';
-                
-                // User-friendly error mapping
-                let friendlyMessage = error.message;
-                
-                // Catch raw JSON-like strings often returned by misconfigured Firebase projects
-                if (error.message.includes('CONFIGURATION_NOT_FOUND') || error.code === 'auth/configuration-not-found') {
-                    friendlyMessage = "<strong>Configuration Error:</strong> Email/Password sign-in is not enabled in the Firebase Console. <br><br>Please go to <strong>Authentication > Sign-in method</strong> in your Firebase Console and enable <strong>Email/Password</strong>.";
-                } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.message.includes('INVALID_PASSWORD')) {
-                    friendlyMessage = "Invalid email or password. Please try again.";
-                } else if (error.code === 'auth/invalid-email') {
-                    friendlyMessage = "The email address is badly formatted.";
+                window.location.href = 'index.html';
+            } catch (err) {
+                let msg = 'An unexpected error occurred. Please try again.';
+                const c = err.code || '';
+                if (c.includes('configuration-not-found') || (err.message||'').includes('CONFIGURATION_NOT_FOUND')) {
+                    msg = '<strong>Configuration Error:</strong> Email/Password sign-in is not enabled in Firebase Console → Authentication → Sign-in method.';
+                } else if (c === 'auth/user-not-found' || c === 'auth/wrong-password' || c === 'auth/invalid-credential' || (err.message||'').includes('INVALID_PASSWORD')) {
+                    msg = 'Invalid email or password. Please try again.';
+                } else if (c === 'auth/invalid-email') {
+                    msg = 'The email address format is invalid.';
+                } else if (c === 'auth/too-many-requests') {
+                    msg = 'Too many failed attempts. Please try again later.';
+                } else if (c === 'auth/network-request-failed') {
+                    msg = 'Network error. Check your connection and try again.';
                 }
-
-                errorDiv.innerHTML = friendlyMessage;
-                console.error("Firebase Auth Error:", error);
+                errBox.innerHTML      = msg;
+                errBox.style.display  = 'block';
+                console.error('Firebase Auth:', err);
+            } finally {
+                btn.textContent = 'Sign In';
+                btn.disabled    = false;
             }
         });
 
-        // Check if already logged in
+        // Redirect if already logged in
         auth.onAuthStateChanged(user => {
-            if (user) {
-                window.location.href = 'index.php';
-            }
+            if (user) window.location.href = 'index.html';
         });
     </script>
 </body>

@@ -419,10 +419,26 @@
             loadMessages();
         });
 
+        function getStatusBadge(status) {
+            const map = {
+                'Active':    { cls: 'badge-success', label: 'Active' },
+                'Suspended': { cls: 'badge-danger',  label: 'Suspended' },
+                'Graduated': { cls: '',              label: 'Graduated', style: 'background:#ede9fe;color:#5b21b6;' },
+                'On Leave':  { cls: 'badge-warning', label: 'On Leave' }
+            };
+            const s = map[status] || map['Active'];
+            const style = s.style ? `style="${s.style}"` : '';
+            return `<span class="badge ${s.cls}" ${style}>${s.label}</span>`;
+        }
+
         function updateStudentUI() {
+            const status = studentData.status || 'Active';
             document.getElementById('student-info').innerHTML = `
                 <h1>Student Financial Dashboard</h1>
-                <p style="color: var(--text-muted);">Name: <strong>${studentData.name}</strong> | ID: ${studentData.student_id}</p>
+                <p style="color: var(--text-muted); display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                    <span>Name: <strong>${studentData.name}</strong> &bull; ID: ${studentData.student_id}</span>
+                    ${getStatusBadge(status)}
+                </p>
             `;
             document.getElementById('student-course').textContent = studentData.course;
             

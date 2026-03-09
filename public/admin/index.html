@@ -10,103 +10,292 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="../firebase-config.js"></script>
+    <style>
+        @keyframes spin    { 0%   { transform: rotate(0deg);   } 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); }  to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        .student-photo-small {
+            width: 44px; height: 44px; border-radius: 50%;
+            object-fit: cover; border: 2px solid #e2e8f0;
+        }
+        .modal {
+            display: none; position: fixed; z-index: 2000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(15,23,42,0.55); backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: white; margin: 4% auto; padding: 2.5rem;
+            border-radius: 1.25rem; width: 90%; position: relative;
+            box-shadow: 0 25px 60px -12px rgba(0,0,0,0.3);
+            animation: fadeIn 0.2s ease-out;
+        }
+        .close-modal {
+            position: absolute; right: 1.5rem; top: 1.1rem;
+            font-size: 1.75rem; cursor: pointer; color: var(--text-muted);
+            line-height: 1; transition: color 0.2s; background: none; border: none;
+        }
+        .close-modal:hover { color: var(--text-main); }
+        .badge-active    { background: #dcfce7; color: #166534; }
+        .badge-suspended { background: #fee2e2; color: #991b1b; }
+        .badge-graduated { background: #ede9fe; color: #5b21b6; }
+        .badge-onleave   { background: #fef9c3; color: #854d0e; }
+        .status-select {
+            border: none; border-radius: 1rem; padding: 0.3rem 0.65rem;
+            font-size: 0.75rem; font-weight: 700; cursor: pointer;
+            font-family: inherit; appearance: none; text-align: center;
+            transition: opacity 0.2s;
+        }
+        .status-select:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
+        .status-select:hover { opacity: 0.8; }
+        .action-btn {
+            padding: 0.35rem 0.7rem; border-radius: 0.4rem; font-size: 0.78rem;
+            font-weight: 600; cursor: pointer; border: none; transition: all 0.15s;
+            font-family: inherit;
+        }
+        .btn-view   { background: #eff6ff; color: #1d4ed8; }
+        .btn-view:hover   { background: #dbeafe; transform: translateY(-1px); }
+        .btn-delete { background: #fee2e2; color: #b91c1c; }
+        .btn-delete:hover { background: #fecaca; transform: translateY(-1px); }
+        .data-table tbody tr { transition: background 0.12s; }
+        .data-table tbody tr:hover { background: #f8fafc; }
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.25rem; margin-bottom: 2.5rem;
+        }
+        .admin-stat-card {
+            background: white; padding: 1.25rem 1.5rem; border-radius: 1rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 1px solid #f1f5f9;
+            transition: box-shadow 0.2s;
+        }
+        .admin-stat-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .admin-stat-card .label {
+            font-size: 0.72rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem;
+        }
+        .admin-stat-card .val { font-size: 2rem; font-weight: 800; line-height: 1; }
+        .search-bar {
+            padding: 0.6rem 1rem; border: 1px solid #e2e8f0; border-radius: 0.5rem;
+            font-family: inherit; font-size: 0.875rem; width: 240px;
+            transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+        }
+        .search-bar:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+        .modal-input {
+            width: 100%; padding: 0.7rem 0.875rem; border: 1px solid #e2e8f0;
+            border-radius: 0.5rem; font-family: inherit; font-size: 0.9rem;
+            box-sizing: border-box; transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+        }
+        .modal-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-grid .span-2 { grid-column: span 2; }
+        .modal-label { font-size: 0.82rem; font-weight: 600; display: block; margin-bottom: 0.4rem; }
+        .error-banner {
+            display: none; background: #fee2e2; color: #b91c1c;
+            padding: 0.75rem 1rem; border-radius: 0.5rem; margin-bottom: 1.25rem;
+            border-left: 4px solid #ef4444; font-size: 0.875rem;
+        }
+        .success-flash {
+            position: fixed; top: 1.5rem; right: 1.5rem; z-index: 3000;
+            background: #166534; color: white; padding: 0.875rem 1.5rem;
+            border-radius: 0.5rem; font-weight: 600; font-size: 0.9rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18); display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+        .spinner {
+            border: 3px solid #f3f3f3; border-top: 3px solid var(--primary);
+            border-radius: 50%; width: 36px; height: 36px;
+            animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
+        }
+        .admin-badge {
+            background: var(--primary); color: white; font-size: 0.6rem;
+            padding: 0.2rem 0.45rem; border-radius: 0.25rem; font-weight: 700;
+            vertical-align: middle; margin-left: 0.4rem;
+        }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .detail-card { padding: 1rem; border-radius: 0.75rem; background: #f8fafc; border: 1px solid #f1f5f9; }
+        .detail-card .dc-label {
+            font-size: 0.7rem; color: var(--text-muted); font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 0.3rem;
+        }
+        .detail-card .dc-val { font-weight: 700; margin: 0; font-size: 0.95rem; }
+        @media (max-width: 640px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-grid .span-2 { grid-column: span 1; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .search-bar { width: 100%; }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="../index.html" class="logo">FeeFlow Admin</a>
+            <a href="../index.html" class="logo">FeeFlow <span class="admin-badge">ADMIN</span></a>
             <ul class="nav-links">
-                <li><a href="../index.html">Home Site</a></li>
-                <li><a href="index.html" style="color: var(--primary); font-weight: 700;">🔥 Students DB</a></li>
-                <li><a href="#" id="logout-btn" style="color: #ef4444; font-weight: 600;">🚪 Logout</a></li>
+                <li><a href="../index.html">Home</a></li>
+                <li>
+                    <button onclick="openModal('add-student-modal')" class="btn primary-btn"
+                        style="padding:0.45rem 1rem;font-size:0.875rem;border:none;cursor:pointer;font-family:inherit;">
+                        + Add Student
+                    </button>
+                </li>
+                <li><a href="#" id="logout-btn" style="color:#ef4444;font-weight:600;">Logout</a></li>
             </ul>
         </div>
     </nav>
-    <main class="container main-content">
 
-<div class="admin-dashboard-header" style="margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end; margin-top: 2rem;">
-    <div>
-        <h1>🔥 Student Database (Firestore)</h1>
-        <p style="color: var(--text-muted);">Real-time database of all students with profile details and metadata.</p>
-    </div>
-    <div style="background: #f0f9ff; padding: 1rem; border-radius: 0.5rem; border: 1px solid #bae6fd;">
-        <span id="student-count" style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">0</span>
-        <span style="font-size: 0.85rem; color: #0369a1; font-weight: 600; display: block;">Total Students</span>
-    </div>
-</div>
+    <div id="success-flash" class="success-flash"></div>
 
-<div class="table-section">
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Photo</th>
-                <th>Student ID</th>
-                <th>Full Name</th>
-                <th>Course</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="students-tbody">
-            <tr>
-                <td colspan="5" style="text-align: center; padding: 3rem;">
-                    <div class="loading-spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite; margin: 0 auto 1rem;"></div>
-                    <p style="color: var(--text-muted);">Loading student database...</p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <main class="container main-content" style="margin-top:2rem;">
+        <!-- Stats -->
+        <div class="admin-stats">
+            <div class="admin-stat-card">
+                <div class="label">Total Students</div>
+                <div class="val" id="stat-total">—</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="label">Active</div>
+                <div class="val" id="stat-active" style="color:#166534;">—</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="label">Suspended</div>
+                <div class="val" id="stat-suspended" style="color:var(--danger);">—</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="label">Graduated</div>
+                <div class="val" id="stat-graduated" style="color:#5b21b6;">—</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="label">On Leave</div>
+                <div class="val" id="stat-onleave" style="color:#854d0e;">—</div>
+            </div>
+        </div>
 
-<!-- Student Detail Modal -->
-<div id="student-modal" class="modal">
-    <div class="modal-content" style="max-width: 800px;">
-        <span class="close-modal" id="close-modal">&times;</span>
-        <div id="modal-body">
-            <!-- Content will be injected by JS -->
+        <!-- Toolbar -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:1rem;">
+            <div>
+                <h1 style="font-size:1.4rem;margin:0;font-weight:800;">Student Database</h1>
+                <p style="color:var(--text-muted);font-size:0.82rem;margin:0.2rem 0 0;">
+                    Live Firestore data &bull; click status pill to update instantly
+                </p>
+            </div>
+            <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;">
+                <input type="text" id="search-input" class="search-bar" placeholder="Search by name, ID, course…">
+                <button onclick="openModal('add-student-modal')" class="btn primary-btn"
+                    style="white-space:nowrap;padding:0.6rem 1.1rem;font-size:0.875rem;border:none;cursor:pointer;font-family:inherit;">
+                    + Add Student
+                </button>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div style="overflow-x:auto;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Student ID</th>
+                        <th>Full Name</th>
+                        <th>Course</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="students-tbody">
+                    <tr>
+                        <td colspan="6" style="text-align:center;padding:3rem;">
+                            <div class="spinner"></div>
+                            <p style="color:var(--text-muted);">Loading student database…</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- ADD STUDENT MODAL -->
+    <div id="add-student-modal" class="modal">
+        <div class="modal-content" style="max-width:580px;">
+            <button class="close-modal" onclick="closeModal('add-student-modal')">&times;</button>
+            <h2 style="margin-bottom:0.25rem;font-size:1.4rem;">Add New Student</h2>
+            <p style="color:var(--text-muted);font-size:0.875rem;margin-bottom:1.75rem;">Fields marked * are required</p>
+            <div id="add-error" class="error-banner"></div>
+            <form id="add-student-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="modal-label">Student ID *</label>
+                        <input type="text" id="new-student-id" class="modal-input" placeholder="e.g. S200" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="modal-label">Full Name *</label>
+                        <input type="text" id="new-name" class="modal-input" placeholder="e.g. Jane Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="modal-label">Course *</label>
+                        <input type="text" id="new-course" class="modal-input" placeholder="e.g. Computer Science" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="modal-label">Status</label>
+                        <select id="new-status" class="modal-input" style="background:white;cursor:pointer;">
+                            <option value="Active">Active</option>
+                            <option value="Suspended">Suspended</option>
+                            <option value="Graduated">Graduated</option>
+                            <option value="On Leave">On Leave</option>
+                        </select>
+                    </div>
+                    <div class="form-group span-2">
+                        <label class="modal-label">Email Address</label>
+                        <input type="email" id="new-email" class="modal-input" placeholder="student@school.edu">
+                    </div>
+                    <div class="form-group span-2">
+                        <label class="modal-label">Profile Photo URL</label>
+                        <input type="url" id="new-photo" class="modal-input"
+                            placeholder="https://… (leave blank for auto-generated avatar)">
+                    </div>
+                </div>
+                <button type="submit" id="add-submit-btn" class="btn primary-btn"
+                    style="width:100%;margin-top:1rem;padding:0.875rem;font-size:1rem;border:none;cursor:pointer;font-family:inherit;">
+                    Add Student
+                </button>
+            </form>
         </div>
     </div>
-</div>
 
-<style>
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .student-photo-small { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0; }
-    
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 2000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5);
-        backdrop-filter: blur(4px);
-    }
-    .modal-content {
-        background-color: white;
-        margin: 5% auto;
-        padding: 2.5rem;
-        border-radius: 1rem;
-        width: 90%;
-        position: relative;
-        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-    }
-    .close-modal {
-        position: absolute;
-        right: 1.5rem;
-        top: 1rem;
-        font-size: 2rem;
-        cursor: pointer;
-        color: var(--text-muted);
-    }
-</style>
+    <!-- STUDENT DETAIL MODAL -->
+    <div id="student-modal" class="modal">
+        <div class="modal-content" style="max-width:820px;">
+            <button class="close-modal" id="close-detail-modal">&times;</button>
+            <div id="modal-body">
+                <div style="padding:2rem;text-align:center;">
+                    <div class="spinner"></div>
+                    <p style="color:var(--text-muted);">Loading…</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    </main>
+    <!-- DELETE CONFIRM MODAL -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content" style="max-width:420px;text-align:center;">
+            <button class="close-modal" onclick="closeModal('delete-modal')">&times;</button>
+            <div style="font-size:3rem;margin-bottom:0.75rem;">&#9888;&#65039;</div>
+            <h2 style="margin-bottom:0.5rem;">Delete Student?</h2>
+            <p id="delete-confirm-text"
+                style="color:var(--text-muted);margin-bottom:1.75rem;font-size:0.9rem;line-height:1.6;"></p>
+            <div style="display:flex;gap:1rem;justify-content:center;">
+                <button onclick="closeModal('delete-modal')" class="btn"
+                    style="background:#f1f5f9;color:var(--text-main);border:none;cursor:pointer;font-family:inherit;">Cancel</button>
+                <button id="confirm-delete-btn" class="btn"
+                    style="background:var(--danger);color:white;border:none;cursor:pointer;font-family:inherit;">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer">
         <div class="container footer-container">
             <div class="footer-info">
                 <h3>FeeFlow Admin</h3>
-                <p>Digital management portal powered by Firestore.</p>
+                <p>Powered by Firestore &amp; Firebase Auth.</p>
             </div>
             <div class="footer-links">
                 <p>&copy; 2026 FeeFlow. All rights reserved.</p>
@@ -114,117 +303,267 @@
         </div>
     </footer>
 
-<script>
-    // Authentication Guard
-    auth.onAuthStateChanged(user => {
-        if (!user) {
-            window.location.href = 'login.html';
-        } else {
-            fetchStudents();
+    <script>
+        let allStudents = [], studentToDelete = null;
+
+        function openModal(id)  { document.getElementById(id).style.display = 'block'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none';  }
+
+        function statusCls(s) {
+            return ({ 'Active':'badge-active','Suspended':'badge-suspended','Graduated':'badge-graduated','On Leave':'badge-onleave' })[s] || 'badge-active';
         }
-    });
 
-    document.getElementById('logout-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        auth.signOut().then(() => {
-            window.location.href = 'login.html';
+        function flashSuccess(msg) {
+            const el = document.getElementById('success-flash');
+            el.textContent = msg; el.style.display = 'block';
+            clearTimeout(el._t);
+            el._t = setTimeout(() => { el.style.display = 'none'; }, 3200);
+        }
+
+        auth.onAuthStateChanged(user => {
+            if (!user) window.location.href = 'login.html';
+            else fetchStudents();
         });
-    });
 
-    async function fetchStudents() {
-        try {
-            const snapshot = await db.collection('students').get();
+        document.getElementById('logout-btn').addEventListener('click', e => {
+            e.preventDefault();
+            auth.signOut().then(() => window.location.href = 'login.html');
+        });
+
+        document.getElementById('search-input').addEventListener('input', e => {
+            const q = e.target.value.toLowerCase();
+            renderStudents(allStudents.filter(s =>
+                s.name.toLowerCase().includes(q) ||
+                s.student_id.toLowerCase().includes(q) ||
+                (s.course || '').toLowerCase().includes(q) ||
+                (s.status || '').toLowerCase().includes(q)
+            ));
+        });
+
+        async function fetchStudents() {
+            try {
+                const snap = await db.collection('students').orderBy('student_id').get();
+                allStudents = [];
+                snap.forEach(doc => allStudents.push({ docId: doc.id, ...doc.data() }));
+                renderStudents(allStudents);
+                updateStats();
+            } catch (err) {
+                console.error(err);
+                document.getElementById('students-tbody').innerHTML =
+                    '<tr><td colspan="6" style="text-align:center;color:var(--danger);padding:2rem;">Error loading data.</td></tr>';
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('stat-total').textContent     = allStudents.length;
+            document.getElementById('stat-active').textContent    = allStudents.filter(s => !s.status || s.status === 'Active').length;
+            document.getElementById('stat-suspended').textContent = allStudents.filter(s => s.status === 'Suspended').length;
+            document.getElementById('stat-graduated').textContent = allStudents.filter(s => s.status === 'Graduated').length;
+            document.getElementById('stat-onleave').textContent   = allStudents.filter(s => s.status === 'On Leave').length;
+        }
+
+        function renderStudents(students) {
             const tbody = document.getElementById('students-tbody');
-            const countEl = document.getElementById('student-count');
-            
-            tbody.innerHTML = '';
-            countEl.textContent = snapshot.size;
-            
-            if (snapshot.empty) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No students found in Firestore.</td></tr>';
+            if (!students.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-muted);">No students found.</td></tr>';
                 return;
             }
-
-            snapshot.forEach(doc => {
-                const s = doc.data();
-                const tr = document.createElement('tr');
-                const photo = s.photo_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(s.name)}&background=random`;
-                
+            tbody.innerHTML = '';
+            students.forEach(s => {
+                const photo  = s.photo_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(s.name)}&background=random&size=80`;
+                const status = s.status || 'Active';
+                const safe   = s.name.replace(/'/g, "\\'");
+                const tr     = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><img src="${photo}" class="student-photo-small" alt="${s.name}"></td>
+                    <td><img src="${photo}" class="student-photo-small" alt="${s.name}"
+                        onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.name)}&background=random&size=80'"></td>
                     <td><strong>${s.student_id}</strong></td>
                     <td>${s.name}</td>
-                    <td><span class="badge badge-success">${s.course}</span></td>
+                    <td>${s.course || '—'}</td>
                     <td>
-                        <button onclick="viewStudentDetails('${doc.id}')" class="btn primary-btn" style="padding: 0.4rem 0.75rem; font-size: 0.8rem;">👁️ View Profile</button>
+                        <select class="status-select ${statusCls(status)}" title="Change status"
+                            onchange="updateStatus('${s.docId}', this.value, this)">
+                            <option value="Active"    ${status==='Active'    ?'selected':''}>Active</option>
+                            <option value="Suspended" ${status==='Suspended' ?'selected':''}>Suspended</option>
+                            <option value="Graduated" ${status==='Graduated' ?'selected':''}>Graduated</option>
+                            <option value="On Leave"  ${status==='On Leave'  ?'selected':''}>On Leave</option>
+                        </select>
+                    </td>
+                    <td style="display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;">
+                        <button class="action-btn btn-view" onclick="viewStudentDetails('${s.docId}')">&#128065; View</button>
+                        <button class="action-btn btn-delete" onclick="confirmDelete('${s.docId}','${safe}')">&#128465; Delete</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
-        } catch (error) {
-            console.error("Error fetching students:", error);
-            document.getElementById('students-tbody').innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--danger);">Error loading student data.</td></tr>';
         }
-    }
 
-    async function viewStudentDetails(studentDocId) {
-        const modal = document.getElementById('student-modal');
-        const modalBody = document.getElementById('modal-body');
-        modal.style.display = 'block';
-        modalBody.innerHTML = '<p>Loading details...</p>';
+        async function updateStatus(docId, newStatus, selectEl) {
+            try {
+                await db.collection('students').doc(docId).update({ status: newStatus });
+                const s = allStudents.find(x => x.docId === docId);
+                if (s) s.status = newStatus;
+                selectEl.className = `status-select ${statusCls(newStatus)}`;
+                updateStats();
+                flashSuccess(`Status updated to "${newStatus}"`);
+            } catch (err) {
+                console.error(err);
+                alert('Failed to update status.');
+            }
+        }
 
-        try {
-            const studentDoc = await db.collection('students').doc(studentDocId).get();
-            const s = studentDoc.data();
-            const photo = s.photo_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(s.name)}&background=random`;
+        function confirmDelete(docId, name) {
+            studentToDelete = docId;
+            document.getElementById('delete-confirm-text').textContent =
+                `This will permanently remove "${name}" from the database. This action cannot be undone.`;
+            openModal('delete-modal');
+        }
 
-            const msgSnapshot = await db.collection('messages').where('student_id', '==', s.student_id).get();
-            const notifSnapshot = await db.collection('notifications').where('student_id', '==', s.student_id).where('status', '==', 'unread').get();
+        document.getElementById('confirm-delete-btn').addEventListener('click', async () => {
+            if (!studentToDelete) return;
+            const btn = document.getElementById('confirm-delete-btn');
+            btn.textContent = 'Deleting…'; btn.disabled = true;
+            try {
+                await db.collection('students').doc(studentToDelete).delete();
+                allStudents = allStudents.filter(s => s.docId !== studentToDelete);
+                studentToDelete = null;
+                closeModal('delete-modal');
+                renderStudents(allStudents);
+                updateStats();
+                flashSuccess('Student deleted successfully.');
+            } catch (err) {
+                console.error(err);
+                alert('Failed to delete. Check Firestore rules.');
+            } finally {
+                btn.textContent = 'Yes, Delete'; btn.disabled = false;
+            }
+        });
 
-            modalBody.innerHTML = `
-                <div style="display: flex; gap: 2rem; align-items: start;">
-                    <div style="text-align: center;">
-                        <img src="${photo}" style="width: 150px; height: 150px; border-radius: 1rem; object-fit: cover; border: 4px solid var(--primary);">
-                        <h2 style="margin-top: 1rem;">${s.name}</h2>
-                        <p style="color: var(--text-muted);">${s.student_id}</p>
-                    </div>
-                    <div style="flex: 1;">
-                        <h3 style="margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">Student Metadata</h3>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <div class="stat-card" style="padding: 1rem; text-align: left; background: #f8fafc;">
-                                <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Course</p>
-                                <p style="font-weight: 700; margin: 0;">${s.course}</p>
-                            </div>
-                            <div class="stat-card" style="padding: 1rem; text-align: left; background: #f8fafc;">
-                                <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Status</p>
-                                <p style="font-weight: 700; margin: 0; color: var(--success);">Enrolled</p>
-                            </div>
-                            <div class="stat-card" style="padding: 1rem; text-align: left; background: #f0fdf4;">
-                                <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Unread Notifications</p>
-                                <p style="font-weight: 700; margin: 0; color: var(--success);">${notifSnapshot.size}</p>
-                            </div>
-                            <div class="stat-card" style="padding: 1rem; text-align: left; background: #eff6ff;">
-                                <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Total Messages</p>
-                                <p style="font-weight: 700; margin: 0; color: var(--primary);">${msgSnapshot.size}</p>
-                            </div>
+        document.getElementById('add-student-form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const errDiv = document.getElementById('add-error');
+            const btn    = document.getElementById('add-submit-btn');
+            errDiv.style.display = 'none';
+
+            const studentId = document.getElementById('new-student-id').value.trim().toUpperCase();
+            const name      = document.getElementById('new-name').value.trim();
+            const course    = document.getElementById('new-course').value.trim();
+            const status    = document.getElementById('new-status').value;
+            const email     = document.getElementById('new-email').value.trim();
+            const photoUrl  = document.getElementById('new-photo').value.trim();
+
+            if (!studentId || !name || !course) {
+                errDiv.textContent = 'Please fill in all required fields.';
+                errDiv.style.display = 'block'; return;
+            }
+            try {
+                const ex = await db.collection('students').doc(studentId).get();
+                if (ex.exists) {
+                    errDiv.textContent = `Student ID "${studentId}" already exists.`;
+                    errDiv.style.display = 'block'; return;
+                }
+            } catch (_) {}
+
+            btn.textContent = 'Adding…'; btn.disabled = true;
+            try {
+                const data = {
+                    student_id: studentId, name, course, status,
+                    email: email || null, photo_url: photoUrl || null,
+                    created_at: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                await db.collection('students').doc(studentId).set(data);
+                allStudents.push({ docId: studentId, ...data });
+                allStudents.sort((a, b) => a.student_id.localeCompare(b.student_id));
+                renderStudents(allStudents);
+                updateStats();
+                closeModal('add-student-modal');
+                document.getElementById('add-student-form').reset();
+                flashSuccess(`Student "${name}" added successfully!`);
+            } catch (err) {
+                console.error(err);
+                errDiv.textContent = 'Failed to add student. Please try again.';
+                errDiv.style.display = 'block';
+            } finally {
+                btn.textContent = 'Add Student'; btn.disabled = false;
+            }
+        });
+
+        async function viewStudentDetails(docId) {
+            openModal('student-modal');
+            document.getElementById('modal-body').innerHTML =
+                '<div style="padding:2rem;text-align:center;"><div class="spinner"></div><p style="color:var(--text-muted);">Loading…</p></div>';
+            try {
+                const doc  = await db.collection('students').doc(docId).get();
+                const s    = doc.data();
+                const photo  = s.photo_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(s.name)}&background=random&size=200`;
+                const status = s.status || 'Active';
+                const [feesSnap, msgSnap, notifSnap] = await Promise.all([
+                    db.collection('fees').where('student_id','==',s.student_id).get(),
+                    db.collection('messages').where('student_id','==',s.student_id).get(),
+                    db.collection('notifications').where('student_id','==',s.student_id).where('status','==','unread').get()
+                ]);
+                let paid = 0, pending = 0;
+                feesSnap.forEach(d => {
+                    const f = d.data();
+                    if (f.status === 'Paid') paid += parseFloat(f.amount)||0;
+                    else pending += parseFloat(f.amount)||0;
+                });
+                const joined = s.created_at
+                    ? s.created_at.toDate().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
+                    : '—';
+                document.getElementById('modal-body').innerHTML = `
+                    <div style="display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap;">
+                        <div style="text-align:center;min-width:140px;">
+                            <img src="${photo}"
+                                style="width:130px;height:130px;border-radius:1rem;object-fit:cover;border:4px solid var(--primary);"
+                                onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.name)}&background=random&size=200'">
+                            <h2 style="margin:0.75rem 0 0.2rem;font-size:1.15rem;">${s.name}</h2>
+                            <p style="color:var(--text-muted);font-size:0.82rem;margin:0 0 0.5rem;">${s.student_id}</p>
+                            <span class="badge ${statusCls(status)}">${status}</span>
                         </div>
-                    </div>
-                </div>
-            `;
-        } catch (error) {
-            console.error("Error fetching details:", error);
-            modalBody.innerHTML = '<p style="color: var(--danger);">Error loading student details.</p>';
+                        <div style="flex:1;min-width:260px;">
+                            <h3 style="margin-bottom:1rem;border-bottom:1px solid #f1f5f9;padding-bottom:0.75rem;font-size:1rem;">Student Details</h3>
+                            <div class="detail-grid">
+                                <div class="detail-card">
+                                    <p class="dc-label">Course</p><p class="dc-val">${s.course||'—'}</p>
+                                </div>
+                                <div class="detail-card">
+                                    <p class="dc-label">Email</p>
+                                    <p class="dc-val" style="font-size:0.82rem;word-break:break-all;">${s.email||'—'}</p>
+                                </div>
+                                <div class="detail-card" style="background:#f0fdf4;">
+                                    <p class="dc-label">Total Paid</p>
+                                    <p class="dc-val" style="color:var(--success);">$${paid.toFixed(2)}</p>
+                                </div>
+                                <div class="detail-card" style="background:#fff7ed;">
+                                    <p class="dc-label">Outstanding</p>
+                                    <p class="dc-val" style="color:#ea580c;">$${pending.toFixed(2)}</p>
+                                </div>
+                                <div class="detail-card" style="background:#eff6ff;">
+                                    <p class="dc-label">Messages</p>
+                                    <p class="dc-val" style="color:var(--primary);">${msgSnap.size}</p>
+                                </div>
+                                <div class="detail-card" style="background:#fef9c3;">
+                                    <p class="dc-label">Unread Notifs</p>
+                                    <p class="dc-val" style="color:#854d0e;">${notifSnap.size}</p>
+                                </div>
+                            </div>
+                            <p style="font-size:0.78rem;color:var(--text-muted);margin-top:1rem;">Joined: ${joined}</p>
+                        </div>
+                    </div>`;
+            } catch (err) {
+                console.error(err);
+                document.getElementById('modal-body').innerHTML =
+                    '<p style="color:var(--danger);padding:2rem;text-align:center;">Error loading details.</p>';
+            }
         }
-    }
 
-    document.getElementById('close-modal').onclick = () => {
-        document.getElementById('student-modal').style.display = 'none';
-    };
-
-    window.onclick = (event) => {
-        const modal = document.getElementById('student-modal');
-        if (event.target == modal) modal.style.display = 'none';
-    };
-</script>
+        document.getElementById('close-detail-modal').onclick = () => closeModal('student-modal');
+        window.onclick = e => {
+            ['student-modal','add-student-modal','delete-modal'].forEach(id => {
+                if (e.target === document.getElementById(id)) closeModal(id);
+            });
+        };
+    </script>
 </body>
 </html>
