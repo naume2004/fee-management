@@ -113,7 +113,7 @@ $overdue = mysqli_fetch_assoc($overdue_result);
                 echo ($total > 0 && ($summary['total_pending'] ?? 0) <= 0) ? 'CLEARED' : 'PENDING';
             ?>
         </div>
-        <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">University status</p>
+        <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">School status</p>
     </div>
 </div>
 
@@ -138,46 +138,81 @@ $overdue = mysqli_fetch_assoc($overdue_result);
     </aside>
 
     <div class="payment-history">
-        <div class="table-section">
-            <h2 style="margin-bottom: 1.5rem;">Detailed Payment Activity</h2>
-            <table class="data-table">
-                <thead>
+        <div class="admin-dashboard-header" style="margin-bottom: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem; align-items: center;">
+            <button class="btn" style="background: white; border: 1px solid var(--border); color: var(--text-main); font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">🖨️ Print</button>
+            <button class="btn" style="background: #800000; color: white; font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">+ Add Fee</button>
+            <button class="btn" style="background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">📥 Export</button>
+        </div>
+
+        <div class="filter-section" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; display: flex; gap: 0.75rem; align-items: center;">
+            <select style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.3rem; color: var(--text-muted); font-size: 0.9rem;">
+                <option>All Status</option>
+                <option>Paid</option>
+                <option>Partial</option>
+                <option>Pending</option>
+            </select>
+            <button class="btn" style="background: #800000; color: white; padding: 0.5rem 1.25rem; display: flex; align-items: center; gap: 0.4rem; font-weight: 600; font-size: 0.9rem;">
+                🔍 Filter
+            </button>
+        </div>
+
+        <div class="table-section" style="background: white; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <table class="data-table" style="width: 100%; border-collapse: collapse;">
+                <thead style="background: #f8fafc; border-bottom: 1px solid var(--border);">
                     <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Remaining</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Status</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Due Date</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">PIN</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
-                    mysqli_data_seek($fees_result, 0); // Reset result pointer
+                    mysqli_data_seek($fees_result, 0); 
                     if (mysqli_num_rows($fees_result) > 0): 
+                        while($fee = mysqli_fetch_assoc($fees_result)): 
+                            $mock_pin = str_pad(($fee['id'] * 123456) % 999999, 6, '0', STR_PAD_LEFT);
+                            $remaining = $fee['status'] == 'Paid' ? 0.00 : $fee['amount'];
                     ?>
-                        <?php while($fee = mysqli_fetch_assoc($fees_result)): ?>
-                            <tr>
-                                <td><?php echo date('M j, Y', strtotime($fee['created_at'])); ?></td>
-                                <td><?php echo htmlspecialchars($fee['fee_type']); ?></td>
-                                <td><strong>$<?php echo number_format($fee['amount'], 2); ?></strong></td>
-                                <td>
-                                    <span class="badge <?php 
-                                        echo $fee['status'] == 'Paid' ? 'badge-success' : 'badge-danger'; 
-                                    ?>">
-                                        <?php echo $fee['status']; ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <?php if ($fee['status'] == 'Pending'): ?>
-                                        <a href="process_payment.php?id=<?php echo $fee['id']; ?>" class="btn primary-btn" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Pay Now</a>
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 1rem; font-weight: 500; font-size: 0.9rem;"><?php echo number_format($remaining, 2); ?></td>
+                            <td style="padding: 1rem;">
+                                <span class="badge" style="
+                                    padding: 0.35rem 0.7rem; 
+                                    border-radius: 0.4rem; 
+                                    font-weight: 700; 
+                                    font-size: 0.7rem;
+                                    <?php if($fee['status'] == 'Paid'): ?>
+                                        background: #15803d; color: white;
+                                    <?php elseif($fee['status'] == 'Pending'): ?>
+                                        background: #991b1b; color: white;
                                     <?php else: ?>
-                                        <span style="color: var(--text-muted); font-size: 0.85rem;">N/A</span>
+                                        background: #eab308; color: white;
                                     <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
+                                ">
+                                    <?php echo $fee['status']; ?>
+                                </span>
+                            </td>
+                            <td style="padding: 1rem; color: #475569; font-size: 0.85rem;">Dec 18, 2025</td>
+                            <td style="padding: 1rem; color: #475569; font-size: 0.85rem;"><?php echo $mock_pin; ?></td>
+                            <td style="padding: 1rem;">
+                                <div style="display: flex; gap: 4px;">
+                                    <button title="View" style="background: #38bdf8; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">👁️</button>
+                                    <button title="Edit" style="background: #fbbf24; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">📝</button>
+                                    <?php if($fee['status'] != 'Paid'): ?>
+                                        <button title="Pay" style="background: #10b981; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">💳</button>
+                                    <?php endif; ?>
+                                    <button title="Print" style="background: #64748b; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">🖨️</button>
+                                    <?php if($fee['status'] == 'Paid'): ?>
+                                        <button title="Delete" style="background: #ef4444; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">🗑️</button>
+                                    <?php endif; ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
                     <?php else: ?>
-                        <tr><td colspan="5" style="text-align: center; padding: 2rem;">No payment records found.</td></tr>
+                        <tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted);">No records found.</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>

@@ -128,7 +128,7 @@
                         <td><strong>$${amount.toFixed(2)}</strong></td>
                         <td>
                             <span class="badge ${trans.status === 'Paid' ? 'badge-success' : 'badge-danger'}">
-                                ${trans.status}
+                                ${trans.status === 'Paid' ? '✅ ' : ''}${trans.status}
                             </span>
                         </td>
                         <td>
