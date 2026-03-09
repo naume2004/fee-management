@@ -129,12 +129,12 @@ $overdue = mysqli_fetch_assoc($overdue_result);
 <div class="dashboard-grid">
     <div class="stat-card">
         <h3>Total Paid</h3>
-        <div class="value" style="color: var(--success);">$<?php echo number_format($summary['total_paid'] ?? 0, 2); ?></div>
+        <div class="value" style="color: var(--success);">UGX <?php echo number_format(($summary['total_paid'] ?? 0) * 3800, 0); ?></div>
         <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Completed transactions</p>
     </div>
     <div class="stat-card">
         <h3>Total Pending</h3>
-        <div class="value" style="color: var(--danger);">$<?php echo number_format($summary['total_pending'] ?? 0, 2); ?></div>
+        <div class="value" style="color: var(--danger);">UGX <?php echo number_format(($summary['total_pending'] ?? 0) * 3800, 0); ?></div>
         <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Outstanding balance</p>
     </div>
     <div class="stat-card">
@@ -162,7 +162,7 @@ $overdue = mysqli_fetch_assoc($overdue_result);
                                 <?php echo $item['status']; ?>
                             </span>
                         </div>
-                        <p style="font-weight: 700;">$<?php echo number_format($item['amount'], 2); ?></p>
+                        <p style="font-weight: 700;">UGX <?php echo number_format($item['amount'] * 3800, 0); ?></p>
                     </li>
                 <?php endwhile; ?>
             </ul>
@@ -191,6 +191,7 @@ $overdue = mysqli_fetch_assoc($overdue_result);
                         <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Status</th>
                         <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Date</th>
                         <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Method</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -201,7 +202,7 @@ $overdue = mysqli_fetch_assoc($overdue_result);
                     ?>
                         <tr style="border-bottom: 1px solid #f1f5f9;">
                             <td style="padding: 1rem; font-weight: 600; font-size: 0.9rem;"><?php echo htmlspecialchars($fee['fee_type']); ?></td>
-                            <td style="padding: 1rem; font-weight: 500;">$<?php echo number_format($fee['amount'], 2); ?></td>
+                            <td style="padding: 1rem; font-weight: 500;">UGX <?php echo number_format($fee['amount'] * 3800, 0); ?></td>
                             <td style="padding: 1rem;">
                                 <span class="badge <?php echo $fee['status'] == 'Paid' ? 'badge-success' : 'badge-danger'; ?>">
                                     <?php echo $fee['status']; ?>
@@ -209,10 +210,17 @@ $overdue = mysqli_fetch_assoc($overdue_result);
                             </td>
                             <td style="padding: 1rem; color: #64748b; font-size: 0.85rem;"><?php echo $fee['payment_date'] ? date('M d, Y', strtotime($fee['payment_date'])) : '-'; ?></td>
                             <td style="padding: 1rem; color: #64748b; font-size: 0.85rem;"><?php echo htmlspecialchars($fee['payment_method'] ?? '-'); ?></td>
+                            <td style="padding: 1rem;">
+                                <?php if($fee['status'] != 'Paid'): ?>
+                                    <a href="payment_gateway.php?fee_id=<?php echo $fee['id']; ?>" class="btn" style="background: #10b981; color: white; padding: 0.4rem 0.8rem; font-size: 0.75rem; border-radius: 0.4rem; text-decoration: none;">Pay UGX <?php echo number_format($fee['amount'] * 3800, 0); ?></a>
+                                <?php else: ?>
+                                    <span style="color: #10b981; font-weight: 600; font-size: 0.75rem;">✓ Paid</span>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                     <?php else: ?>
-                        <tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted);">No records found.</td></tr>
+                        <tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">No records found.</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
