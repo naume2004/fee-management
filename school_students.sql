@@ -1,117 +1,213 @@
--- School Student Database Setup SQL
--- This script populates the FeeFlow system with realistic student data
+-- ============================================================
+--  FeeFlow — Primary School Seed Data  (Nursery → Primary 7)
+--  Run AFTER migrate_schema.php
+--  All amounts are annual totals (3 terms per academic year)
+-- ============================================================
 
--- Clear existing data (optional - comment out if you want to keep existing records)
+-- Clear existing data
 DELETE FROM payment_deadlines;
 DELETE FROM queue;
 DELETE FROM appointments;
 DELETE FROM fees;
 DELETE FROM students;
 
--- Insert Students
-INSERT INTO students (student_id, name, email, password, course) VALUES 
-('S101', 'Sarah Johnson', 'sarah.johnson@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Computer Science'),
-('S102', 'Jackie Smith', 'jackie.smith@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Business Administration'),
-('S103', 'Winnie Davis', 'winnie.davis@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Engineering'),
-('S104', 'Michael Brown', 'michael.brown@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Medicine'),
-('S105', 'Emily Wilson', 'emily.wilson@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Law'),
-('S106', 'David Miller', 'david.miller@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Architecture'),
-('S107', 'Jessica Taylor', 'jessica.taylor@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Arts & Design'),
-('S108', 'James Anderson', 'james.anderson@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Education'),
-('S109', 'Lisa Moore', 'lisa.moore@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Nursing'),
-('S110', 'Christopher Garcia', 'christopher.garcia@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Finance'),
-('S111', 'Amanda Martinez', 'amanda.martinez@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Psychology'),
-('S112', 'Ryan Thompson', 'ryan.thompson@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Physics'),
-('S113', 'Sophia Lee', 'sophia.lee@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Chemistry'),
-('S114', 'Daniel White', 'daniel.white@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Biology'),
-('S115', 'Olivia Harris', 'olivia.harris@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Mathematics');
+-- ── Students ──────────────────────────────────────────────
+-- Password hash = 'password123'  ($2y$10$N9qo8uLO...)
+INSERT INTO students
+  (student_id, name, email, password,
+   gender, class_name, student_status, academic_year, duration, course)
+VALUES
+-- Nursery
+('S101','Aisha Nakato',      'aisha.nakato@school.edu',      '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Female','Nursery',  'Active',   '2025/2026','3 Terms','Early Childhood'),
+('S102','Brian Ssekandi',    'brian.ssekandi@school.edu',    '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Male',  'Nursery',  'Active',   '2025/2026','3 Terms','Early Childhood'),
+-- Primary 1
+('S103','Christine Namukasa','christine.namukasa@school.edu','$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Female','Primary 1','Active',   '2025/2026','3 Terms','Lower Primary'),
+('S104','Denis Kizito',      'denis.kizito@school.edu',      '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Male',  'Primary 1','Active',   '2025/2026','3 Terms','Lower Primary'),
+-- Primary 2
+('S105','Esther Atim',       'esther.atim@school.edu',       '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Female','Primary 2','Active',   '2025/2026','3 Terms','Lower Primary'),
+('S106','Fred Mugisha',      'fred.mugisha@school.edu',      '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Male',  'Primary 2','Suspended','2025/2026','3 Terms','Lower Primary'),
+-- Primary 3
+('S107','Grace Auma',        'grace.auma@school.edu',        '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Female','Primary 3','Active',   '2025/2026','3 Terms','Middle Primary'),
+('S108','Henry Okello',      'henry.okello@school.edu',      '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Male',  'Primary 3','Active',   '2025/2026','3 Terms','Middle Primary'),
+-- Primary 4
+('S109','Irene Nambi',       'irene.nambi@school.edu',       '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Female','Primary 4','Active',   '2025/2026','3 Terms','Middle Primary'),
+('S110','John Wasswa',       'john.wasswa@school.edu',       '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Male',  'Primary 4','Inactive', '2025/2026','3 Terms','Middle Primary'),
+-- Primary 5
+('S111','Kato Mulindwa',     'kato.mulindwa@school.edu',     '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Male',  'Primary 5','Active',   '2025/2026','3 Terms','Upper Primary'),
+('S112','Lydia Nakaziba',    'lydia.nakaziba@school.edu',    '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Female','Primary 5','Active',   '2025/2026','3 Terms','Upper Primary'),
+-- Primary 6
+('S113','Moses Byamukama',   'moses.byamukama@school.edu',   '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Male',  'Primary 6','Active',   '2025/2026','3 Terms','Upper Primary'),
+('S114','Norah Kiconco',     'norah.kiconco@school.edu',     '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Female','Primary 6','Active',   '2025/2026','3 Terms','Upper Primary'),
+-- Primary 7
+('S115','Patrick Tumusiime', 'patrick.tumusiime@school.edu', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Male',  'Primary 7','Active',   '2025/2026','3 Terms','Upper Primary'),
+('S116','Queen Namusisi',    'queen.namusisi@school.edu',    '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86.bzfVIJ8a', 'Female','Primary 7','Active',   '2025/2026','3 Terms','Upper Primary');
 
--- Insert Fee Records
--- Tuition Fees
-INSERT INTO fees (student_id, amount, fee_type, status, payment_method, payment_date, created_at) VALUES 
-('S101', 1200.00, 'Tuition Fee', 'Pending', NULL, NULL, NOW()),
-('S102', 1100.00, 'Tuition Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 15 DAY), DATE_SUB(NOW(), INTERVAL 30 DAY)),
-('S103', 1300.00, 'Tuition Fee', 'Pending', NULL, NULL, NOW()),
-('S104', 1500.00, 'Tuition Fee', 'Paid', 'Mobile Money', DATE_SUB(NOW(), INTERVAL 5 DAY), DATE_SUB(NOW(), INTERVAL 20 DAY)),
-('S105', 1200.00, 'Tuition Fee', 'Pending', NULL, NULL, NOW()),
-('S106', 1350.00, 'Tuition Fee', 'Pending', NULL, NULL, NOW()),
-('S107', 1100.00, 'Tuition Fee', 'Paid', 'Bank Transfer', DATE_SUB(NOW(), INTERVAL 25 DAY), DATE_SUB(NOW(), INTERVAL 35 DAY)),
-('S108', 1200.00, 'Tuition Fee', 'Pending', NULL, NULL, NOW()),
-('S109', 1400.00, 'Tuition Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 10 DAY), DATE_SUB(NOW(), INTERVAL 25 DAY)),
-('S110', 1250.00, 'Tuition Fee', 'Pending', NULL, NULL, NOW()),
-('S111', 1200.00, 'Tuition Fee', 'Pending', NULL, NULL, NOW()),
-('S112', 1300.00, 'Tuition Fee', 'Paid', 'Mobile Money', DATE_SUB(NOW(), INTERVAL 12 DAY), DATE_SUB(NOW(), INTERVAL 22 DAY)),
-('S113', 1200.00, 'Tuition Fee', 'Pending', NULL, NULL, NOW()),
-('S114', 1350.00, 'Tuition Fee', 'Pending', NULL, NULL, NOW()),
-('S115', 1100.00, 'Tuition Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 3 DAY), DATE_SUB(NOW(), INTERVAL 18 DAY));
 
--- Library Fees
-INSERT INTO fees (student_id, amount, fee_type, status, payment_method, payment_date, created_at) VALUES 
-('S101', 150.00, 'Library Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 20 DAY), DATE_SUB(NOW(), INTERVAL 25 DAY)),
-('S102', 150.00, 'Library Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 18 DAY), DATE_SUB(NOW(), INTERVAL 20 DAY)),
-('S103', 200.00, 'Lab Fee', 'Pending', NULL, NULL, NOW()),
-('S104', 150.00, 'Library Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 8 DAY), DATE_SUB(NOW(), INTERVAL 15 DAY)),
-('S105', 150.00, 'Library Fee', 'Pending', NULL, NULL, NOW()),
-('S106', 250.00, 'Lab Fee', 'Pending', NULL, NULL, NOW()),
-('S107', 150.00, 'Library Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 22 DAY), DATE_SUB(NOW(), INTERVAL 30 DAY)),
-('S108', 150.00, 'Library Fee', 'Pending', NULL, NULL, NOW()),
-('S109', 150.00, 'Library Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 15 DAY), DATE_SUB(NOW(), INTERVAL 20 DAY)),
-('S110', 200.00, 'Lab Fee', 'Pending', NULL, NULL, NOW()),
-('S111', 150.00, 'Library Fee', 'Pending', NULL, NULL, NOW()),
-('S112', 150.00, 'Library Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 14 DAY), DATE_SUB(NOW(), INTERVAL 19 DAY)),
-('S113', 200.00, 'Lab Fee', 'Pending', NULL, NULL, NOW()),
-('S114', 150.00, 'Library Fee', 'Pending', NULL, NULL, NOW()),
-('S115', 150.00, 'Library Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 5 DAY), DATE_SUB(NOW(), INTERVAL 10 DAY));
+-- ── Fees (annual, 3 fee types each) ──────────────────────────────────────────
+-- Nursery — total ~$1,350 per student
+INSERT INTO fees (student_id, amount, fee_type, status, payment_method, payment_date, created_at) VALUES
+('S101', 800.00,'Tuition Fee',     'Paid',   'Mobile Money', DATE_SUB(NOW(),INTERVAL 20 DAY), DATE_SUB(NOW(),INTERVAL 30 DAY)),
+('S101', 150.00,'Development Fee', 'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 20 DAY), DATE_SUB(NOW(),INTERVAL 30 DAY)),
+('S101', 300.00,'School Meals',    'Pending', NULL, NULL,     NOW()),
+('S101', 100.00,'Sports Fee',      'Paid',   'Bank Transfer',DATE_SUB(NOW(),INTERVAL 18 DAY), DATE_SUB(NOW(),INTERVAL 28 DAY)),
 
--- Student Activity Fees
-INSERT INTO fees (student_id, amount, fee_type, status, payment_method, payment_date, created_at) VALUES 
-('S101', 75.00, 'Student Activity Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 30 DAY), DATE_SUB(NOW(), INTERVAL 35 DAY)),
-('S102', 75.00, 'Student Activity Fee', 'Pending', NULL, NULL, NOW()),
-('S103', 75.00, 'Student Activity Fee', 'Pending', NULL, NULL, NOW()),
-('S104', 75.00, 'Student Activity Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 22 DAY), DATE_SUB(NOW(), INTERVAL 27 DAY)),
-('S105', 75.00, 'Student Activity Fee', 'Pending', NULL, NULL, NOW()),
-('S106', 75.00, 'Student Activity Fee', 'Pending', NULL, NULL, NOW()),
-('S107', 75.00, 'Student Activity Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 28 DAY), DATE_SUB(NOW(), INTERVAL 33 DAY)),
-('S108', 75.00, 'Student Activity Fee', 'Pending', NULL, NULL, NOW()),
-('S109', 75.00, 'Student Activity Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 18 DAY), DATE_SUB(NOW(), INTERVAL 23 DAY)),
-('S110', 75.00, 'Student Activity Fee', 'Pending', NULL, NULL, NOW()),
-('S111', 75.00, 'Student Activity Fee', 'Pending', NULL, NULL, NOW()),
-('S112', 75.00, 'Student Activity Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 20 DAY), DATE_SUB(NOW(), INTERVAL 25 DAY)),
-('S113', 75.00, 'Student Activity Fee', 'Pending', NULL, NULL, NOW()),
-('S114', 75.00, 'Student Activity Fee', 'Pending', NULL, NULL, NOW()),
-('S115', 75.00, 'Student Activity Fee', 'Paid', 'Card', DATE_SUB(NOW(), INTERVAL 8 DAY), DATE_SUB(NOW(), INTERVAL 13 DAY));
+('S102', 800.00,'Tuition Fee',     'Pending', NULL, NULL,     NOW()),
+('S102', 150.00,'Development Fee', 'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 10 DAY), DATE_SUB(NOW(),INTERVAL 15 DAY)),
+('S102', 300.00,'School Meals',    'Pending', NULL, NULL,     NOW()),
+('S102', 100.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
 
--- Insert Payment Deadlines
-INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at) VALUES 
-(1, 1, DATE_SUB(CURDATE(), INTERVAL 10 DAY), TRUE, 2, DATE_SUB(NOW(), INTERVAL 5 DAY), NOW()),
-(1, 16, DATE_SUB(CURDATE(), INTERVAL 15 DAY), TRUE, 1, DATE_SUB(NOW(), INTERVAL 8 DAY), NOW()),
-(3, 4, DATE_SUB(CURDATE(), INTERVAL 5 DAY), TRUE, 1, DATE_SUB(NOW(), INTERVAL 2 DAY), NOW()),
-(3, 19, DATE_SUB(CURDATE(), INTERVAL 8 DAY), TRUE, 2, DATE_SUB(NOW(), INTERVAL 4 DAY), NOW()),
-(5, 7, DATE_SUB(CURDATE(), INTERVAL 3 DAY), TRUE, 1, NOW(), NOW()),
-(6, 10, DATE_SUB(CURDATE(), INTERVAL 12 DAY), TRUE, 3, DATE_SUB(NOW(), INTERVAL 6 DAY), NOW()),
-(8, 13, CURDATE(), FALSE, 0, NULL, NOW()),
-(10, 19, DATE_SUB(CURDATE(), INTERVAL 7 DAY), TRUE, 2, DATE_SUB(NOW(), INTERVAL 4 DAY), NOW()),
-(11, 22, CURDATE(), FALSE, 0, NULL, NOW()),
-(14, 25, DATE_SUB(CURDATE(), INTERVAL 2 DAY), TRUE, 1, DATE_SUB(NOW(), INTERVAL 1 DAY), NOW());
+-- Primary 1 — total ~$725
+('S103', 550.00,'Tuition Fee',     'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 25 DAY), DATE_SUB(NOW(),INTERVAL 35 DAY)),
+('S103', 100.00,'Development Fee', 'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 25 DAY), DATE_SUB(NOW(),INTERVAL 35 DAY)),
+('S103',  75.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
 
--- Insert Appointments
-INSERT INTO appointments (student_id, appointment_date, appointment_time, purpose, status, created_at) VALUES 
-('S101', DATE_ADD(CURDATE(), INTERVAL 2 DAY), '10:00:00', 'Payment arrangement', 'Scheduled', NOW()),
-('S102', DATE_ADD(CURDATE(), INTERVAL 5 DAY), '14:30:00', 'Fee inquiry', 'Scheduled', NOW()),
-('S103', DATE_ADD(CURDATE(), INTERVAL 1 DAY), '09:00:00', 'Payment plan discussion', 'Scheduled', NOW()),
-('S104', DATE_SUB(CURDATE(), INTERVAL 2 DAY), '11:00:00', 'Payment confirmation', 'Completed', NOW()),
-('S105', DATE_ADD(CURDATE(), INTERVAL 7 DAY), '15:00:00', 'Fee clearance', 'Scheduled', NOW()),
-('S106', DATE_ADD(CURDATE(), INTERVAL 3 DAY), '13:00:00', 'Payment arrangement', 'Scheduled', NOW()),
-('S107', DATE_SUB(CURDATE(), INTERVAL 5 DAY), '10:30:00', 'Fee payment', 'Completed', NOW()),
-('S108', DATE_ADD(CURDATE(), INTERVAL 4 DAY), '11:30:00', 'Installment plan', 'Scheduled', NOW()),
-('S109', DATE_SUB(CURDATE(), INTERVAL 1 DAY), '14:00:00', 'Fee clearance confirmation', 'Completed', NOW()),
-('S110', DATE_ADD(CURDATE(), INTERVAL 6 DAY), '10:00:00', 'Payment discussion', 'Scheduled', NOW());
+('S104', 550.00,'Tuition Fee',     'Pending', NULL, NULL,     NOW()),
+('S104', 100.00,'Development Fee', 'Pending', NULL, NULL,     NOW()),
+('S104',  75.00,'Sports Fee',      'Paid',   'Mobile Money', DATE_SUB(NOW(),INTERVAL 8 DAY), DATE_SUB(NOW(),INTERVAL 12 DAY)),
 
--- Insert Queue Data
-INSERT INTO queue (token_number, student_id, status, counter_number, created_at) VALUES 
-(201, 'S103', 'Serving', 1, NOW()),
-(202, 'S105', 'Waiting', NULL, DATE_SUB(NOW(), INTERVAL 5 MINUTE)),
-(203, 'S108', 'Waiting', NULL, DATE_SUB(NOW(), INTERVAL 3 MINUTE)),
-(204, 'S110', 'Waiting', NULL, DATE_SUB(NOW(), INTERVAL 1 MINUTE)),
-(205, NULL, 'Waiting', NULL, DATE_SUB(NOW(), INTERVAL 30 SECOND)),
-(206, NULL, 'Waiting', NULL, DATE_SUB(NOW(), INTERVAL 15 SECOND));
+-- Primary 2 — total ~$755
+('S105', 580.00,'Tuition Fee',     'Paid',   'Bank Transfer',DATE_SUB(NOW(),INTERVAL 22 DAY), DATE_SUB(NOW(),INTERVAL 30 DAY)),
+('S105', 100.00,'Development Fee', 'Pending', NULL, NULL,     NOW()),
+('S105',  75.00,'Sports Fee',      'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 22 DAY), DATE_SUB(NOW(),INTERVAL 30 DAY)),
+
+('S106', 580.00,'Tuition Fee',     'Pending', NULL, NULL,     NOW()),
+('S106', 100.00,'Development Fee', 'Pending', NULL, NULL,     NOW()),
+('S106',  75.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
+
+-- Primary 3 — total ~$825
+('S107', 620.00,'Tuition Fee',     'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 15 DAY), DATE_SUB(NOW(),INTERVAL 22 DAY)),
+('S107', 120.00,'Development Fee', 'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 15 DAY), DATE_SUB(NOW(),INTERVAL 22 DAY)),
+('S107',  85.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
+
+('S108', 620.00,'Tuition Fee',     'Pending', NULL, NULL,     NOW()),
+('S108', 120.00,'Development Fee', 'Paid',   'Mobile Money', DATE_SUB(NOW(),INTERVAL 5 DAY), DATE_SUB(NOW(),INTERVAL 10 DAY)),
+('S108',  85.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
+
+-- Primary 4 — total ~$865
+('S109', 660.00,'Tuition Fee',     'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 12 DAY), DATE_SUB(NOW(),INTERVAL 20 DAY)),
+('S109', 120.00,'Development Fee', 'Pending', NULL, NULL,     NOW()),
+('S109',  85.00,'Sports Fee',      'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 12 DAY), DATE_SUB(NOW(),INTERVAL 20 DAY)),
+
+('S110', 660.00,'Tuition Fee',     'Pending', NULL, NULL,     NOW()),
+('S110', 120.00,'Development Fee', 'Pending', NULL, NULL,     NOW()),
+('S110',  85.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
+
+-- Primary 5 — total ~$1,010
+('S111', 720.00,'Tuition Fee',     'Paid',   'Bank Transfer',DATE_SUB(NOW(),INTERVAL 18 DAY), DATE_SUB(NOW(),INTERVAL 25 DAY)),
+('S111', 140.00,'Development Fee', 'Paid',   'Bank Transfer',DATE_SUB(NOW(),INTERVAL 18 DAY), DATE_SUB(NOW(),INTERVAL 25 DAY)),
+('S111',  95.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
+('S111',  55.00,'Library Fee',     'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 16 DAY), DATE_SUB(NOW(),INTERVAL 20 DAY)),
+
+('S112', 720.00,'Tuition Fee',     'Pending', NULL, NULL,     NOW()),
+('S112', 140.00,'Development Fee', 'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 7 DAY), DATE_SUB(NOW(),INTERVAL 12 DAY)),
+('S112',  95.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
+('S112',  55.00,'Library Fee',     'Pending', NULL, NULL,     NOW()),
+
+-- Primary 6 — total ~$1,070
+('S113', 760.00,'Tuition Fee',     'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 30 DAY), DATE_SUB(NOW(),INTERVAL 38 DAY)),
+('S113', 150.00,'Development Fee', 'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 30 DAY), DATE_SUB(NOW(),INTERVAL 38 DAY)),
+('S113', 100.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
+('S113',  60.00,'Library Fee',     'Paid',   'Mobile Money', DATE_SUB(NOW(),INTERVAL 28 DAY), DATE_SUB(NOW(),INTERVAL 35 DAY)),
+
+('S114', 760.00,'Tuition Fee',     'Pending', NULL, NULL,     NOW()),
+('S114', 150.00,'Development Fee', 'Pending', NULL, NULL,     NOW()),
+('S114', 100.00,'Sports Fee',      'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 3 DAY), DATE_SUB(NOW(),INTERVAL 8 DAY)),
+('S114',  60.00,'Library Fee',     'Pending', NULL, NULL,     NOW()),
+
+-- Primary 7 — total ~$1,330
+('S115', 950.00,'Tuition Fee',     'Paid',   'Bank Transfer',DATE_SUB(NOW(),INTERVAL 14 DAY), DATE_SUB(NOW(),INTERVAL 20 DAY)),
+('S115', 180.00,'Development Fee', 'Paid',   'Bank Transfer',DATE_SUB(NOW(),INTERVAL 14 DAY), DATE_SUB(NOW(),INTERVAL 20 DAY)),
+('S115', 120.00,'Sports Fee',      'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 14 DAY), DATE_SUB(NOW(),INTERVAL 20 DAY)),
+('S115',  80.00,'Library Fee',     'Pending', NULL, NULL,     NOW()),
+
+('S116', 950.00,'Tuition Fee',     'Pending', NULL, NULL,     NOW()),
+('S116', 180.00,'Development Fee', 'Pending', NULL, NULL,     NOW()),
+('S116', 120.00,'Sports Fee',      'Pending', NULL, NULL,     NOW()),
+('S116',  80.00,'Library Fee',     'Paid',   'Card',         DATE_SUB(NOW(),INTERVAL 6 DAY), DATE_SUB(NOW(),INTERVAL 10 DAY));
+
+
+-- ── Payment Deadlines (for pending fees by student_id VARCHAR) ────────────────
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S101', id, DATE_ADD(CURDATE(), INTERVAL 10 DAY), FALSE, 0, NULL, NOW()
+FROM fees WHERE student_id='S101' AND status='Pending' LIMIT 1;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S102', id, DATE_SUB(CURDATE(), INTERVAL 5 DAY), TRUE, 2, DATE_SUB(NOW(),INTERVAL 2 DAY), NOW()
+FROM fees WHERE student_id='S102' AND status='Pending' ORDER BY id ASC LIMIT 3;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S103', id, DATE_ADD(CURDATE(), INTERVAL 7 DAY), FALSE, 0, NULL, NOW()
+FROM fees WHERE student_id='S103' AND status='Pending' LIMIT 1;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S104', id, DATE_SUB(CURDATE(), INTERVAL 3 DAY), TRUE, 1, DATE_SUB(NOW(),INTERVAL 1 DAY), NOW()
+FROM fees WHERE student_id='S104' AND status='Pending' ORDER BY id ASC LIMIT 2;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S105', id, DATE_ADD(CURDATE(), INTERVAL 14 DAY), FALSE, 0, NULL, NOW()
+FROM fees WHERE student_id='S105' AND status='Pending' LIMIT 1;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S106', id, DATE_SUB(CURDATE(), INTERVAL 12 DAY), TRUE, 3, DATE_SUB(NOW(),INTERVAL 4 DAY), NOW()
+FROM fees WHERE student_id='S106' AND status='Pending' ORDER BY id ASC LIMIT 3;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S107', id, DATE_ADD(CURDATE(), INTERVAL 5 DAY), FALSE, 0, NULL, NOW()
+FROM fees WHERE student_id='S107' AND status='Pending' LIMIT 1;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S108', id, DATE_SUB(CURDATE(), INTERVAL 8 DAY), TRUE, 2, DATE_SUB(NOW(),INTERVAL 3 DAY), NOW()
+FROM fees WHERE student_id='S108' AND status='Pending' ORDER BY id ASC LIMIT 2;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S109', id, DATE_ADD(CURDATE(), INTERVAL 21 DAY), FALSE, 0, NULL, NOW()
+FROM fees WHERE student_id='S109' AND status='Pending' LIMIT 1;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S110', id, DATE_SUB(CURDATE(), INTERVAL 15 DAY), TRUE, 3, DATE_SUB(NOW(),INTERVAL 5 DAY), NOW()
+FROM fees WHERE student_id='S110' AND status='Pending' ORDER BY id ASC LIMIT 3;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S111', id, DATE_ADD(CURDATE(), INTERVAL 3 DAY), FALSE, 0, NULL, NOW()
+FROM fees WHERE student_id='S111' AND status='Pending' LIMIT 1;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S112', id, DATE_SUB(CURDATE(), INTERVAL 7 DAY), TRUE, 2, DATE_SUB(NOW(),INTERVAL 2 DAY), NOW()
+FROM fees WHERE student_id='S112' AND status='Pending' ORDER BY id ASC LIMIT 3;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S113', id, DATE_ADD(CURDATE(), INTERVAL 10 DAY), FALSE, 0, NULL, NOW()
+FROM fees WHERE student_id='S113' AND status='Pending' LIMIT 1;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S114', id, DATE_SUB(CURDATE(), INTERVAL 4 DAY), TRUE, 1, DATE_SUB(NOW(),INTERVAL 1 DAY), NOW()
+FROM fees WHERE student_id='S114' AND status='Pending' ORDER BY id ASC LIMIT 3;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S115', id, DATE_ADD(CURDATE(), INTERVAL 30 DAY), FALSE, 0, NULL, NOW()
+FROM fees WHERE student_id='S115' AND status='Pending' LIMIT 1;
+
+INSERT INTO payment_deadlines (student_id, fee_id, due_date, reminder_sent, reminder_count, last_reminder_date, created_at)
+SELECT 'S116', id, DATE_SUB(CURDATE(), INTERVAL 6 DAY), TRUE, 2, DATE_SUB(NOW(),INTERVAL 2 DAY), NOW()
+FROM fees WHERE student_id='S116' AND status='Pending' ORDER BY id ASC LIMIT 3;
+
+
+-- ── Queue ─────────────────────────────────────────────────
+INSERT INTO queue (token_number, student_id, status, counter_number, created_at) VALUES
+(301,'S102','Serving',  1,   NOW()),
+(302,'S106','Waiting',  NULL, DATE_SUB(NOW(),INTERVAL 8  MINUTE)),
+(303,'S110','Waiting',  NULL, DATE_SUB(NOW(),INTERVAL 5  MINUTE)),
+(304,'S114','Waiting',  NULL, DATE_SUB(NOW(),INTERVAL 3  MINUTE)),
+(305,'S116','Waiting',  NULL, DATE_SUB(NOW(),INTERVAL 1  MINUTE));
+
+-- ── Appointments ──────────────────────────────────────────
+INSERT INTO appointments (student_id, appointment_date, appointment_time, purpose, status, created_at) VALUES
+('S101', DATE_ADD(CURDATE(),INTERVAL 2 DAY), '09:00:00','School Meals payment arrangement','Scheduled',NOW()),
+('S102', DATE_ADD(CURDATE(),INTERVAL 1 DAY), '10:30:00','Fee balance discussion',          'Scheduled',NOW()),
+('S104', DATE_ADD(CURDATE(),INTERVAL 3 DAY), '14:00:00','Tuition fee payment plan',        'Scheduled',NOW()),
+('S106', DATE_SUB(CURDATE(),INTERVAL 2 DAY), '11:00:00','Suspension fee clearance',        'Completed',NOW()),
+('S108', DATE_ADD(CURDATE(),INTERVAL 5 DAY), '09:30:00','Tuition installment plan',        'Scheduled',NOW()),
+('S110', DATE_ADD(CURDATE(),INTERVAL 4 DAY), '15:30:00','Re-enrollment discussion',        'Scheduled',NOW()),
+('S112', DATE_ADD(CURDATE(),INTERVAL 2 DAY), '13:00:00','Library & sports fee clearance',  'Scheduled',NOW()),
+('S114', DATE_SUB(CURDATE(),INTERVAL 1 DAY), '10:00:00','Tuition fee reminder follow-up',  'Completed',NOW()),
+('S116', DATE_ADD(CURDATE(),INTERVAL 6 DAY), '11:30:00','P7 fees payment schedule',        'Scheduled',NOW());

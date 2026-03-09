@@ -50,6 +50,10 @@ include 'header.php';
 <div style="margin-top: 3rem; background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
     <h2 style="margin-bottom: 2rem;">Quick Actions</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <a href="index.php" class="btn primary-btn" style="padding: 1.5rem; text-align: center; text-decoration: none; background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔥</div>
+            <div>Student Database</div>
+        </a>
         <a href="payments_dashboard.php" class="btn primary-btn" style="padding: 1.5rem; text-align: center; text-decoration: none;">
             <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💳</div>
             <div>View Payments</div>

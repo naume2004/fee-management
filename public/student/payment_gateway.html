@@ -12,6 +12,70 @@
     <script src="../firebase-config.js"></script>
 </head>
 <body>
+    <style>
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .checkmark-circle {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            margin-bottom: 2rem;
+        }
+        .checkmark-circle .background {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: #10b981;
+            position: absolute;
+        }
+        .checkmark-circle .check {
+            border-radius: 4px;
+            border: 8px solid white;
+            border-top: 0;
+            border-left: 0;
+            width: 50px;
+            height: 90px;
+            position: absolute;
+            left: 55px;
+            top: 20px;
+            transform: rotate(45deg);
+            animation: checkmark 0.5s ease-out;
+        }
+        @keyframes checkmark {
+            0% { height: 0; width: 0; opacity: 0; }
+            80% { height: 0; width: 50px; opacity: 1; }
+            100% { height: 90px; width: 50px; opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+
+    <div id="success-overlay" class="success-overlay">
+        <div class="checkmark-circle">
+            <div class="background"></div>
+            <div class="check"></div>
+        </div>
+        <h1 style="color: #10b981; margin-bottom: 1rem;">Payment Successful!</h1>
+        <p style="color: var(--text-muted); font-size: 1.2rem; margin-bottom: 2rem;">Your school fees have been updated ✅</p>
+        <button onclick="window.location.href='dashboard.html'" class="btn primary-btn" style="padding: 1rem 3rem; background: #10b981;">Back to Dashboard</button>
+    </div>
+
     <nav class="navbar">
         <div class="container nav-container">
             <a href="../index.html" class="logo">FeeFlow</a>
@@ -59,8 +123,12 @@
         
         <!-- Credit Card Payment -->
         <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border);">
-            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                <div style="font-size: 2rem; margin-right: 1rem;">💳</div>
+            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                <div class="card-icons-container" style="display: flex; gap: 0.5rem; margin-right: 1.5rem;">
+                    <div style="width: 50px; height: 35px; background: #1e293b; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 0.7rem;">VISA</div>
+                    <div style="width: 50px; height: 35px; background: #eb001b; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 0.7rem;">MAST</div>
+                    <div style="width: 50px; height: 35px; background: #1f3f7a; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 0.7rem;">AMEX</div>
+                </div>
                 <div>
                     <h3 style="margin: 0; font-size: 1.1rem;">Credit/Debit Card</h3>
                     <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">Visa, Mastercard, American Express</p>
@@ -87,11 +155,15 @@
 
         <!-- Mobile Money Payment -->
         <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border);">
-            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                <div style="font-size: 2rem; margin-right: 1rem;">📱</div>
+            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                <div class="momo-icons-container" style="display: flex; gap: 0.5rem; margin-right: 1.5rem;">
+                    <div style="width: 50px; height: 50px; background: #10b981; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 0.7rem; text-align: center; line-height: 1;">M-PESA</div>
+                    <div style="width: 50px; height: 50px; background: #fbbf24; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: #1e293b; font-weight: 900; font-size: 0.7rem; text-align: center; line-height: 1;">MTN</div>
+                    <div style="width: 50px; height: 50px; background: #ef4444; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 0.7rem; text-align: center; line-height: 1;">AIRTEL</div>
+                </div>
                 <div>
                     <h3 style="margin: 0; font-size: 1.1rem;">Mobile Money</h3>
-                    <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">M-Pesa, Airtel Money, MTN Mobile Money</p>
+                    <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">M-Pesa, MTN, Airtel Money</p>
                 </div>
             </div>
             <form id="mobile-payment-form" style="margin-top: 1rem;">
@@ -204,8 +276,7 @@
                 });
 
                 await batch.commit();
-                alert('Payment Successful!');
-                window.location.href = 'dashboard.html';
+                document.getElementById('success-overlay').style.display = 'flex';
             } catch (error) {
                 alert('Payment Failed: ' + error.message);
                 btn.disabled = false;

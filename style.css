@@ -213,6 +213,11 @@ body {
     font-weight: 600;
 }
 
+/* Main content spacing */
+.main-content {
+    padding: 2.5rem 0 5rem;
+}
+
 /* Live Queue Styles */
 .queue-box {
     text-align: center;

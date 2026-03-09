@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Plans - FeeFlow</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="../firebase-config.js"></script>
+</head>
+<body>
+
+<style>
+.plan-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.plan-card:hover { transform: translateY(-2px); box-shadow: 0 8px 15px -3px rgba(0,0,0,0.12); }
+.plan-amount { font-size: 1.75rem; font-weight: 900; margin: 0.25rem 0; }
+.plan-schedule { background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; }
+.history-item { border: 1px solid var(--border); border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1rem; }
+.select-btn { width: 100%; padding: 0.8rem; border-radius: 0.5rem; cursor: pointer; font-family: inherit; font-size: 0.95rem; font-weight: 600; border: none; transition: opacity 0.2s; }
+.select-btn:hover { opacity: 0.88; }
+.success-toast {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--success); color: white;
+    padding: 1rem 1.5rem; border-radius: 0.75rem;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+    display: none; font-weight: 600; z-index: 999;
+    animation: slideIn 0.3s ease-out;
+}
+@keyframes slideIn { from { transform: translateX(120%); } to { transform: translateX(0); } }
+</style>
+
+<div id="success-toast" class="success-toast">✓ Payment plan selected successfully!</div>
+
+<nav class="navbar">
+    <div class="container nav-container">
+        <a href="../index.html" class="logo">FeeFlow</a>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="dashboard.html">My Dashboard</a></li>
+            <li><a href="payment_gateway.html">Pay Online</a></li>
+            <li><a href="payment_plans.html" style="color:var(--primary); font-weight:700;">Installments</a></li>
+            <li><a href="payment_history.html">History</a></li>
+            <li><a href="payment_reminders.html" style="color:#ef4444; font-weight:600;">⚠️ Reminders</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container main-content">
+
+<div class="payment-header" style="text-align: center; margin-bottom: 3rem;">
+    <h1>Flexible Payment Plans</h1>
+    <p style="color: var(--text-muted);">Manage your school fees with customizable installment options.</p>
+    <div id="student-label" style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-muted);">Loading student…</div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+
+    <!-- Available Plans -->
+    <div>
+        <h2 style="margin-bottom: 2rem;">Available Plans</h2>
+
+        <!-- Standard 3-month -->
+        <div class="plan-card" style="border-left: 5px solid var(--primary);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <h3 style="margin: 0;">Standard Plan</h3>
+                <span class="badge badge-success">Popular</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0 0 1.25rem;">Split payments over 3 months</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Monthly Payment:</p>
+            <p id="std-amount" class="plan-amount" style="color: var(--primary);">$0.00</p>
+            <div id="std-schedule" class="plan-schedule">Loading schedule…</div>
+            <button class="select-btn" style="background: var(--primary); color: white;"
+                onclick="selectPlan('Standard Plan', 3)">Select Plan</button>
+        </div>
+
+        <!-- Quick Pay 2-month -->
+        <div class="plan-card" style="border-left: 5px solid var(--success);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <h3 style="margin: 0;">Quick Pay</h3>
+                <span class="badge badge-warning">Fast</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0 0 1.25rem;">2-month express payment</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Monthly Payment:</p>
+            <p id="quick-amount" class="plan-amount" style="color: var(--success);">$0.00</p>
+            <div id="quick-schedule" class="plan-schedule">Loading schedule…</div>
+            <button class="select-btn" style="background: var(--success); color: white;"
+                onclick="selectPlan('Quick Pay', 2)">Select Plan</button>
+        </div>
+
+        <!-- Extended 6-month -->
+        <div class="plan-card" style="border-left: 5px solid var(--warning);">
+            <h3 style="margin: 0 0 0.5rem;">Extended Plan</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0 0 1.25rem;">Split payments over 6 months</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Monthly Payment:</p>
+            <p id="ext-amount" class="plan-amount" style="color: var(--warning);">$0.00</p>
+            <div id="ext-schedule" class="plan-schedule">Loading schedule…</div>
+            <button class="select-btn" style="background: #fef9c3; color: #92400e; border: 1px solid #fbbf24;"
+                onclick="selectPlan('Extended Plan', 6)">Select Plan</button>
+        </div>
+    </div>
+
+    <!-- Right Column -->
+    <div>
+        <!-- Outstanding Summary -->
+        <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 2rem; border-top: 4px solid var(--danger);">
+            <h2 style="margin: 0 0 1.25rem; font-size: 1.1rem;">Outstanding Balance</h2>
+            <div id="pending-list" style="margin-bottom: 1.25rem;">
+                <p style="color: var(--text-muted); text-align: center; padding: 1rem 0;">Loading…</p>
+            </div>
+            <div style="border-top: 1px solid var(--border); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; color: var(--text-muted);">Total Due</span>
+                <span id="total-due" style="font-size: 1.5rem; font-weight: 900; color: var(--danger);">$0.00</span>
+            </div>
+            <a href="payment_gateway.html" class="btn primary-btn" style="display: block; text-align: center; text-decoration: none; margin-top: 1.25rem;">
+                💳 Pay in Full Now
+            </a>
+        </div>
+
+        <!-- Active Plan -->
+        <h2 style="margin-bottom: 1.5rem;">Your Active Plan</h2>
+        <div id="active-plan-box" style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 2.5rem; text-align: center; color: var(--text-muted);">
+            No active payment plan.<br>
+            <small>Select a plan on the left to get started.</small>
+        </div>
+
+        <!-- Plan History -->
+        <h2 style="margin-bottom: 1.5rem;">Plan History</h2>
+        <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            <div class="history-item">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <h4 style="margin: 0;">Standard Plan — 2024</h4>
+                    <span class="badge badge-success">Completed</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0; line-height: 1.7;">
+                    <strong>Duration:</strong> Jan – Mar 2024<br>
+                    <strong>Monthly Amount:</strong> $400.00<br>
+                    <strong>Total Paid:</strong> $1,200.00
+                </p>
+            </div>
+            <div class="history-item" style="margin-bottom: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <h4 style="margin: 0;">Extended Plan — 2023</h4>
+                    <span class="badge badge-warning">Completed</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0; line-height: 1.7;">
+                    <strong>Duration:</strong> Jul – Dec 2023<br>
+                    <strong>Monthly Amount:</strong> $200.00<br>
+                    <strong>Total Paid:</strong> $1,200.00
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>
+
+<footer class="footer">
+    <div class="container footer-container">
+        <div class="footer-info">
+            <h3>FeeFlow Student</h3>
+            <p>Digital payment and queue management portal.</p>
+        </div>
+        <div class="footer-links">
+            <p>&copy; 2026 FeeFlow. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+const studentId = localStorage.getItem('currentStudentId') || 'S101';
+let totalPending = 0;
+let activePlan = null;
+
+function fmt(n) { return '$' + n.toFixed(2); }
+
+function buildSchedule(total, months) {
+    const per = total / months;
+    const now = new Date();
+    let lines = '<strong>Payment Schedule:</strong><br>';
+    for (let i = 1; i <= months; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+        const label = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        lines += `${label}: ${fmt(per)}<br>`;
+    }
+    return lines;
+}
+
+async function loadData() {
+    try {
+        const studentDoc = await db.collection('students').doc(studentId).get();
+        if (studentDoc.exists) {
+            const s = studentDoc.data();
+            document.getElementById('student-label').textContent =
+                `Student: ${s.name} (${s.student_id})`;
+        }
+
+        const feesSnap = await db.collection('fees')
+            .where('student_id', '==', studentId)
+            .where('status', '==', 'Pending')
+            .get();
+
+        totalPending = 0;
+        const pendingList = document.getElementById('pending-list');
+        pendingList.innerHTML = '';
+
+        if (feesSnap.empty) {
+            pendingList.innerHTML = '<p style="color:var(--success); text-align:center; padding:1rem 0;">✓ All fees paid — no balance due!</p>';
+        } else {
+            feesSnap.forEach(doc => {
+                const fee = doc.data();
+                const amt = parseFloat(fee.amount);
+                totalPending += amt;
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.9rem;';
+                row.innerHTML = `<span>${fee.fee_type}</span><strong style="color:var(--danger);">${fmt(amt)}</strong>`;
+                pendingList.appendChild(row);
+            });
+        }
+
+        document.getElementById('total-due').textContent = fmt(totalPending);
+
+        // Update plan cards
+        document.getElementById('std-amount').textContent   = fmt(totalPending / 3);
+        document.getElementById('quick-amount').textContent = fmt(totalPending / 2);
+        document.getElementById('ext-amount').textContent   = fmt(totalPending / 6);
+
+        document.getElementById('std-schedule').innerHTML   = buildSchedule(totalPending, 3);
+        document.getElementById('quick-schedule').innerHTML = buildSchedule(totalPending, 2);
+        document.getElementById('ext-schedule').innerHTML   = buildSchedule(totalPending, 6);
+
+        // Disable if nothing due
+        if (totalPending <= 0) {
+            document.querySelectorAll('.select-btn').forEach(b => {
+                b.disabled = true;
+                b.textContent = 'Nothing due';
+                b.style.opacity = '0.5';
+                b.style.cursor = 'not-allowed';
+            });
+        }
+    } catch (err) {
+        console.error('Error loading plan data:', err);
+    }
+}
+
+function selectPlan(name, months) {
+    const per = totalPending / months;
+    const now = new Date();
+
+    activePlan = { name, months, perMonth: per };
+    localStorage.setItem('activePlan_' + studentId, JSON.stringify(activePlan));
+
+    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+        .toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+    document.getElementById('active-plan-box').innerHTML = `
+        <div style="text-align:left;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h3 style="margin:0; color:var(--primary);">${name}</h3>
+                <span class="badge badge-success">Active</span>
+            </div>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin:0 0 1rem;">
+                ${months}-month installment plan
+            </p>
+            <div style="background:#f0fdf4; padding:1rem; border-radius:0.5rem; margin-bottom:1rem;">
+                <p style="margin:0; font-size:0.85rem; color:#166534;">
+                    <strong>Next Payment:</strong> ${fmt(per)} due ${nextMonth}
+                </p>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">
+                Total remaining: <strong>${fmt(totalPending)}</strong> over <strong>${months} months</strong>
+            </p>
+        </div>
+    `;
+
+    const toast = document.getElementById('success-toast');
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 3000);
+}
+
+// Restore saved plan on load
+function restorePlan() {
+    const saved = localStorage.getItem('activePlan_' + studentId);
+    if (saved) {
+        try {
+            const p = JSON.parse(saved);
+            activePlan = p;
+            // re-render after data loads (called after loadData)
+        } catch (e) {}
+    }
+}
+
+loadData().then(() => {
+    restorePlan();
+    if (activePlan) selectPlan(activePlan.name, activePlan.months);
+});
+</script>
+</body>
+</html>

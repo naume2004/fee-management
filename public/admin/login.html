@@ -12,7 +12,7 @@
 <body>
     <div class="form-container" style="max-width: 400px; margin: 8rem auto;">
         <h2 style="text-align:center; margin-bottom:2rem;">Staff Login</h2>
-        <div id="error-message" style="display:none; background:#fee2e2; color:#7f1d1d; padding:1rem; border-radius:0.5rem; margin-bottom:1rem;"></div>
+        <div id="error-message" style="display:none; background:#fee2e2; color:#b91c1c; padding:1rem; border-radius:0.5rem; margin-bottom:1.5rem; border-left: 4px solid #ef4444; font-size: 0.9rem; line-height: 1.4;"></div>
         <form id="login-form">
             <div class="form-group" style="margin-bottom:1rem;">
                 <label for="email">Email Address</label>
@@ -35,20 +35,39 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('error-message');
+            
+            // Clear previous error
+            errorDiv.style.display = 'none';
+            errorDiv.textContent = '';
 
             try {
                 await auth.signInWithEmailAndPassword(email, password);
-                window.location.href = 'admin.html';
+                // Redirect to the main admin portal
+                window.location.href = 'index.php';
             } catch (error) {
                 errorDiv.style.display = 'block';
-                errorDiv.textContent = error.message;
+                
+                // User-friendly error mapping
+                let friendlyMessage = error.message;
+                
+                // Catch raw JSON-like strings often returned by misconfigured Firebase projects
+                if (error.message.includes('CONFIGURATION_NOT_FOUND') || error.code === 'auth/configuration-not-found') {
+                    friendlyMessage = "<strong>Configuration Error:</strong> Email/Password sign-in is not enabled in the Firebase Console. <br><br>Please go to <strong>Authentication > Sign-in method</strong> in your Firebase Console and enable <strong>Email/Password</strong>.";
+                } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.message.includes('INVALID_PASSWORD')) {
+                    friendlyMessage = "Invalid email or password. Please try again.";
+                } else if (error.code === 'auth/invalid-email') {
+                    friendlyMessage = "The email address is badly formatted.";
+                }
+
+                errorDiv.innerHTML = friendlyMessage;
+                console.error("Firebase Auth Error:", error);
             }
         });
 
         // Check if already logged in
         auth.onAuthStateChanged(user => {
             if (user) {
-                window.location.href = 'admin.html';
+                window.location.href = 'index.php';
             }
         });
     </script>
