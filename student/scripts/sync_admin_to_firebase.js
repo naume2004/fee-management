@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // 1. Path to your Firebase Service Account Key
-const serviceAccountPath = '../serviceAccountKey.json';
+const serviceAccountPath = path.resolve(__dirname, '../../fee-management-16c9e-firebase-adminsdk-fbsvc-2065458d80.json');
 
 if (!fs.existsSync(serviceAccountPath)) {
     console.error('Error: serviceAccountKey.json not found in the project root.');
