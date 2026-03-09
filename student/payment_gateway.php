@@ -44,6 +44,9 @@ include 'header.php';
                         <strong style="color: var(--danger);">$<?php echo number_format($fee['amount'], 2); ?></strong>
                     </li>
                 <?php endforeach; ?>
+                <?php if (empty($pending_fees)): ?>
+                    <li style="color: var(--success); text-align: center; font-weight: 600;">No outstanding fees!</li>
+                <?php endif; ?>
             </ul>
         </div>
         
@@ -54,14 +57,14 @@ include 'header.php';
             <p style="font-size: 1.5rem; color: var(--danger); font-weight: 900; margin: 0.5rem 0 0;">$<?php echo number_format($total_pending, 2); ?></p>
         </div>
         
-        <button class="btn secondary-btn" style="width: 100%; color: var(--primary);">← Back to Dashboard</button>
+        <a href="dashboard.php?sim_id=<?php echo $student_id; ?>" class="btn secondary-btn" style="width: 100%; color: var(--primary); text-align: center; display: block; text-decoration: none;">← Back to Dashboard</a>
     </aside>
 
     <div class="payment-methods">
         <h2 style="margin-bottom: 2rem;">Select Payment Method</h2>
         
         <!-- Credit Card Payment -->
-        <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border); cursor: pointer; transition: all 0.3s;" onmouseover="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 4px 12px rgba(79, 70, 229, 0.15)';" onmouseout="this.style.borderColor='var(--border)'; this.style.boxShadow='none';">
+        <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border); cursor: pointer; transition: all 0.3s;">
             <div style="display: flex; align-items: center; margin-bottom: 1rem;">
                 <div style="font-size: 2rem; margin-right: 1rem;">💳</div>
                 <div>
@@ -69,27 +72,29 @@ include 'header.php';
                     <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">Visa, Mastercard, American Express</p>
                 </div>
             </div>
-            <form style="margin-top: 1rem;">
+            <form action="process_payment.php" method="POST" style="margin-top: 1rem;">
+                <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($student_id); ?>">
+                <input type="hidden" name="payment_method" value="Credit Card">
                 <div class="form-group">
                     <label>Card Number</label>
-                    <input type="text" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                    <input type="text" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
                         <label>Expiry Date</label>
-                        <input type="text" placeholder="MM/YY" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                        <input type="text" placeholder="MM/YY" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
                     </div>
                     <div class="form-group">
                         <label>CVV</label>
-                        <input type="text" placeholder="123" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                        <input type="text" placeholder="123" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
                     </div>
                 </div>
-                <button type="submit" class="btn primary-btn" style="width: 100%; margin-top: 1rem;">Pay $<?php echo number_format($total_pending, 2); ?></button>
+                <button type="submit" class="btn primary-btn" style="width: 100%; margin-top: 1rem;" <?php echo $total_pending <= 0 ? 'disabled' : ''; ?>>Pay $<?php echo number_format($total_pending, 2); ?></button>
             </form>
         </div>
 
         <!-- Mobile Money Payment -->
-        <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border); cursor: pointer; transition: all 0.3s;" onmouseover="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 4px 12px rgba(79, 70, 229, 0.15)';" onmouseout="this.style.borderColor='var(--border)'; this.style.boxShadow='none';">
+        <div class="payment-method-card" id="mobile-money-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--primary); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15); cursor: pointer; transition: all 0.3s;">
             <div style="display: flex; align-items: center; margin-bottom: 1rem;">
                 <div style="font-size: 2rem; margin-right: 1rem;">📱</div>
                 <div>
@@ -97,26 +102,28 @@ include 'header.php';
                     <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">M-Pesa, Airtel Money, MTN Mobile Money</p>
                 </div>
             </div>
-            <form style="margin-top: 1rem;">
+            <form action="process_payment.php" method="POST" style="margin-top: 1rem;">
+                <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($student_id); ?>">
+                <input type="hidden" name="payment_method" value="Mobile Money">
                 <div class="form-group">
                     <label>Phone Number</label>
-                    <input type="tel" placeholder="+254712345678" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                    <input type="tel" name="phone" placeholder="+254712345678" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
                 </div>
                 <div class="form-group">
                     <label>Provider</label>
-                    <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
-                        <option>Select Provider</option>
-                        <option>M-Pesa (Kenya)</option>
-                        <option>Airtel Money</option>
-                        <option>MTN Mobile Money</option>
+                    <select name="provider" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
+                        <option value="">Select Provider</option>
+                        <option value="M-Pesa">M-Pesa (Kenya)</option>
+                        <option value="Airtel Money">Airtel Money</option>
+                        <option value="MTN Mobile Money">MTN Mobile Money</option>
                     </select>
                 </div>
-                <button type="submit" class="btn primary-btn" style="width: 100%; margin-top: 1rem;">Pay $<?php echo number_format($total_pending, 2); ?></button>
+                <button type="submit" class="btn primary-btn" style="width: 100%; margin-top: 1rem;" <?php echo $total_pending <= 0 ? 'disabled' : ''; ?>>Pay $<?php echo number_format($total_pending, 2); ?> via Mobile Money</button>
             </form>
         </div>
 
         <!-- Bank Transfer Payment -->
-        <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border); cursor: pointer; transition: all 0.3s;" onmouseover="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 4px 12px rgba(79, 70, 229, 0.15)';" onmouseout="this.style.borderColor='var(--border)'; this.style.boxShadow='none';">
+        <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border); cursor: pointer; transition: all 0.3s;">
             <div style="display: flex; align-items: center; margin-bottom: 1rem;">
                 <div style="font-size: 2rem; margin-right: 1rem;">🏦</div>
                 <div>
@@ -134,35 +141,14 @@ include 'header.php';
             <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">Please include your student ID as reference for proper allocation.</p>
         </div>
 
-        <!-- Pay by Installment -->
-        <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; border: 2px solid var(--border); cursor: pointer; transition: all 0.3s;" onmouseover="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 4px 12px rgba(79, 70, 229, 0.15)';" onmouseout="this.style.borderColor='var(--border)'; this.style.boxShadow='none';">
-            <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                <div style="font-size: 2rem; margin-right: 1rem;">📅</div>
-                <div>
-                    <h3 style="margin: 0; font-size: 1.1rem;">Installment Plan</h3>
-                    <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">Flexible payment over multiple months</p>
-                </div>
-            </div>
-            <div style="margin-top: 1rem; background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 0.75rem;">Choose your payment plan:</p>
-                <div style="display: grid; gap: 0.5rem;">
-                    <label style="display: flex; align-items: center; cursor: pointer; padding: 0.5rem; border-radius: 0.25rem; hover: background: #f1f5f9;">
-                        <input type="radio" name="plan" value="2months" style="margin-right: 0.5rem;">
-                        <span style="flex: 1;"><strong>2 Months:</strong> $<?php echo number_format($total_pending/2, 2); ?>/month</span>
-                    </label>
-                    <label style="display: flex; align-items: center; cursor: pointer; padding: 0.5rem; border-radius: 0.25rem;">
-                        <input type="radio" name="plan" value="3months" style="margin-right: 0.5rem;">
-                        <span style="flex: 1;"><strong>3 Months:</strong> $<?php echo number_format($total_pending/3, 2); ?>/month</span>
-                    </label>
-                    <label style="display: flex; align-items: center; cursor: pointer; padding: 0.5rem; border-radius: 0.25rem;">
-                        <input type="radio" name="plan" value="6months" style="margin-right: 0.5rem;">
-                        <span style="flex: 1;"><strong>6 Months:</strong> $<?php echo number_format($total_pending/6, 2); ?>/month</span>
-                    </label>
-                </div>
-            </div>
-            <button class="btn primary-btn" style="width: 100%; margin-top: 1rem;">Setup Installment Plan</button>
-        </div>
     </div>
 </div>
+
+<style>
+    .payment-method-card:hover {
+        border-color: var(--primary) !important;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15) !important;
+    }
+</style>
 
 <?php include 'footer.php'; ?>

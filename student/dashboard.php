@@ -42,6 +42,27 @@ $overdue_result = mysqli_query($conn, $overdue_sql);
 $overdue = mysqli_fetch_assoc($overdue_result);
 ?>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="../firebase-config.js"></script>
+
+<div id="notification-toast" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 9999; background: white; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-left: 4px solid var(--primary); animation: slideIn 0.3s ease-out;">
+    <div style="display: flex; gap: 1rem; align-items: center;">
+        <span style="font-size: 1.5rem;">🔔</span>
+        <div>
+            <p id="notif-title" style="margin: 0; font-weight: 700; font-size: 0.9rem;"></p>
+            <p id="notif-body" style="margin: 0; font-size: 0.8rem; color: var(--text-muted);"></p>
+        </div>
+    </div>
+</div>
+
+<?php if (isset($_GET['msg'])): ?>
+    <div style="background: #f0fdf4; border-left: 5px solid var(--success); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; color: #166534; font-weight: 600;">
+        ✅ <?php echo htmlspecialchars($_GET['msg']); ?>
+    </div>
+<?php endif; ?>
+
 <?php if (($overdue['overdue_count'] ?? 0) > 0): ?>
     <div style="background: #fee2e2; border-left: 5px solid var(--danger); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: start;">
@@ -55,13 +76,19 @@ $overdue = mysqli_fetch_assoc($overdue_result);
     </div>
 <?php endif; ?>
 
-<div class="welcome-section" style="margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end;">
-    <div>
-        <h1>Student Financial Dashboard</h1>
-        <p style="color: var(--text-muted);">Name: <strong><?php echo htmlspecialchars($student['name']); ?></strong> | ID: <?php echo htmlspecialchars($student['student_id']); ?></p>
+<div class="welcome-section" style="margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; gap: 1.5rem; align-items: center;">
+        <div style="width: 64px; height: 64px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800;">
+            <?php echo substr($student['name'], 0, 1); ?>
+        </div>
+        <div>
+            <h1 style="margin: 0;">Welcome, <?php echo explode(' ', htmlspecialchars($student['name']))[0]; ?>!</h1>
+            <p style="color: var(--text-muted); margin: 0.25rem 0 0;">ID: <strong><?php echo htmlspecialchars($student['student_id']); ?></strong> | <?php echo htmlspecialchars($student['class_name']); ?></p>
+        </div>
     </div>
-    <div style="text-align: right;">
-        <span class="badge badge-success"><?php echo htmlspecialchars($student['course']); ?></span>
+    <div style="text-align: right; display: flex; gap: 0.5rem;">
+        <button onclick="toggleProfileModal()" class="btn secondary-btn" style="color: var(--primary); border: 1px solid var(--primary);">👤 My Profile</button>
+        <span class="badge badge-success" style="padding: 0.5rem 1rem;"><?php echo htmlspecialchars($student['course']); ?></span>
     </div>
 </div>
 
@@ -106,11 +133,16 @@ $overdue = mysqli_fetch_assoc($overdue_result);
         <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Completed transactions</p>
     </div>
     <div class="stat-card">
+        <h3>Total Pending</h3>
+        <div class="value" style="color: var(--danger);">$<?php echo number_format($summary['total_pending'] ?? 0, 2); ?></div>
+        <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Outstanding balance</p>
+    </div>
+    <div class="stat-card">
         <h3>Financial Clearance</h3>
-        <div class="value">
+        <div class="value" style="font-size: 1.5rem;">
             <?php 
                 $total = ($summary['total_paid'] ?? 0) + ($summary['total_pending'] ?? 0);
-                echo ($total > 0 && ($summary['total_pending'] ?? 0) <= 0) ? 'CLEARED' : 'PENDING';
+                echo ($total > 0 && ($summary['total_pending'] ?? 0) <= 0) ? '✅ CLEARED' : '❌ PENDING';
             ?>
         </div>
         <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">School status</p>
@@ -135,36 +167,30 @@ $overdue = mysqli_fetch_assoc($overdue_result);
                 <?php endwhile; ?>
             </ul>
         </div>
+        
+        <div style="margin-top: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 1rem; border: 1px dashed var(--border);">
+            <h3 style="font-size: 1rem; margin-bottom: 1rem;">Recent Notifications</h3>
+            <div id="notif-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">Loading notifications...</p>
+            </div>
+        </div>
     </aside>
 
     <div class="payment-history">
         <div class="admin-dashboard-header" style="margin-bottom: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem; align-items: center;">
-            <button class="btn" style="background: white; border: 1px solid var(--border); color: var(--text-main); font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">🖨️ Print</button>
-            <button class="btn" style="background: #800000; color: white; font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">+ Add Fee</button>
-            <button class="btn" style="background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">📥 Export</button>
-        </div>
-
-        <div class="filter-section" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; display: flex; gap: 0.75rem; align-items: center;">
-            <select style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.3rem; color: var(--text-muted); font-size: 0.9rem;">
-                <option>All Status</option>
-                <option>Paid</option>
-                <option>Partial</option>
-                <option>Pending</option>
-            </select>
-            <button class="btn" style="background: #800000; color: white; padding: 0.5rem 1.25rem; display: flex; align-items: center; gap: 0.4rem; font-weight: 600; font-size: 0.9rem;">
-                🔍 Filter
-            </button>
+            <button class="btn" onclick="window.print()" style="background: white; border: 1px solid var(--border); color: var(--text-main); font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">🖨️ Print Statements</button>
+            <a href="payment_gateway.php?sim_id=<?php echo $student_id; ?>" class="btn" style="background: var(--primary); color: white; font-size: 0.8rem; padding: 0.4rem 0.75rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem;">💳 Make Payment</a>
         </div>
 
         <div class="table-section" style="background: white; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
             <table class="data-table" style="width: 100%; border-collapse: collapse;">
                 <thead style="background: #f8fafc; border-bottom: 1px solid var(--border);">
                     <tr>
-                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Remaining</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Fee Item</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Amount</th>
                         <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Status</th>
-                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Due Date</th>
-                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">PIN</th>
-                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Actions</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Date</th>
+                        <th style="padding: 0.75rem 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">Method</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -172,43 +198,17 @@ $overdue = mysqli_fetch_assoc($overdue_result);
                     mysqli_data_seek($fees_result, 0); 
                     if (mysqli_num_rows($fees_result) > 0): 
                         while($fee = mysqli_fetch_assoc($fees_result)): 
-                            $mock_pin = str_pad(($fee['id'] * 123456) % 999999, 6, '0', STR_PAD_LEFT);
-                            $remaining = $fee['status'] == 'Paid' ? 0.00 : $fee['amount'];
                     ?>
                         <tr style="border-bottom: 1px solid #f1f5f9;">
-                            <td style="padding: 1rem; font-weight: 500; font-size: 0.9rem;"><?php echo number_format($remaining, 2); ?></td>
+                            <td style="padding: 1rem; font-weight: 600; font-size: 0.9rem;"><?php echo htmlspecialchars($fee['fee_type']); ?></td>
+                            <td style="padding: 1rem; font-weight: 500;">$<?php echo number_format($fee['amount'], 2); ?></td>
                             <td style="padding: 1rem;">
-                                <span class="badge" style="
-                                    padding: 0.35rem 0.7rem; 
-                                    border-radius: 0.4rem; 
-                                    font-weight: 700; 
-                                    font-size: 0.7rem;
-                                    <?php if($fee['status'] == 'Paid'): ?>
-                                        background: #15803d; color: white;
-                                    <?php elseif($fee['status'] == 'Pending'): ?>
-                                        background: #991b1b; color: white;
-                                    <?php else: ?>
-                                        background: #eab308; color: white;
-                                    <?php endif; ?>
-                                ">
+                                <span class="badge <?php echo $fee['status'] == 'Paid' ? 'badge-success' : 'badge-danger'; ?>">
                                     <?php echo $fee['status']; ?>
                                 </span>
                             </td>
-                            <td style="padding: 1rem; color: #475569; font-size: 0.85rem;">Dec 18, 2025</td>
-                            <td style="padding: 1rem; color: #475569; font-size: 0.85rem;"><?php echo $mock_pin; ?></td>
-                            <td style="padding: 1rem;">
-                                <div style="display: flex; gap: 4px;">
-                                    <button title="View" style="background: #38bdf8; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">👁️</button>
-                                    <button title="Edit" style="background: #fbbf24; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">📝</button>
-                                    <?php if($fee['status'] != 'Paid'): ?>
-                                        <button title="Pay" style="background: #10b981; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">💳</button>
-                                    <?php endif; ?>
-                                    <button title="Print" style="background: #64748b; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">🖨️</button>
-                                    <?php if($fee['status'] == 'Paid'): ?>
-                                        <button title="Delete" style="background: #ef4444; border: none; padding: 4px 6px; border-radius: 3px; cursor: pointer; color: white; font-size: 0.75rem;">🗑️</button>
-                                    <?php endif; ?>
-                                </div>
-                            </td>
+                            <td style="padding: 1rem; color: #64748b; font-size: 0.85rem;"><?php echo $fee['payment_date'] ? date('M d, Y', strtotime($fee['payment_date'])) : '-'; ?></td>
+                            <td style="padding: 1rem; color: #64748b; font-size: 0.85rem;"><?php echo htmlspecialchars($fee['payment_method'] ?? '-'); ?></td>
                         </tr>
                     <?php endwhile; ?>
                     <?php else: ?>
@@ -219,5 +219,102 @@ $overdue = mysqli_fetch_assoc($overdue_result);
         </div>
     </div>
 </div>
+
+<!-- Profile Modal -->
+<div id="profile-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; backdrop-filter: blur(4px);">
+    <div style="background: white; max-width: 500px; margin: 5% auto; border-radius: 1rem; padding: 2.5rem; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+        <button onclick="toggleProfileModal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);">×</button>
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="width: 100px; height: 100px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; margin: 0 auto 1rem;">
+                <?php echo substr($student['name'], 0, 1); ?>
+            </div>
+            <h2 style="margin: 0;"><?php echo htmlspecialchars($student['name']); ?></h2>
+            <p style="color: var(--text-muted);"><?php echo htmlspecialchars($student['student_id']); ?></p>
+        </div>
+        
+        <div style="display: grid; gap: 1rem;">
+            <div style="padding: 1rem; background: #f8fafc; border-radius: 0.5rem; border: 1px solid var(--border);">
+                <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Email Address</p>
+                <p style="margin: 0.25rem 0 0; font-weight: 600;"><?php echo htmlspecialchars($student['email']); ?></p>
+            </div>
+            <div style="padding: 1rem; background: #f8fafc; border-radius: 0.5rem; border: 1px solid var(--border);">
+                <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Class / Grade</p>
+                <p style="margin: 0.25rem 0 0; font-weight: 600;"><?php echo htmlspecialchars($student['class_name']); ?></p>
+            </div>
+            <div style="padding: 1rem; background: #f8fafc; border-radius: 0.5rem; border: 1px solid var(--border);">
+                <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Gender</p>
+                <p style="margin: 0.25rem 0 0; font-weight: 600;"><?php echo htmlspecialchars($student['gender']); ?></p>
+            </div>
+            <div style="padding: 1rem; background: #f8fafc; border-radius: 0.5rem; border: 1px solid var(--border);">
+                <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Academic Year</p>
+                <p style="margin: 0.25rem 0 0; font-weight: 600;"><?php echo htmlspecialchars($student['academic_year']); ?></p>
+            </div>
+        </div>
+        
+        <button onclick="alert('Profile editing is currently disabled. Please contact the administration office.')" class="btn primary-btn" style="width: 100%; margin-top: 2rem;">Edit Profile Details</button>
+    </div>
+</div>
+
+<script>
+    function toggleProfileModal() {
+        const modal = document.getElementById('profile-modal');
+        modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Listen for real-time notifications from Firestore
+    if (typeof db !== 'undefined') {
+        const studentId = '<?php echo $student_id; ?>';
+        
+        db.collection('notifications')
+            .where('student_id', '==', studentId)
+            .orderBy('timestamp', 'desc')
+            .limit(5)
+            .onSnapshot((snapshot) => {
+                const notifList = document.getElementById('notif-list');
+                const toast = document.getElementById('notification-toast');
+                
+                if (snapshot.empty) {
+                    notifList.innerHTML = '<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">No notifications yet.</p>';
+                    return;
+                }
+
+                let html = '';
+                snapshot.docChanges().forEach((change) => {
+                    if (change.type === "added" && !snapshot.metadata.fromCache) {
+                        const n = change.doc.data();
+                        showToast(n.title, n.message);
+                    }
+                });
+
+                snapshot.forEach((doc) => {
+                    const n = doc.data();
+                    html += `
+                        <div style="padding: 0.75rem; background: white; border-radius: 0.5rem; border: 1px solid var(--border); border-left: 3px solid ${n.status === 'unread' ? 'var(--primary)' : '#ccc'};">
+                            <p style="margin: 0; font-weight: 700; font-size: 0.85rem;">${n.title}</p>
+                            <p style="margin: 0.25rem 0 0; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">${n.message}</p>
+                        </div>
+                    `;
+                });
+                notifList.innerHTML = html;
+            });
+
+        function showToast(title, message) {
+            const toast = document.getElementById('notification-toast');
+            document.getElementById('notif-title').textContent = title;
+            document.getElementById('notif-body').textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 5000);
+        }
+    }
+</script>
+
+<style>
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+</style>
 
 <?php include 'footer.php'; ?>
