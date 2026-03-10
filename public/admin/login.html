@@ -156,7 +156,7 @@
             } catch (err) {
                 let msg = 'An unexpected error occurred. Please try again.';
                 const c = err.code || '';
-                if (c.includes('configuration-not-found') || (err.message||'').includes('CONFIGURATION_NOT_FOUND')) {
+                if (c === 'auth/operation-not-allowed' || c.includes('configuration-not-found') || (err.message||'').includes('CONFIGURATION_NOT_FOUND')) {
                     msg = '<strong>Configuration Error:</strong> Email/Password sign-in is not enabled in Firebase Console → Authentication → Sign-in method.';
                 } else if (c === 'auth/user-not-found' || c === 'auth/wrong-password' || c === 'auth/invalid-credential' || (err.message||'').includes('INVALID_PASSWORD')) {
                     msg = 'Invalid email or password. Please try again.';
@@ -183,3 +183,4 @@
     </script>
 </body>
 </html>
+
