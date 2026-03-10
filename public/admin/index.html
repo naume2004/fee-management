@@ -362,7 +362,7 @@
                 async function fetchStudents() {
             try {
                 // Fetch without orderBy first to avoid index requirements and speed up loading
-                const snap = await db.collection('students').limit(100).get();
+                const snap = await db.collection('students').limit(50).get();
                 allStudents = [];
                 snap.forEach(doc => allStudents.push({ docId: doc.id, ...doc.data() }));
                 renderStudents(allStudents);
