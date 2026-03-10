@@ -138,7 +138,7 @@
                 <li>
                     <button onclick="openAddModal()" class="btn primary-btn"
                         style="padding:0.45rem 1rem;font-size:0.875rem;border:none;cursor:pointer;font-family:inherit;">
-                        + Save Student Details</button>
+                        + Add Student</button>
                 </li>
                 <li><a href="#" id="logout-btn" style="color:#ef4444;font-weight:600;">Logout</a></li>
             </ul>
@@ -184,7 +184,7 @@
                 <select id="status-filter" class="search-bar" style="width:auto;"><option value="">All Status</option><option value="Active">Active</option><option value="Suspended">Suspended</option><option value="Graduated">Graduated</option><option value="On Leave">On Leave</option></select><input type="text" id="search-input" class="search-bar" placeholder="Search by name, ID, course…"><button onclick="exportAdminCSV()" class="btn" style="background:#dbeafe;color:#1e40af;padding:0.6rem 1rem;font-size:0.875rem;cursor:pointer;">📥 Export</button>
                 <button onclick="openAddModal()" class="btn primary-btn"
                     style="white-space:nowrap;padding:0.6rem 1.1rem;font-size:0.875rem;border:none;cursor:pointer;font-family:inherit;">
-                    + Save Student Details</button>
+                    + Add Student</button>
             </div>
         </div>
 
@@ -359,18 +359,36 @@
         // Removed old listener
         document.getElementById('search-input-REMOVED')
 
-        async function fetchStudents() {
+                async function fetchStudents() {
             try {
-                const snap = await db.collection('students').orderBy('student_id').limit(100).get();
+                // Fetch without orderBy first to avoid index requirements and speed up loading
+                const snap = await db.collection('students').limit(100).get();
                 allStudents = [];
                 snap.forEach(doc => allStudents.push({ docId: doc.id, ...doc.data() }));
                 renderStudents(allStudents);
                 updateStats();
             } catch (err) {
-                console.error(err);
+                console.error("Firestore Error:", err);
                 document.getElementById('students-tbody').innerHTML =
-                    '<tr><td colspan="6" style="text-align:center;color:var(--danger);padding:2rem;">Error loading data.</td></tr>';
+                    `<tr><td colspan="6" style="text-align:center;color:var(--danger);padding:2rem;">Error: ${err.message}</td></tr>`;
             }
+        }
+
+        function exportAdminCSV() {
+            if (!allStudents.length) return alert('No students to export.');
+            let csv = 'Student ID,Full Name,Course,Status,Email\n';
+            allStudents.forEach(s => {
+                const id = s.student_id || '';
+                const name = s.name || '';
+                const course = s.course || '';
+                const status = s.status || 'Active';
+                const email = s.email || '';
+                csv += `"${id}","${name}","${course}","${status}","${email}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'students_export.csv'; a.click();
         }
 
         function updateStats() {
@@ -620,6 +638,7 @@
     </script>
 </body>
 </html>
+
 
 
 
