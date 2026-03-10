@@ -138,8 +138,7 @@
                 <li>
                     <button onclick="openAddModal()" class="btn primary-btn"
                         style="padding:0.45rem 1rem;font-size:0.875rem;border:none;cursor:pointer;font-family:inherit;">
-                        + Add Student
-                    </button>
+                        + Save Student Details</button>
                 </li>
                 <li><a href="#" id="logout-btn" style="color:#ef4444;font-weight:600;">Logout</a></li>
             </ul>
@@ -185,8 +184,7 @@
                 <input type="text" id="search-input" class="search-bar" placeholder="Search by name, ID, course…">
                 <button onclick="openAddModal()" class="btn primary-btn"
                     style="white-space:nowrap;padding:0.6rem 1.1rem;font-size:0.875rem;border:none;cursor:pointer;font-family:inherit;">
-                    + Add Student
-                </button>
+                    + Save Student Details</button>
             </div>
         </div>
 
@@ -217,13 +215,13 @@
 
     <!-- ADD STUDENT MODAL -->
     <div id="add-student-modal" class="modal">
-        <div class="modal-content" style="max-width:580px;">
+        <div class="modal-content" style="max-width:620px;">
             <button class="close-modal" onclick="closeModal('add-student-modal')">&times;</button>
             <h2 style="margin-bottom:0.25rem;font-size:1.4rem;">Add New Student</h2>
             <p style="color:var(--text-muted);font-size:0.875rem;margin-bottom:1.75rem;">Fields marked * are required</p>
             <div id="add-error" class="error-banner"></div>
             <form id="add-student-form">
-                <div class="form-grid">
+                <div class="form-grid" style="max-height: 400px; overflow-y: auto; padding-right: 0.5rem; margin-bottom: 1rem;">
                     <div class="form-group">
                         <label class="modal-label">Student ID *</label>
                         <input type="text" id="new-student-id" class="modal-input" placeholder="e.g. S200" required>
@@ -257,8 +255,7 @@
                 </div>
                 <button type="submit" id="add-submit-btn" class="btn primary-btn"
                     style="width:100%;margin-top:1rem;padding:0.875rem;font-size:1rem;border:none;cursor:pointer;font-family:inherit;">
-                    Add Student
-                </button>
+                    Save Student Details</button>
             </form>
         </div>
     </div>
@@ -603,3 +600,4 @@
     </script>
 </body>
 </html>
+
