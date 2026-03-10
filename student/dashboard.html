@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - FeeFlow</title>
+    <title>Student Financial Dashboard - FeeFlow</title>
     <link rel="stylesheet" href="../style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -125,9 +125,9 @@
 
         <div class="payment-history">
             <div class="admin-dashboard-header" style="margin-bottom: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem; align-items: center;">
-                <button class="btn" style="background: white; border: 1px solid var(--border); color: var(--text-main); font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">🖨️ Print</button>
-                <button class="btn" style="background: #800000; color: white; font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">+ Add Fee</button>
-                <button class="btn" style="background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">📥 Export</button>
+                <button class="btn" onclick="window.print()" style="background: white; border: 1px solid var(--border); color: var(--text-main); font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">🖨️ Print</button>
+                <button class="btn" onclick="openModal('add-fee-modal')" style="background: #800000; color: white; font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">+ Add Fee</button>
+                <button class="btn" onclick="exportToCSV()" style="background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; font-size: 0.8rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem;">📥 Export</button>
             </div>
 
             <div class="filter-section" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; display: flex; gap: 0.75rem; align-items: center;">
@@ -220,6 +220,31 @@
             <form id="support-form" style="display: flex; gap: 0.5rem;">
                 <input type="text" id="support-message" placeholder="Type your message here..." style="flex: 1; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
                 <button type="submit" class="btn primary-btn">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="add-fee-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('add-fee-modal')">&times;</span>
+            <h2>Add New Fee</h2>
+            <form id="add-fee-form">
+                <div class="form-group">
+                    <label>Fee Type</label>
+                    <input type="text" id="new-fee-type" placeholder="e.g. Tuition Fee" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount (USD)</label>
+                    <input type="number" id="new-fee-amount" placeholder="e.g. 500" required>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="new-fee-status">
+                        <option value="Pending">Pending</option>
+                        <option value="Paid">Paid</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn primary-btn" style="width: 100%;">Add Fee</button>
             </form>
         </div>
     </div>
@@ -545,6 +570,31 @@
             }
         });
 
+        // Add Fee Submit
+        document.getElementById('add-fee-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const type = document.getElementById('new-fee-type').value;
+            const amount = document.getElementById('new-fee-amount').value;
+            const status = document.getElementById('new-fee-status').value;
+
+            try {
+                await db.collection('fees').add({
+                    student_id: studentId,
+                    fee_type: type,
+                    amount: amount,
+                    status: status,
+                    created_at: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                closeModal('add-fee-modal');
+                document.getElementById('add-fee-form').reset();
+                loadDashboardData();
+                alert('Fee added successfully!');
+            } catch (err) {
+                console.error("Error adding fee:", err);
+                alert('Failed to add fee.');
+            }
+        });
+
         async function markNotificationsRead() {
             const snapshot = await db.collection('notifications')
                 .where('student_id', '==', studentId)
@@ -554,6 +604,41 @@
             const batch = db.batch();
             snapshot.forEach(doc => batch.update(doc.ref, { status: 'read' }));
             await batch.commit();
+        }
+
+        async function exportToCSV() {
+            const feesSnapshot = await db.collection('fees').where('student_id', '==', studentId).get();
+            if (feesSnapshot.empty) {
+                alert('No data to export.');
+                return;
+            }
+
+            let csv = 'Fee Type,Amount,Status,Date\n';
+            feesSnapshot.forEach(doc => {
+                const f = doc.data();
+                const date = f.created_at ? f.created_at.toDate().toLocaleDateString() : '';
+                csv += `"${f.fee_type}",${f.amount},"${f.status}","${date}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `fees_${studentId}.csv`);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        async function updateFeeStatus(feeId, newStatus) {
+            try {
+                await db.collection('fees').doc(feeId).update({ status: newStatus });
+                loadDashboardData();
+            } catch (err) {
+                console.error("Error updating fee status:", err);
+                alert('Failed to update status.');
+            }
         }
 
         async function loadDashboardData() {
@@ -628,11 +713,14 @@
                     tr.innerHTML = `
                         <td style="padding: 1rem; font-weight: 500; font-size: 0.9rem;">${remaining.toLocaleString()}</td>
                         <td style="padding: 1rem;">
-                            <span class="badge" style="
+                            <span class="badge" 
+                                onclick="updateFeeStatus('${feeId}', '${fee.status === 'Paid' ? 'Pending' : 'Paid'}')"
+                                style="
                                 padding: 0.35rem 0.7rem; 
                                 border-radius: 0.4rem; 
                                 font-weight: 700; 
                                 font-size: 0.7rem;
+                                cursor: pointer;
                                 background: ${fee.status === 'Paid' ? '#15803d' : '#991b1b'}; 
                                 color: white;
                             ">

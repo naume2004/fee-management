@@ -181,7 +181,7 @@
                 </p>
             </div>
             <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;">
-                <input type="text" id="search-input" class="search-bar" placeholder="Search by name, ID, course…">
+                <select id="status-filter" class="search-bar" style="width:auto;"><option value="">All Status</option><option value="Active">Active</option><option value="Suspended">Suspended</option><option value="Graduated">Graduated</option><option value="On Leave">On Leave</option></select><select id="status-filter" class="search-bar" style="width:auto;"><option value="">All Status</option><option value="Active">Active</option><option value="Suspended">Suspended</option><option value="Graduated">Graduated</option><option value="On Leave">On Leave</option></select><input type="text" id="search-input" class="search-bar" placeholder="Search by name, ID, course…"><button onclick="exportAdminCSV()" class="btn" style="background:#dbeafe;color:#1e40af;padding:0.6rem 1rem;font-size:0.875rem;cursor:pointer;">📥 Export</button><button onclick="exportAdminCSV()" class="btn" style="background:#dbeafe;color:#1e40af;padding:0.6rem 1rem;font-size:0.875rem;cursor:pointer;">📥 Export</button>
                 <button onclick="openAddModal()" class="btn primary-btn"
                     style="white-space:nowrap;padding:0.6rem 1.1rem;font-size:0.875rem;border:none;cursor:pointer;font-family:inherit;">
                     + Save Student Details</button>
@@ -329,15 +329,35 @@
             auth.signOut().then(() => window.location.href = 'login.html');
         });
 
-        document.getElementById('search-input').addEventListener('input', e => {
-            const q = e.target.value.toLowerCase();
-            renderStudents(allStudents.filter(s =>
-                s.name.toLowerCase().includes(q) ||
-                s.student_id.toLowerCase().includes(q) ||
-                (s.course || '').toLowerCase().includes(q) ||
-                (s.status || '').toLowerCase().includes(q)
-            ));
-        });
+                function applyFilters() {
+            const q = document.getElementById('search-input').value.toLowerCase();
+            const status = document.getElementById('status-filter').value;
+            renderStudents(allStudents.filter(s => {
+                const matchesSearch = s.name.toLowerCase().includes(q) ||
+                    s.student_id.toLowerCase().includes(q) ||
+                    (s.course || '').toLowerCase().includes(q);
+                const matchesStatus = !status || (s.status === status);
+                return matchesSearch && matchesStatus;
+            }));
+        }
+
+        document.getElementById('status-filter').addEventListener('change', applyFilters);
+        document.getElementById('search-input').addEventListener('input', applyFilters);
+
+        function exportAdminCSV() {
+            if (!allStudents.length) return alert('No students to export.');
+            let csv = 'Student ID,Full Name,Course,Status,Email\n';
+            allStudents.forEach(s => {
+                csv += "","","","",""\n;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'students.csv'; a.click();
+        }
+
+        // Removed old listener
+        document.getElementById('search-input-REMOVED')
 
         async function fetchStudents() {
             try {
@@ -566,11 +586,11 @@
                                 </div>
                                 <div class="detail-card" style="background:#f0fdf4;">
                                     <p class="dc-label">Total Paid</p>
-                                    <p class="dc-val" style="color:var(--success);">$${paid.toFixed(2)}</p>
+                                    <p class="dc-val" style="color:var(--success);">UGX ${(paid * 3800).toLocaleString()}</p>
                                 </div>
                                 <div class="detail-card" style="background:#fff7ed;">
                                     <p class="dc-label">Outstanding</p>
-                                    <p class="dc-val" style="color:#ea580c;">$${pending.toFixed(2)}</p>
+                                    <p class="dc-val" style="color:#ea580c;">UGX ${(pending * 3800).toLocaleString()}</p>
                                 </div>
                                 <div class="detail-card" style="background:#eff6ff;">
                                     <p class="dc-label">Messages</p>
@@ -600,4 +620,6 @@
     </script>
 </body>
 </html>
+
+
 
