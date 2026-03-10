@@ -1,13 +1,13 @@
 <?php
 $files = [
     'c:/xampp/htdocs/fee-management/admin/index.php' => [
-        "db.collection('students').get()" => "db.collection('students').limit(50).get()"
+        "limit(50).get()" => "limit(30).get()"
     ],
     'c:/xampp/htdocs/fee-management/admin/students_list.php' => [
-        's.name' => 's.name LIMIT 50'
+        'LIMIT 50' => 'LIMIT 30'
     ],
     'c:/xampp/htdocs/fee-management/public/admin/index.html' => [
-        'limit(100)' => 'limit(50)'
+        'limit(50)' => 'limit(30)'
     ]
 ];
 

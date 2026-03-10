@@ -89,7 +89,7 @@ include 'header.php';
 <script>
     async function fetchStudents() {
         try {
-            const snapshot = await db.collection('students').limit(50).get();
+            const snapshot = await db.collection('students').limit(30).get();
             const tbody = document.getElementById('students-tbody');
             const countEl = document.getElementById('student-count');
             

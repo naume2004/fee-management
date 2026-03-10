@@ -36,7 +36,7 @@ GROUP BY s.student_id
 ORDER BY
     FIELD(s.class_name,'Nursery','Primary 1','Primary 2','Primary 3',
                         'Primary 4','Primary 5','Primary 6','Primary 7'),
-    s.name LIMIT 50";
+    s.name LIMIT 30";
 
 $result = mysqli_query($conn, $sql);
 $students = [];
