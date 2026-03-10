@@ -26,32 +26,32 @@
 
 <div class="form-container" style="max-width: 500px; margin: 5rem auto;">
     <h2 style="text-align: center; margin-bottom: 2rem;">Student Portal Login</h2>
-    <p style="color: var(--text-muted); text-align: center; margin-bottom: 2rem;">Please select a student account to access the school payment dashboard.</p>
+    <p style="color: var(--text-muted); text-align: center; margin-bottom: 2rem;">Login using your <strong>Full Name</strong> and <strong>Student ID</strong> as your password.</p>
     
-    <div class="form-card" style="padding: 2rem; width: 100%; background: white; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <div id="login-error" class="error-banner" style="display: none; background: #fee2e2; color: #b91c1c; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border-left: 4px solid #ef4444;"></div>
+
+    <div class="form-card" style="padding: 2.5rem; width: 100%; background: white; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
         <form id="login-form">
-            <div class="form-group">
-                <label for="sim_id">Select Student Account</label>
-                <select name="sim_id" id="sim_id" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #ddd; margin-top: 0.5rem;">
-                    <option value="">Loading students...</option>
-                </select>
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="username" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full Name</label>
+                <input type="text" id="username" placeholder="e.g. John Doe" style="width: 100%; padding: 0.85rem; border-radius: 0.5rem; border: 1px solid #ddd;" required>
             </div>
-            <button type="submit" class="btn primary-btn" style="width: 100%; margin-top: 1.5rem; background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer;">Login to Dashboard</button>
+            
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="password" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Student ID (Password)</label>
+                <input type="password" id="password" placeholder="e.g. S101" style="width: 100%; padding: 0.85rem; border-radius: 0.5rem; border: 1px solid #ddd;" required>
+            </div>
+            
+            <button type="submit" class="btn primary-btn" style="width: 100%; margin-top: 1rem; background: var(--primary); color: white; border: none; padding: 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: 700;">Login to Dashboard</button>
         </form>
         
-        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
-            <p style="color: var(--text-muted); text-align: center; font-size: 0.9rem; margin-bottom: 1rem;">Or pay directly:</p>
-            <form id="direct-payment-form" style="display: flex; gap: 1rem;">
-                <select name="sim_id" id="payment_sim_id" style="flex: 1; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #ddd;">
-                    <option value="">Select to pay</option>
-                </select>
-                <button type="submit" class="btn secondary-btn" style="color: var(--primary); border: 1px solid var(--primary); background: transparent; padding: 0.75rem 1rem; border-radius: 0.5rem; cursor: pointer;">Go to Payments</button>
-            </form>
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee; text-align: center;">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Don't have your credentials? Please contact the school registrar.</p>
         </div>
     </div>
     
     <div style="margin-top: 2rem; text-align: center;">
-        <p style="font-size: 0.85rem; color: var(--text-muted);">This is a simulation portal for school payment data tracking.</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Secure Portal &bull; © 2026 FeeFlow</p>
     </div>
 </div>
 
@@ -69,55 +69,48 @@
     </footer>
 
     <script>
-        const studentSelect = document.getElementById('sim_id');
-        const paymentSelect = document.getElementById('payment_sim_id');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
 
-        async function loadStudents() {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('username').value.trim();
+            const studentId = document.getElementById('password').value.trim();
+            
+            loginError.style.display = 'none';
+            const btn = loginForm.querySelector('button');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Verifying...';
+
             try {
-                const snapshot = await db.collection('students').get();
-                studentSelect.innerHTML = '';
-                paymentSelect.innerHTML = '<option value="">Select to pay</option>';
+                // Query Firestore for student with matching name and student_id
+                const snapshot = await db.collection('students')
+                    .where('name', '==', name)
+                    .where('student_id', '==', studentId)
+                    .get();
 
-                if (snapshot.empty) {
-                    studentSelect.innerHTML = '<option value="">No students found</option>';
-                    return;
+                if (!snapshot.empty) {
+                    // Login successful
+                    localStorage.setItem('currentStudentId', studentId);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // Try case-insensitive search if direct match fails (optional but helpful)
+                    // Firestore doesn't support case-insensitive natively easily, so we'll just stick to exact for now
+                    // as it's more secure for a "password" field.
+                    loginError.textContent = 'Invalid Full Name or Student ID. Please try again.';
+                    loginError.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = originalText;
                 }
-
-                snapshot.forEach(doc => {
-                    const student = doc.data();
-                    const option = document.createElement('option');
-                    option.value = student.student_id;
-                    option.textContent = `${student.name} (${student.student_id})`;
-                    studentSelect.appendChild(option);
-
-                    const payOption = option.cloneNode(true);
-                    paymentSelect.appendChild(payOption);
-                });
             } catch (error) {
-                console.error("Error loading students:", error);
-                studentSelect.innerHTML = '<option value="">Error loading students</option>';
-            }
-        }
-
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const studentId = studentSelect.value;
-            if (studentId) {
-                localStorage.setItem('currentStudentId', studentId);
-                window.location.href = 'dashboard.html';
+                console.error("Login error:", error);
+                loginError.textContent = 'An error occurred during login. Please try again later.';
+                loginError.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = originalText;
             }
         });
-
-        document.getElementById('direct-payment-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const studentId = paymentSelect.value;
-            if (studentId) {
-                localStorage.setItem('currentStudentId', studentId);
-                window.location.href = 'payment_gateway.html';
-            }
-        });
-
-        loadStudents();
     </script>
 </body>
 </html>

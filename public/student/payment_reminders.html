@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Reminders - FeeFlow</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="../firebase-config.js"></script>
+</head>
+<body>
+
+<style>
+.reminder-card {
+    padding: 1.5rem;
+    border-radius: 0.65rem;
+    margin-bottom: 1rem;
+    animation: fadeSlide 0.3s ease-out;
+}
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.reminder-overdue  { background: #fef2f2; border-left: 5px solid var(--danger); }
+.reminder-upcoming { background: #fffbeb; border-left: 5px solid var(--warning); }
+.reminder-title    { margin: 0; font-size: 1rem; font-weight: 700; }
+.reminder-meta     { margin: 0.35rem 0 0; font-size: 0.85rem; }
+.reminder-amount   { font-size: 1.5rem; font-weight: 900; margin: 0; }
+.days-badge        { font-size: 0.8rem; font-weight: 600; margin: 0.3rem 0 0; }
+.pay-link          { display: block; width: 100%; margin-top: 1rem; padding: 0.65rem;
+                     border-radius: 0.5rem; text-align: center; text-decoration: none;
+                     font-weight: 600; font-size: 0.9rem; cursor: pointer;
+                     border: none; font-family: inherit; transition: opacity 0.15s; }
+.pay-link:hover { opacity: 0.88; }
+.empty-box { background: white; padding: 2rem; border-radius: 0.65rem; text-align: center;
+             color: var(--text-muted); box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+
+/* Summary strip */
+.reminder-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 3rem; }
+.r-stat { background: white; border-radius: 0.75rem; padding: 1.25rem 1.5rem;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.07); text-align: center; }
+.r-stat .r-num   { font-size: 1.75rem; font-weight: 900; margin: 0; line-height: 1; }
+.r-stat .r-label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+                   letter-spacing: 0.05em; color: var(--text-muted); margin: 0.4rem 0 0; }
+</style>
+
+<nav class="navbar">
+    <div class="container nav-container">
+        <a href="../index.html" class="logo">FeeFlow</a>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="dashboard.html">My Dashboard</a></li>
+            <li><a href="payment_gateway.html">Pay Online</a></li>
+            <li><a href="payment_plans.html">Installments</a></li>
+            <li><a href="payment_history.html">History</a></li>
+            <li><a href="payment_reminders.html" style="color:#ef4444; font-weight:700;">⚠️ Reminders</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container main-content">
+
+<div style="text-align: center; margin-bottom: 2.5rem;">
+    <h1>Payment Reminders</h1>
+    <p style="color: var(--text-muted);">Track overdue payments and upcoming deadlines.</p>
+    <p id="student-label" style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">Loading…</p>
+</div>
+
+<!-- Summary strip -->
+<div class="reminder-stats">
+    <div class="r-stat">
+        <p id="stat-overdue-count" class="r-num" style="color: var(--danger);">—</p>
+        <p class="r-label">Overdue Payments</p>
+    </div>
+    <div class="r-stat">
+        <p id="stat-overdue-amount" class="r-num" style="color: var(--danger); font-size:1.4rem;">—</p>
+        <p class="r-label">Total Overdue</p>
+    </div>
+    <div class="r-stat">
+        <p id="stat-upcoming-count" class="r-num" style="color: var(--warning);">—</p>
+        <p class="r-label">Upcoming Deadlines</p>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+
+    <!-- Overdue -->
+    <div>
+        <h2 style="margin-bottom: 1.5rem; color: var(--danger);">⚠️ Overdue Payments</h2>
+        <div id="overdue-list">
+            <div class="empty-box">Loading…</div>
+        </div>
+    </div>
+
+    <!-- Upcoming -->
+    <div>
+        <h2 style="margin-bottom: 1.5rem; color: #b45309;">📅 Upcoming Deadlines</h2>
+        <div id="upcoming-list">
+            <div class="empty-box">Loading…</div>
+        </div>
+
+        <!-- Tips box -->
+        <div style="background: #eff6ff; border-radius: 0.75rem; padding: 1.5rem; margin-top: 2rem; border-left: 4px solid var(--primary);">
+            <h3 style="margin: 0 0 1rem; font-size: 1rem; color: #1d4ed8;">💡 Tips to Avoid Late Fees</h3>
+            <ul style="margin: 0; padding-left: 1.25rem; color: #1e40af; font-size: 0.875rem; line-height: 1.9;">
+                <li>Set up a payment plan to spread costs over months.</li>
+                <li>Pay tuition first — it carries the highest penalty.</li>
+                <li>Contact the finance office if you need an extension.</li>
+                <li>Enable email notifications for due date reminders.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</main>
+
+<footer class="footer">
+    <div class="container footer-container">
+        <div class="footer-info">
+            <h3>FeeFlow Student</h3>
+            <p>Digital payment and queue management portal.</p>
+        </div>
+        <div class="footer-links">
+            <p>&copy; 2026 FeeFlow. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+const studentId = localStorage.getItem('currentStudentId') || 'S101';
+
+// Fees created > OVERDUE_DAYS ago and still pending → treated as overdue
+const OVERDUE_DAYS = 7;
+
+function fmt(n)    { return 'UGX ' + (parseFloat(n) * 3800).toLocaleString(); }
+function daysAgo(d){ return Math.floor((Date.now() - d.getTime()) / 86400000); }
+function daysLeft(d){ return Math.floor((d.getTime() - Date.now()) / 86400000); }
+
+function dueDateFor(createdAt, isOverdue) {
+    // Simulate a due date: created + 14 days
+    const d = new Date(createdAt);
+    d.setDate(d.getDate() + 14);
+    return d;
+}
+
+function overdueCard(fee, dueDate) {
+    const da = daysAgo(dueDate);
+    const div = document.createElement('div');
+    div.className = 'reminder-card reminder-overdue';
+    div.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:start;">
+            <div>
+                <h3 class="reminder-title" style="color:var(--danger);">${fee.fee_type}</h3>
+                <p class="reminder-meta" style="color:#7f1d1d;">
+                    Due: ${dueDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}
+                </p>
+            </div>
+            <div style="text-align:right;">
+                <p class="reminder-amount" style="color:var(--danger);">${fmt(fee.amount)}</p>
+                <p class="days-badge" style="color:#b91c1c;">${da} day${da !== 1 ? 's' : ''} overdue</p>
+            </div>
+        </div>
+        <a href="payment_gateway.html" class="pay-link" style="background:var(--danger); color:white;">
+            Pay Now →
+        </a>
+    `;
+    return div;
+}
+
+function upcomingCard(fee, dueDate) {
+    const dl = Math.max(0, daysLeft(dueDate));
+    const div = document.createElement('div');
+    div.className = 'reminder-card reminder-upcoming';
+    div.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:start;">
+            <div>
+                <h3 class="reminder-title" style="color:#b45309;">${fee.fee_type}</h3>
+                <p class="reminder-meta" style="color:#92400e;">
+                    Due: ${dueDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}
+                </p>
+            </div>
+            <div style="text-align:right;">
+                <p class="reminder-amount" style="color:var(--warning);">${fmt(fee.amount)}</p>
+                <p class="days-badge" style="color:#92400e;">${dl} day${dl !== 1 ? 's' : ''} remaining</p>
+            </div>
+        </div>
+        <a href="payment_gateway.html" class="pay-link" style="background:white; color:var(--primary); border:1.5px solid var(--primary);">
+            Pay Before Deadline →
+        </a>
+    `;
+    return div;
+}
+
+async function loadReminders() {
+    try {
+        const studentDoc = await db.collection('students').doc(studentId).get();
+        if (studentDoc.exists) {
+            const s = studentDoc.data();
+            document.getElementById('student-label').textContent =
+                `Student: ${s.name}  (${s.student_id})`;
+        }
+
+        const snap = await db.collection('fees')
+            .where('student_id', '==', studentId)
+            .where('status', '==', 'Pending')
+            .orderBy('created_at', 'asc')
+            .get();
+
+        const overdueEl  = document.getElementById('overdue-list');
+        const upcomingEl = document.getElementById('upcoming-list');
+        overdueEl.innerHTML  = '';
+        upcomingEl.innerHTML = '';
+
+        let overdueCount = 0, overdueAmt = 0, upcomingCount = 0;
+        const now = new Date();
+
+        if (snap.empty) {
+            overdueEl.innerHTML  = '<div class="empty-box">✓ No overdue payments!</div>';
+            upcomingEl.innerHTML = '<div class="empty-box">✓ No upcoming deadlines!</div>';
+        } else {
+            snap.forEach(doc => {
+                const fee       = doc.data();
+                const created   = fee.created_at.toDate();
+                const dueDate   = dueDateFor(created);
+                const isOverdue = dueDate < now;
+
+                if (isOverdue) {
+                    overdueCount++;
+                    overdueAmt += parseFloat(fee.amount);
+                    overdueEl.appendChild(overdueCard(fee, dueDate));
+                } else {
+                    upcomingCount++;
+                    upcomingEl.appendChild(upcomingCard(fee, dueDate));
+                }
+            });
+
+            if (overdueCount  === 0) overdueEl.innerHTML  = '<div class="empty-box">✓ No overdue payments!</div>';
+            if (upcomingCount === 0) upcomingEl.innerHTML = '<div class="empty-box">✓ No upcoming deadlines!</div>';
+        }
+
+        document.getElementById('stat-overdue-count').textContent  = overdueCount;
+        document.getElementById('stat-overdue-amount').textContent = overdueAmt > 0 ? fmt(overdueAmt) : 'UGX 0';
+        document.getElementById('stat-upcoming-count').textContent = upcomingCount;
+
+    } catch (err) {
+        console.error('Error loading reminders:', err);
+        document.getElementById('overdue-list').innerHTML  =
+            '<div class="empty-box" style="color:var(--danger);">Error loading data.</div>';
+        document.getElementById('upcoming-list').innerHTML =
+            '<div class="empty-box" style="color:var(--danger);">Error loading data.</div>';
+    }
+}
+
+loadReminders();
+</script>
+</body>
+</html>

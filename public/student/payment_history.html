@@ -125,14 +125,14 @@
                             <strong>${trans.fee_type}</strong>
                             ${trans.payment_method ? `<br><small style="color: var(--text-muted);">via ${trans.payment_method}</small>` : ''}
                         </td>
-                        <td><strong>$${amount.toFixed(2)}</strong></td>
+                        <td><strong>UGX ${(amount * 3800).toLocaleString()}</strong></td>
                         <td>
                             <span class="badge ${trans.status === 'Paid' ? 'badge-success' : 'badge-danger'}">
                                 ${trans.status === 'Paid' ? '✅ ' : ''}${trans.status}
                             </span>
                         </td>
                         <td>
-                            ${trans.status === 'Paid' ? `<a href="#" style="color: var(--primary); font-size: 0.85rem; text-decoration: none;" onclick="alert('Receipt for ${trans.fee_type} - $${amount.toFixed(2)}')">View Receipt</a>` : '<span style="color: var(--text-muted); font-size: 0.85rem;">—</span>'}
+                            ${trans.status === 'Paid' ? `<a href="#" style="color: var(--primary); font-size: 0.85rem; text-decoration: none;" onclick="alert('Receipt for ${trans.fee_type} - UGX ${(amount * 3800).toLocaleString()}')">View Receipt</a>` : '<span style="color: var(--text-muted); font-size: 0.85rem;">—</span>'}
                         </td>
                     `;
                     recordsBody.appendChild(tr);
