@@ -35,14 +35,14 @@ include 'header.php';
             <p style="color: var(--text-muted); margin: 0.5rem 0; font-size: 0.9rem;">Split payments over 3 months</p>
             <div style="margin: 1.5rem 0;">
                 <p style="color: var(--text-muted); font-size: 0.85rem;">Monthly Payment:</p>
-                <p style="font-size: 1.5rem; color: var(--primary); font-weight: 900;">$<?php echo number_format($total_pending/3, 2); ?></p>
+                <p style="font-size: 1.5rem; color: var(--primary); font-weight: 900;">UGX <?php echo number_format(($total_pending * 3800)/3, 0); ?></p>
             </div>
             <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
                 <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">
                     <strong>Payment Schedule:</strong><br>
-                    Month 1: $<?php echo number_format($total_pending/3, 2); ?><br>
-                    Month 2: $<?php echo number_format($total_pending/3, 2); ?><br>
-                    Month 3: $<?php echo number_format($total_pending/3, 2); ?>
+                    Month 1: UGX <?php echo number_format(($total_pending * 3800)/3, 0); ?><br>
+                    Month 2: UGX <?php echo number_format(($total_pending * 3800)/3, 0); ?><br>
+                    Month 3: UGX <?php echo number_format(($total_pending * 3800)/3, 0); ?>
                 </p>
             </div>
             <button class="btn primary-btn" style="width: 100%;">Select Plan</button>
@@ -53,7 +53,7 @@ include 'header.php';
             <p style="color: var(--text-muted); margin: 0.5rem 0; font-size: 0.9rem;">Split payments over 6 months</p>
             <div style="margin: 1.5rem 0;">
                 <p style="color: var(--text-muted); font-size: 0.85rem;">Monthly Payment:</p>
-                <p style="font-size: 1.5rem; color: var(--warning); font-weight: 900;">$<?php echo number_format($total_pending/6, 2); ?></p>
+                <p style="font-size: 1.5rem; color: var(--warning); font-weight: 900;">UGX <?php echo number_format(($total_pending * 3800)/6, 0); ?></p>
             </div>
             <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
                 <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">
@@ -69,13 +69,13 @@ include 'header.php';
             <p style="color: var(--text-muted); margin: 0.5rem 0; font-size: 0.9rem;">2-month express payment</p>
             <div style="margin: 1.5rem 0;">
                 <p style="color: var(--text-muted); font-size: 0.85rem;">Monthly Payment:</p>
-                <p style="font-size: 1.5rem; color: var(--success); font-weight: 900;">$<?php echo number_format($total_pending/2, 2); ?></p>
+                <p style="font-size: 1.5rem; color: var(--success); font-weight: 900;">UGX <?php echo number_format(($total_pending * 3800)/2, 0); ?></p>
             </div>
             <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
                 <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">
                     <strong>Payment Schedule:</strong><br>
-                    Month 1: $<?php echo number_format($total_pending/2, 2); ?><br>
-                    Month 2: $<?php echo number_format($total_pending/2, 2); ?>
+                    Month 1: UGX <?php echo number_format(($total_pending * 3800)/2, 0); ?><br>
+                    Month 2: UGX <?php echo number_format(($total_pending * 3800)/2, 0); ?>
                 </p>
             </div>
             <button class="btn secondary-btn" style="width: 100%; color: var(--text-main); border: 1px solid var(--border);">Select Plan</button>
@@ -103,8 +103,8 @@ include 'header.php';
                 </div>
                 <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0;">
                     <strong>Duration:</strong> January - March 2024<br>
-                    <strong>Monthly Amount:</strong> $400.00<br>
-                    <strong>Total Paid:</strong> $1,200.00
+                    <strong>Monthly Amount:</strong> UGX <?php echo number_format(400 * 3800, 0); ?><br>
+                    <strong>Total Paid:</strong> UGX <?php echo number_format(1200 * 3800, 0); ?>
                 </p>
             </div>
 
@@ -115,8 +115,8 @@ include 'header.php';
                 </div>
                 <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0;">
                     <strong>Duration:</strong> July - December 2023<br>
-                    <strong>Monthly Amount:</strong> $200.00<br>
-                    <strong>Total Paid:</strong> $1,200.00
+                    <strong>Monthly Amount:</strong> UGX <?php echo number_format(200 * 3800, 0); ?><br>
+                    <strong>Total Paid:</strong> UGX <?php echo number_format(1200 * 3800, 0); ?>
                 </p>
             </div>
         </div>

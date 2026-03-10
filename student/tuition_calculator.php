@@ -57,7 +57,7 @@ include 'header.php';
                                     <p style="margin: 0;"><?php echo htmlspecialchars($fee['fee_type']); ?></p>
                                     <p style="margin: 0.25rem 0 0; font-size: 0.8rem; color: var(--text-muted);"><?php echo ucfirst($fee['status']); ?></p>
                                 </td>
-                                <td style="text-align: right; padding: 0.75rem 0; font-weight: 600;">$<?php echo number_format($fee['amount'], 2); ?></td>
+                                <td style="text-align: right; padding: 0.75rem 0; font-weight: 600;">UGX <?php echo number_format($fee['amount'] * 3800, 0); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -66,17 +66,17 @@ include 'header.php';
 
             <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
                 <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0 0 0.5rem;">Total Fees</p>
-                <p style="font-size: 2rem; color: var(--primary); font-weight: 900; margin: 0;">$<?php echo number_format($total, 2); ?></p>
+                <p style="font-size: 2rem; color: var(--primary); font-weight: 900; margin: 0;">UGX <?php echo number_format($total * 3800, 0); ?></p>
             </div>
 
             <div style="display: grid; gap: 0.75rem;">
                 <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: #f8fafc; border-radius: 0.5rem;">
                     <span style="color: var(--success); font-weight: 600;">Paid:</span>
-                    <span style="color: var(--success); font-weight: 600;">$<?php echo number_format($paid_total, 2); ?></span>
+                    <span style="color: var(--success); font-weight: 600;">UGX <?php echo number_format($paid_total * 3800, 0); ?></span>
                 </div>
                 <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: #fef2f2; border-radius: 0.5rem;">
                     <span style="color: var(--danger); font-weight: 600;">Pending:</span>
-                    <span style="color: var(--danger); font-weight: 600;">$<?php echo number_format($pending_total, 2); ?></span>
+                    <span style="color: var(--danger); font-weight: 600;">UGX <?php echo number_format($pending_total * 3800, 0); ?></span>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@ include 'header.php';
         <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
             <div style="margin-bottom: 1.5rem;">
                 <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0 0 0.75rem;">Outstanding Balance</p>
-                <p style="font-size: 1.5rem; color: var(--danger); font-weight: 900; margin: 0;">$<?php echo number_format($pending_total, 2); ?></p>
+                <p style="font-size: 1.5rem; color: var(--danger); font-weight: 900; margin: 0;">UGX <?php echo number_format($pending_total * 3800, 0); ?></p>
             </div>
 
             <div style="border: 1px solid var(--border); border-radius: 0.5rem; overflow: hidden;">
@@ -101,7 +101,7 @@ include 'header.php';
                     </div>
                     <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Pay full amount immediately</p>
                     <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; margin-top: 0.75rem; text-align: center;">
-                        <p style="font-size: 1.25rem; color: var(--success); font-weight: 700; margin: 0;">$<?php echo number_format($pending_total, 2); ?></p>
+                        <p style="font-size: 1.25rem; color: var(--success); font-weight: 700; margin: 0;">UGX <?php echo number_format($pending_total * 3800, 0); ?></p>
                         <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0.25rem 0 0;">Due Now</p>
                     </div>
                 </div>
@@ -114,7 +114,7 @@ include 'header.php';
                     </div>
                     <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Spread across 2 months</p>
                     <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.25rem; margin-top: 0.75rem; text-align: center;">
-                        <p style="font-size: 1.25rem; color: var(--warning); font-weight: 700; margin: 0;">$<?php echo number_format($pending_total / 2, 2); ?></p>
+                        <p style="font-size: 1.25rem; color: var(--warning); font-weight: 700; margin: 0;">UGX <?php echo number_format(($pending_total * 3800) / 2, 0); ?></p>
                         <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0.25rem 0 0;">per month</p>
                     </div>
                 </div>
@@ -127,7 +127,7 @@ include 'header.php';
                     </div>
                     <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Balanced payment schedule</p>
                     <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; margin-top: 0.75rem; text-align: center;">
-                        <p style="font-size: 1.25rem; color: var(--primary); font-weight: 700; margin: 0;">$<?php echo number_format($pending_total / 3, 2); ?></p>
+                        <p style="font-size: 1.25rem; color: var(--primary); font-weight: 700; margin: 0;">UGX <?php echo number_format(($pending_total * 3800) / 3, 0); ?></p>
                         <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0.25rem 0 0;">per month</p>
                     </div>
                 </div>
@@ -140,7 +140,7 @@ include 'header.php';
                     </div>
                     <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Lowest monthly payments</p>
                     <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.25rem; margin-top: 0.75rem; text-align: center;">
-                        <p style="font-size: 1.25rem; color: var(--success); font-weight: 700; margin: 0;">$<?php echo number_format($pending_total / 6, 2); ?></p>
+                        <p style="font-size: 1.25rem; color: var(--success); font-weight: 700; margin: 0;">UGX <?php echo number_format(($pending_total * 3800) / 6, 0); ?></p>
                         <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0.25rem 0 0;">per month</p>
                     </div>
                 </div>
@@ -158,25 +158,25 @@ include 'header.php';
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
         <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Tuition Fees</label>
-            <input type="number" value="3000" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" readonly>
+            <input type="text" value="UGX <?php echo number_format(3000 * 3800, 0); ?>" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" readonly>
         </div>
         <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Lab Fees</label>
-            <input type="number" value="500" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" readonly>
+            <input type="text" value="UGX <?php echo number_format(500 * 3800, 0); ?>" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" readonly>
         </div>
         <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Library Fees</label>
-            <input type="number" value="200" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" readonly>
+            <input type="text" value="UGX <?php echo number_format(200 * 3800, 0); ?>" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" readonly>
         </div>
         <div>
             <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Student Activity Fees</label>
-            <input type="number" value="150" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" readonly>
+            <input type="text" value="UGX <?php echo number_format(150 * 3800, 0); ?>" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" readonly>
         </div>
     </div>
 
     <div style="background: #f8fafc; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
         <p style="color: var(--text-muted); margin: 0 0 0.5rem;">Estimated Total</p>
-        <p style="font-size: 2rem; color: var(--primary); font-weight: 900; margin: 0;">$3,850.00</p>
+        <p style="font-size: 2rem; color: var(--primary); font-weight: 900; margin: 0;">UGX <?php echo number_format(3850 * 3800, 0); ?></p>
     </div>
 </div>
 
@@ -187,17 +187,17 @@ include 'header.php';
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
         <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
             <p style="color: var(--text-muted); margin: 0; font-size: 0.85rem;">With Early Payment Discount (10%)</p>
-            <p style="font-size: 1.5rem; color: var(--success); font-weight: 900; margin: 0.5rem 0;">-$<?php echo number_format($pending_total * 0.1, 2); ?></p>
+            <p style="font-size: 1.5rem; color: var(--success); font-weight: 900; margin: 0.5rem 0;">-UGX <?php echo number_format($pending_total * 0.1 * 3800, 0); ?></p>
             <p style="color: var(--text-muted); margin: 0; font-size: 0.8rem;">By paying full now</p>
         </div>
         <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
             <p style="color: var(--text-muted); margin: 0; font-size: 0.85rem;">With Scholarship (50%)</p>
-            <p style="font-size: 1.5rem; color: var(--success); font-weight: 900; margin: 0.5rem 0;">-$<?php echo number_format($pending_total * 0.5, 2); ?></p>
+            <p style="font-size: 1.5rem; color: var(--success); font-weight: 900; margin: 0.5rem 0;">-UGX <?php echo number_format($pending_total * 0.5 * 3800, 0); ?></p>
             <p style="color: var(--text-muted); margin: 0; font-size: 0.8rem;">If approved</p>
         </div>
         <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
             <p style="color: var(--text-muted); margin: 0; font-size: 0.85rem;">With Discount Code</p>
-            <p style="font-size: 1.5rem; color: var(--success); font-weight: 900; margin: 0.5rem 0;">-$<?php echo number_format($pending_total * 0.15, 2); ?></p>
+            <p style="font-size: 1.5rem; color: var(--success); font-weight: 900; margin: 0.5rem 0;">-UGX <?php echo number_format($pending_total * 0.15 * 3800, 0); ?></p>
             <p style="color: var(--text-muted); margin: 0; font-size: 0.8rem;">EARLYBIRD15</p>
         </div>
     </div>

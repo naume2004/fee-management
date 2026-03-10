@@ -46,7 +46,7 @@ include 'header.php';
                                 </span>
                             </p>
                         </div>
-                        <p style="margin: 0; font-size: 1.25rem; font-weight: 900; color: var(--primary);">$<?php echo number_format($fee['amount'], 2); ?></p>
+                        <p style="margin: 0; font-size: 1.25rem; font-weight: 900; color: var(--primary);">UGX <?php echo number_format($fee['amount'] * 3800, 0); ?></p>
                     </div>
                     
                     <div style="display: flex; align-items: center; gap: 1rem;">
@@ -62,7 +62,7 @@ include 'header.php';
             
             <div style="padding: 1.5rem; background: #f0fdf4; border-radius: 0.5rem; margin-top: 1rem;">
                 <p style="color: var(--text-muted); margin: 0;">Total Fees</p>
-                <p style="font-size: 1.75rem; color: var(--success); font-weight: 900; margin: 0.5rem 0 0;">$<?php echo number_format($total_amount, 2); ?></p>
+                <p style="font-size: 1.75rem; color: var(--success); font-weight: 900; margin: 0.5rem 0 0;">UGX <?php echo number_format($total_amount * 3800, 0); ?></p>
             </div>
         </div>
     </div>

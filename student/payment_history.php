@@ -45,7 +45,7 @@ include 'header.php';
                                     <br><small style="color: var(--text-muted);">via <?php echo htmlspecialchars($trans['payment_method']); ?></small>
                                 <?php endif; ?>
                             </td>
-                            <td><strong>$<?php echo number_format($trans['amount'], 2); ?></strong></td>
+                            <td><strong>UGX <?php echo number_format($trans['amount'] * 3800, 0); ?></strong></td>
                             <td>
                                 <span class="badge <?php echo $trans['status'] == 'Paid' ? 'badge-success' : 'badge-danger'; ?>">
                                     <?php echo $trans['status']; ?>
@@ -53,7 +53,7 @@ include 'header.php';
                             </td>
                             <td>
                                 <?php if($trans['status'] == 'Paid'): ?>
-                                    <a href="#receipt" style="color: var(--primary); font-size: 0.85rem; text-decoration: none;" onclick="alert('Receipt for <?php echo htmlspecialchars($trans['fee_type']); ?> - $<?php echo number_format($trans['amount'], 2); ?>')">View Receipt</a>
+                                    <a href="#receipt" style="color: var(--primary); font-size: 0.85rem; text-decoration: none;" onclick="alert('Receipt for <?php echo htmlspecialchars($trans['fee_type']); ?> - UGX <?php echo number_format($trans['amount'] * 3800, 0); ?>')">View Receipt</a>
                                 <?php else: ?>
                                     <span style="color: var(--text-muted); font-size: 0.85rem;">—</span>
                                 <?php endif; ?>

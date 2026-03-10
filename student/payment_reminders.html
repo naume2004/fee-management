@@ -132,7 +132,7 @@ const studentId = localStorage.getItem('currentStudentId') || 'S101';
 // Fees created > OVERDUE_DAYS ago and still pending → treated as overdue
 const OVERDUE_DAYS = 7;
 
-function fmt(n)    { return '$' + parseFloat(n).toFixed(2); }
+function fmt(n)    { return 'UGX ' + (parseFloat(n) * 3800).toLocaleString(); }
 function daysAgo(d){ return Math.floor((Date.now() - d.getTime()) / 86400000); }
 function daysLeft(d){ return Math.floor((d.getTime() - Date.now()) / 86400000); }
 
@@ -239,7 +239,7 @@ async function loadReminders() {
         }
 
         document.getElementById('stat-overdue-count').textContent  = overdueCount;
-        document.getElementById('stat-overdue-amount').textContent = overdueAmt > 0 ? fmt(overdueAmt) : '$0.00';
+        document.getElementById('stat-overdue-amount').textContent = overdueAmt > 0 ? fmt(overdueAmt) : 'UGX 0';
         document.getElementById('stat-upcoming-count').textContent = upcomingCount;
 
     } catch (err) {

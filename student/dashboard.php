@@ -68,7 +68,7 @@ $overdue = mysqli_fetch_assoc($overdue_result);
         <div style="display: flex; justify-content: space-between; align-items: start;">
             <div>
                 <h3 style="margin: 0 0 0.5rem; color: var(--danger);">⚠️ Payment Reminder</h3>
-                <p style="margin: 0; color: #7f1d1d; font-size: 0.95rem;">You have <strong><?php echo $overdue['overdue_count']; ?> overdue payment(s)</strong> totaling <strong>$<?php echo number_format($overdue['overdue_amount'], 2); ?></strong></p>
+                <p style="margin: 0; color: #7f1d1d; font-size: 0.95rem;">You have <strong><?php echo $overdue['overdue_count']; ?> overdue payment(s)</strong> totaling <strong>UGX <?php echo number_format($overdue['overdue_amount'] * 3800, 0); ?></strong></p>
                 <p style="margin: 0.5rem 0 0; color: #7f1d1d; font-size: 0.85rem;">Please pay as soon as possible to avoid late fees and academic holds.</p>
             </div>
             <a href="payment_reminders.php?sim_id=<?php echo htmlspecialchars($student_id); ?>" class="btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem; white-space: nowrap;">View Details</a>

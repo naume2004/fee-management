@@ -27,7 +27,7 @@ include 'header.php';
         <div style="text-align: center;">
             <div style="font-size: 2.5rem; margin-bottom: 1rem;">💰</div>
             <h3 style="margin: 0 0 0.5rem;">Current Balance</h3>
-            <p style="font-size: 1.5rem; color: var(--danger); font-weight: 900; margin: 0;">$<?php echo number_format($total_pending, 2); ?></p>
+            <p style="font-size: 1.5rem; color: var(--danger); font-weight: 900; margin: 0;">UGX <?php echo number_format($total_pending * 3800, 0); ?></p>
         </div>
         <div style="text-align: center;">
             <div style="font-size: 2.5rem; margin-bottom: 1rem;">📊</div>
@@ -119,7 +119,7 @@ include 'header.php';
                     <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 600;">Approved</span>
                 </div>
                 <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; font-size: 0.85rem;">
-                    <p style="margin: 0; color: var(--text-muted);"><strong>Award Amount:</strong> $5,000</p>
+                    <p style="margin: 0; color: var(--text-muted);"><strong>Award Amount:</strong> UGX <?php echo number_format(5000 * 3800, 0); ?></p>
                     <p style="margin: 0.5rem 0 0; color: var(--text-muted);"><strong>Status:</strong> Funds will be applied to next semester fees.</p>
                 </div>
             </div>
@@ -128,7 +128,7 @@ include 'header.php';
         <h2 style="margin-bottom: 1.5rem;">Recommended for You</h2>
         
         <div style="background: #def3ff; border-radius: 1rem; padding: 1.5rem;">
-            <p style="font-weight: 600; color: #075985; margin: 0;">Based on your current balance of $<?php echo number_format($total_pending, 2); ?>, you may qualify for:</p>
+            <p style="font-weight: 600; color: #075985; margin: 0;">Based on your current balance of UGX <?php echo number_format($total_pending * 3800, 0); ?>, you may qualify for:</p>
             <ul style="list-style: none; margin: 1rem 0 0; padding: 0;">
                 <li style="padding: 0.5rem 0; color: var(--text-muted); font-size: 0.9rem;">✓ Emergency Hardship Grant</li>
                 <li style="padding: 0.5rem 0; color: var(--text-muted); font-size: 0.9rem;">✓ Extended Payment Plans</li>

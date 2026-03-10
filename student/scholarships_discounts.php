@@ -56,13 +56,13 @@ include 'header.php';
         <div class="scholarship-card" style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid var(--primary);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                 <h3 style="margin: 0;">Excellence Award</h3>
-                <span style="background: #dbeafe; color: #075985; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 600;">$2,000</span>
+                <span style="background: #dbeafe; color: #075985; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 600;">UGX <?php echo number_format(2000 * 3800, 0); ?></span>
             </div>
             <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0;">
                 For outstanding achievements in sports, arts, or community service
             </p>
             <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; font-size: 0.85rem; color: var(--text-muted);">
-                <p style="margin: 0.25rem 0;"><strong>Benefit:</strong> $2,000 award (can be applied to fees)</p>
+                <p style="margin: 0.25rem 0;"><strong>Benefit:</strong> UGX <?php echo number_format(2000 * 3800, 0); ?> award (can be applied to fees)</p>
                 <p style="margin: 0.25rem 0;"><strong>Requirements:</strong> Portfolio submission</p>
                 <p style="margin: 0.25rem 0;"><strong>Deadline:</strong> January 15, 2025</p>
             </div>

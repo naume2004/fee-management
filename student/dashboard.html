@@ -103,7 +103,7 @@
     <div class="dashboard-grid">
         <div class="stat-card">
             <h3>Total Paid</h3>
-            <div id="total-paid" class="value" style="color: var(--success);">$0.00</div>
+            <div id="total-paid" class="value" style="color: var(--success);">UGX 0.00</div>
             <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Completed transactions</p>
         </div>
         <div class="stat-card">
@@ -614,19 +614,19 @@
                                 ${fee.status === 'Paid' ? '✅ ' : ''}${fee.status}
                             </span>
                         </div>
-                        <p style="font-weight: 700;">$${amount.toFixed(2)}</p>
+                        <p style="font-weight: 700;">UGX ${(amount * 3800).toLocaleString()}</p>
                     `;
                     breakdownList.appendChild(li);
 
                     // Append to activity table
                     const tr = document.createElement('tr');
                     tr.style.borderBottom = '1px solid #f1f5f9';
-                    const remaining = fee.status === 'Paid' ? 0 : amount;
+                    const remaining = fee.status === 'Paid' ? 0 : (amount * 3800);
                     // Generate a consistent 6-digit PIN for demo
                     const mockPin = (Math.abs(feeId.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0)) % 900000 + 100000).toString();
 
                     tr.innerHTML = `
-                        <td style="padding: 1rem; font-weight: 500; font-size: 0.9rem;">${remaining.toFixed(2)}</td>
+                        <td style="padding: 1rem; font-weight: 500; font-size: 0.9rem;">${remaining.toLocaleString()}</td>
                         <td style="padding: 1rem;">
                             <span class="badge" style="
                                 padding: 0.35rem 0.7rem; 
@@ -654,7 +654,7 @@
                     activityBody.appendChild(tr);
                 });
 
-                document.getElementById('total-paid').textContent = `$${totalPaid.toFixed(2)}`;
+                document.getElementById('total-paid').textContent = `UGX ${(totalPaid * 3800).toLocaleString()}`;
                 const isCleared = (totalPending <= 0 && totalPaid > 0);
                 document.getElementById('clearance-status').textContent = isCleared ? 'CLEARED' : 'PENDING';
 
@@ -671,7 +671,7 @@
 
                 if (overdueCount > 0 && !isCleared) {
                     document.getElementById('overdue-alert').style.display = 'block';
-                    document.getElementById('overdue-text').innerHTML = `You have <strong>${overdueCount} overdue payment(s)</strong> totaling <strong>$${overdueAmount.toFixed(2)}</strong>`;
+                    document.getElementById('overdue-text').innerHTML = `You have <strong>${overdueCount} overdue payment(s)</strong> totaling <strong>UGX ${(overdueAmount * 3800).toLocaleString()}</strong>`;
                 }
 
             } catch (error) {

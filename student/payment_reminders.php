@@ -45,7 +45,7 @@ include 'header.php';
                             <p style="margin: 0.5rem 0 0; color: #7f1d1d; font-size: 0.9rem;">Due: <?php echo $fee['due_date'] ? date('M j, Y', strtotime($fee['due_date'])) : 'Not set'; ?></p>
                         </div>
                         <div style="text-align: right;">
-                            <p style="margin: 0; font-size: 1.5rem; font-weight: 900; color: var(--danger);">$<?php echo number_format($fee['amount'], 2); ?></p>
+                            <p style="margin: 0; font-size: 1.5rem; font-weight: 900; color: var(--danger);">UGX <?php echo number_format($fee['amount'] * 3800, 0); ?></p>
                             <p style="margin: 0.5rem 0 0; color: #7f1d1d; font-size: 0.85rem;">
                                 <?php 
                                 $days_overdue = (int)((strtotime(date('Y-m-d')) - strtotime($fee['due_date'])) / (60 * 60 * 24));
@@ -82,7 +82,7 @@ include 'header.php';
                             <p style="margin: 0.5rem 0 0; color: #92400e; font-size: 0.9rem;">Due: <?php echo $fee['due_date'] ? date('M j, Y', strtotime($fee['due_date'])) : 'Not set'; ?></p>
                         </div>
                         <div style="text-align: right;">
-                            <p style="margin: 0; font-size: 1.5rem; font-weight: 900; color: var(--warning);">$<?php echo number_format($fee['amount'], 2); ?></p>
+                            <p style="margin: 0; font-size: 1.5rem; font-weight: 900; color: var(--warning);">UGX <?php echo number_format($fee['amount'] * 3800, 0); ?></p>
                             <p style="margin: 0.5rem 0 0; color: #92400e; font-size: 0.85rem;">
                                 <?php 
                                 $days_left = (int)((strtotime($fee['due_date']) - strtotime(date('Y-m-d'))) / (60 * 60 * 24));

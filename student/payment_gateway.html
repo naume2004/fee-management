@@ -112,7 +112,7 @@
             <p style="font-size: 0.8rem; color: #92400e; margin: 0;">
                 <strong>Total Due:</strong>
             </p>
-            <p id="total-due-display" style="font-size: 1.5rem; color: var(--danger); font-weight: 900; margin: 0.5rem 0 0;">$0.00</p>
+            <p id="total-due-display" style="font-size: 1.5rem; color: var(--danger); font-weight: 900; margin: 0.5rem 0 0;">UGX 0</p>
         </div>
         
         <a href="dashboard.html" class="btn secondary-btn" style="width: 100%; color: var(--primary); text-align: center; display: block; text-decoration: none; border: 1px solid var(--primary); padding: 0.75rem; border-radius: 0.5rem;">← Back to Dashboard</a>
@@ -154,30 +154,30 @@
         </div>
 
         <!-- Mobile Money Payment -->
-        <div class="payment-method-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border);">
+        <div class="payment-method-card" id="mobile-money-card" style="background: white; padding: 2rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--primary); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15); cursor: pointer; transition: all 0.3s;">
             <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
                 <div class="momo-icons-container" style="display: flex; gap: 0.5rem; margin-right: 1.5rem;">
-                    <div style="width: 50px; height: 50px; background: #10b981; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 0.7rem; text-align: center; line-height: 1;">M-PESA</div>
                     <div style="width: 50px; height: 50px; background: #fbbf24; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: #1e293b; font-weight: 900; font-size: 0.7rem; text-align: center; line-height: 1;">MTN</div>
                     <div style="width: 50px; height: 50px; background: #ef4444; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 0.7rem; text-align: center; line-height: 1;">AIRTEL</div>
+                    <div style="width: 50px; height: 50px; background: #10b981; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 0.7rem; text-align: center; line-height: 1;">M-PESA</div>
                 </div>
                 <div>
                     <h3 style="margin: 0; font-size: 1.1rem;">Mobile Money</h3>
-                    <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">M-Pesa, MTN, Airtel Money</p>
+                    <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">MTN, Airtel Money, M-Pesa</p>
                 </div>
             </div>
             <form id="mobile-payment-form" style="margin-top: 1rem;">
                 <div class="form-group" style="margin-bottom: 1rem;">
                     <label style="display: block; margin-bottom: 0.5rem;">Phone Number</label>
-                    <input type="tel" placeholder="+254712345678" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
+                    <input type="tel" placeholder="+256 7xx xxx xxx" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
                 </div>
                 <div class="form-group" style="margin-bottom: 1rem;">
                     <label style="display: block; margin-bottom: 0.5rem;">Provider</label>
-                    <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
+                    <select id="mobile-provider" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
                         <option value="">Select Provider</option>
-                        <option>M-Pesa (Kenya)</option>
-                        <option>Airtel Money</option>
-                        <option>MTN Mobile Money</option>
+                        <option value="MTN Mobile Money">MTN Mobile Money (Uganda)</option>
+                        <option value="Airtel Money">Airtel Money (Uganda)</option>
+                        <option value="M-Pesa">M-Pesa</option>
                     </select>
                 </div>
                 <button type="submit" class="btn primary-btn pay-btn" style="width: 100%; background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer;">Pay Now</button>
@@ -232,21 +232,22 @@
                 feesSnapshot.forEach(doc => {
                     const fee = doc.data();
                     pendingFeeDocs.push(doc.id);
-                    const amount = parseFloat(fee.amount);
-                    totalDue += amount;
+                    const amountUSD = parseFloat(fee.amount);
+                    const amountUGX = amountUSD * 3800;
+                    totalDue += amountUGX;
 
                     const li = document.createElement('li');
                     li.style.cssText = 'display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem;';
                     li.innerHTML = `
                         <span>${fee.fee_type}</span>
-                        <strong style="color: var(--danger);">$${amount.toFixed(2)}</strong>
+                        <strong style="color: var(--danger);">UGX ${amountUGX.toLocaleString()}</strong>
                     `;
                     feesList.appendChild(li);
                 });
 
-                document.getElementById('total-due-display').textContent = `$${totalDue.toFixed(2)}`;
+                document.getElementById('total-due-display').textContent = `UGX ${totalDue.toLocaleString()}`;
                 document.querySelectorAll('.pay-btn').forEach(btn => {
-                    btn.textContent = `Pay $${totalDue.toFixed(2)}`;
+                    btn.textContent = `Pay UGX ${totalDue.toLocaleString()}`;
                     if (totalDue === 0) btn.disabled = true;
                 });
 
@@ -266,11 +267,14 @@
 
             try {
                 const batch = db.batch();
+                const provider = document.getElementById('mobile-provider').value;
+                const method = e.target.id === 'card-payment-form' ? 'Card' : (provider ? `Mobile Money (${provider})` : 'Mobile Money');
+                
                 pendingFeeDocs.forEach(id => {
                     const ref = db.collection('fees').doc(id);
                     batch.update(ref, {
                         status: 'Paid',
-                        payment_method: e.target.id === 'card-payment-form' ? 'Card' : 'Mobile Money',
+                        payment_method: method,
                         payment_date: new Date()
                     });
                 });
