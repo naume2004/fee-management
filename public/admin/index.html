@@ -181,7 +181,7 @@
                 </p>
             </div>
             <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;">
-                <select id="status-filter" class="search-bar" style="width:auto;"><option value="">All Status</option><option value="Active">Active</option><option value="Suspended">Suspended</option><option value="Graduated">Graduated</option><option value="On Leave">On Leave</option></select><select id="status-filter" class="search-bar" style="width:auto;"><option value="">All Status</option><option value="Active">Active</option><option value="Suspended">Suspended</option><option value="Graduated">Graduated</option><option value="On Leave">On Leave</option></select><input type="text" id="search-input" class="search-bar" placeholder="Search by name, ID, course…"><button onclick="exportAdminCSV()" class="btn" style="background:#dbeafe;color:#1e40af;padding:0.6rem 1rem;font-size:0.875rem;cursor:pointer;">📥 Export</button><button onclick="exportAdminCSV()" class="btn" style="background:#dbeafe;color:#1e40af;padding:0.6rem 1rem;font-size:0.875rem;cursor:pointer;">📥 Export</button>
+                <select id="status-filter" class="search-bar" style="width:auto;"><option value="">All Status</option><option value="Active">Active</option><option value="Suspended">Suspended</option><option value="Graduated">Graduated</option><option value="On Leave">On Leave</option></select><input type="text" id="search-input" class="search-bar" placeholder="Search by name, ID, course…"><button onclick="exportAdminCSV()" class="btn" style="background:#dbeafe;color:#1e40af;padding:0.6rem 1rem;font-size:0.875rem;cursor:pointer;">📥 Export</button>
                 <button onclick="openAddModal()" class="btn primary-btn"
                     style="white-space:nowrap;padding:0.6rem 1.1rem;font-size:0.875rem;border:none;cursor:pointer;font-family:inherit;">
                     + Save Student Details</button>
@@ -361,7 +361,7 @@
 
         async function fetchStudents() {
             try {
-                const snap = await db.collection('students').orderBy('student_id').get();
+                const snap = await db.collection('students').orderBy('student_id').limit(100).get();
                 allStudents = [];
                 snap.forEach(doc => allStudents.push({ docId: doc.id, ...doc.data() }));
                 renderStudents(allStudents);
@@ -620,6 +620,7 @@
     </script>
 </body>
 </html>
+
 
 
 
