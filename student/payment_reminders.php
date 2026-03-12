@@ -27,8 +27,8 @@ include 'header.php';
 ?>
 
 <div class="payment-header" style="text-align: center; margin-bottom: 3rem;">
-    <h1>Payment Reminders</h1>
-    <p style="color: var(--text-muted);">Track overdue payments and upcoming deadlines.</p>
+    <h1>Dashboard Alerts</h1>
+    <p style="color: var(--text-muted);">See payment status and reminders instantly when you log in.</p>
 </div>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">

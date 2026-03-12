@@ -96,10 +96,17 @@ $overdue = mysqli_fetch_assoc($overdue_result);
 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 1rem; margin-bottom: 3rem; color: white;">
     <h2 style="margin-top: 0; margin-bottom: 1.5rem; color: white;">Quick Access</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
-        <!-- Pay Online -->
+        <!-- Skip the Line -->
+        <a href="skip_line.php?sim_id=<?php echo htmlspecialchars($student_id); ?>" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; background: rgba(16, 185, 129, 0.3); border-radius: 0.75rem; color: white; text-decoration: none; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.3);">
+            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">⏭️</div>
+            <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Skip the Line</h3>
+            <p style="margin: 0.5rem 0 0; font-size: 0.85rem; opacity: 0.9;">Pay online now</p>
+        </a>
+        
+        <!-- Pay Online (Legacy) -->
         <a href="payment_gateway.php?sim_id=<?php echo htmlspecialchars($student_id); ?>" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; background: rgba(255,255,255,0.15); border-radius: 0.75rem; color: white; text-decoration: none; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.3);">
             <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">💳</div>
-            <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Pay Online</h3>
+            <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Payment Gateway</h3>
             <p style="margin: 0.5rem 0 0; font-size: 0.85rem; opacity: 0.9;">Make payments now</p>
         </a>
         
@@ -117,11 +124,18 @@ $overdue = mysqli_fetch_assoc($overdue_result);
             <p style="margin: 0.5rem 0 0; font-size: 0.85rem; opacity: 0.9;">Payment records</p>
         </a>
         
-        <!-- Reminders -->
+        <!-- Book Appointment -->
+        <a href="book_appointment.php?sim_id=<?php echo htmlspecialchars($student_id); ?>" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; background: rgba(59, 130, 246, 0.3); border-radius: 0.75rem; color: white; text-decoration: none; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.3);">
+            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📅</div>
+            <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Book Appointment</h3>
+            <p style="margin: 0.5rem 0 0; font-size: 0.85rem; opacity: 0.9;">Schedule a visit</p>
+        </a>
+        
+        <!-- Dashboard Alerts -->
         <a href="payment_reminders.php?sim_id=<?php echo htmlspecialchars($student_id); ?>" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; background: rgba(255,255,255,0.15); border-radius: 0.75rem; color: white; text-decoration: none; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.3);">
-            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">⚠️</div>
-            <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Reminders</h3>
-            <p style="margin: 0.5rem 0 0; font-size: 0.85rem; opacity: 0.9;">Pending notifications</p>
+            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔔</div>
+            <h3 style="margin: 0; font-size: 1.1rem; font-weight: 600;">Dashboard Alerts</h3>
+            <p style="margin: 0.5rem 0 0; font-size: 0.85rem; opacity: 0.9;">See payment status and reminders instantly when you log in.</p>
         </a>
     </div>
 </div>

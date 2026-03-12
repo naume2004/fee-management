@@ -17,7 +17,7 @@
                 <li><a href="payment_gateway.php">Pay Online</a></li>
                 <li><a href="payment_plans.php">Installments</a></li>
                 <li><a href="payment_history.php">History</a></li>
-                <li><a href="payment_reminders.php" style="color: #ef4444; font-weight: 600;">⚠️ Reminders</a></li>
+                <li><a href="payment_reminders.php" style="color: #ef4444; font-weight: 600;">🔔 Alerts</a></li>
                 <li><a href="logout.php" style="color: #ef4444; font-weight: 600;">🚪 Logout</a></li>
             </ul>
         </div>
