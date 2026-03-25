@@ -344,20 +344,6 @@
         document.getElementById('status-filter').addEventListener('change', applyFilters);
         document.getElementById('search-input').addEventListener('input', applyFilters);
 
-        function exportAdminCSV() {
-            if (!allStudents.length) return alert('No students to export.');
-            let csv = 'Student ID,Full Name,Course,Status,Email\n';
-            allStudents.forEach(s => {
-                csv += "","","","",""\n;
-            });
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url; a.download = 'students.csv'; a.click();
-        }
-
-        // Removed old listener
-        document.getElementById('search-input-REMOVED')
 
                 async function fetchStudents() {
             try {
