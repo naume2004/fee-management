@@ -1,192 +1,690 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skip the line, Pay online</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FeeFlow – School Fee Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B3A6B;--blue:#2563EB;--gold:#F59E0B;--green:#16A34A;--red:#DC2626;--light:#EEF4FF;--text:#1E293B;--muted:#64748B;--border:#CBD5E1;--card:#F8FAFF;--mred:#E4002B;--r:14px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;color:var(--text);background:#fff;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--navy);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;box-shadow:0 2px 16px rgba(0,0,0,.3);}
+.logo{font-family:'Merriweather',serif;font-size:1.35rem;color:#fff;cursor:pointer;}
+.logo em{color:var(--gold);font-style:normal;}
+.nav-links{display:flex;gap:2px;list-style:none;}
+.nav-links a{color:#B8D0F5;font-weight:700;font-size:.84rem;padding:8px 13px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.13);color:#fff;}
+.nav-cta{background:var(--gold);color:var(--navy);padding:9px 20px;border-radius:50px;font-weight:900;font-size:.84rem;cursor:pointer;border:none;font-family:'Nunito',sans-serif;}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.hbg span{width:22px;height:2px;background:#fff;border-radius:2px;}
+.page{display:none;min-height:100vh;padding-top:64px;}
+.page.active{display:block;}
+.pad{padding:60px 5%;}
+.tag{display:inline-block;background:var(--light);color:var(--blue);font-size:.75rem;font-weight:800;letter-spacing:.8px;padding:4px 13px;border-radius:50px;margin-bottom:10px;text-transform:uppercase;}
+h2.stitle{font-family:'Merriweather',serif;font-size:clamp(1.5rem,3vw,2.1rem);color:var(--navy);margin-bottom:8px;}
+p.ssub{color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:36px;}
+.btn-gold{background:var(--gold);color:var(--navy);padding:11px 26px;border-radius:50px;font-weight:900;font-size:.93rem;border:none;cursor:pointer;font-family:'Nunito',sans-serif;display:inline-flex;align-items:center;gap:7px;}
+.btn-gold:hover{opacity:.88;}
+.btn-navy{background:var(--navy);color:#fff;padding:11px 26px;border-radius:50px;font-weight:900;font-size:.93rem;border:none;cursor:pointer;font-family:'Nunito',sans-serif;display:inline-flex;align-items:center;gap:7px;}
+.btn-navy:hover{background:var(--blue);}
+.btn-ghost{border:2px solid rgba(255,255,255,.4);color:#fff;padding:11px 24px;border-radius:50px;font-weight:700;font-size:.93rem;cursor:pointer;font-family:'Nunito',sans-serif;background:none;display:inline-flex;align-items:center;gap:7px;}
+.btn-ghost:hover{background:rgba(255,255,255,.1);}
+.btn-red{background:var(--red);color:#fff;padding:9px 18px;border-radius:8px;font-weight:700;font-size:.84rem;border:none;cursor:pointer;font-family:'Nunito',sans-serif;}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'Nunito',sans-serif;font-size:.93rem;color:var(--text);outline:none;transition:border-color .2s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue);}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.hint{font-size:.72rem;color:var(--muted);margin-top:4px;}
+.stay{display:flex;align-items:center;gap:8px;font-size:.83rem;cursor:pointer;margin-bottom:13px;}
+.stay input{width:15px;height:15px;accent-color:var(--blue);}
+.err{background:#FEE2E2;color:var(--red);padding:9px 13px;border-radius:8px;font-size:.8rem;font-weight:700;display:none;margin-bottom:12px;}
+#toast{position:fixed;bottom:28px;right:28px;z-index:9999;background:var(--green);color:#fff;padding:12px 20px;border-radius:11px;font-weight:700;font-size:.86rem;box-shadow:0 8px 24px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:320px;}
+#toast.show{transform:translateY(0);opacity:1;}
+.tbl-wrap{background:#fff;border-radius:var(--r);border:1.5px solid #E2EAF7;overflow:hidden;overflow-x:auto;}
+.tbl-top{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid #E2EAF7;flex-wrap:wrap;gap:8px;}
+.tbl-top h4{font-size:.9rem;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:7px;}
+table{width:100%;border-collapse:collapse;min-width:480px;}
+th{background:#F8FAFF;padding:9px 14px;text-align:left;font-size:.73rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;}
+td{padding:10px 14px;font-size:.85rem;border-bottom:1px solid #EEF2F8;color:var(--text);}
+tr:last-child td{border:none;}
+tr:hover td{background:#FAFCFF;}
+.td-n{font-weight:700;color:var(--navy);}
+.td-id{font-family:monospace;font-size:.8rem;color:var(--muted);}
+.sb{font-size:.7rem;padding:3px 9px;border-radius:50px;font-weight:700;white-space:nowrap;}
+.sb-paid{background:#DCFCE7;color:#15803D;}
+.sb-due{background:#FEE2E2;color:#DC2626;}
+.sb-partial{background:#FEF3C7;color:#92400E;}
+.sb-new{background:#DBEAFE;color:#1D4ED8;}
+.sb-over{background:#FEE2E2;color:#991B1B;}
+.sb-warn{background:#FEF3C7;color:#92400E;}
+.sb-ok{background:#DCFCE7;color:#166534;}
+.ab{padding:5px 11px;border-radius:6px;font-size:.73rem;font-weight:700;cursor:pointer;border:none;font-family:'Nunito',sans-serif;}
+.ab-ok{background:#DCFCE7;color:#15803D;}.ab-ok:hover{background:#BBF7D0;}
+.ab-no{background:#FEE2E2;color:#DC2626;}.ab-no:hover{background:#FECACA;}
+.ab-bl{background:var(--light);color:var(--blue);}.ab-bl:hover{background:#DBEAFE;}
+.search-box{padding:7px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Nunito',sans-serif;font-size:.82rem;outline:none;width:200px;}
+.search-box:focus{border-color:var(--blue);}
+.tok-cell{font-family:monospace;font-size:1.3rem;font-weight:900;color:var(--navy);letter-spacing:5px;background:var(--light);padding:3px 10px;border-radius:7px;display:inline-block;}
+footer{background:#0F2147;color:#94AECF;padding:24px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+footer .flogo{font-family:'Merriweather',serif;font-size:1.05rem;color:#fff;cursor:pointer;}
+footer .flogo em{color:var(--gold);font-style:normal;}
+footer .flinks{display:flex;gap:18px;}
+footer .flinks a{color:#94AECF;font-size:.8rem;cursor:pointer;}
+footer .flinks a:hover{color:var(--gold);}
+/* HOME */
+.hero{background:linear-gradient(135deg,var(--navy),#1e4d8c 60%,#2563eb);padding:76px 5% 86px;display:flex;align-items:center;justify-content:space-between;gap:36px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
+.hero-text{flex:1;min-width:280px;position:relative;}
+.hero-badge{display:inline-block;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);color:var(--gold);padding:4px 13px;border-radius:50px;font-size:.78rem;font-weight:700;margin-bottom:16px;}
+.hero h1{font-family:'Merriweather',serif;font-size:clamp(1.9rem,4vw,3rem);color:#fff;line-height:1.25;margin-bottom:16px;}
+.hero h1 em{color:var(--gold);font-style:normal;}
+.hero p{color:#B8D0F5;font-size:1rem;max-width:460px;line-height:1.7;margin-bottom:26px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.qcard{background:#fff;border-radius:18px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.28);min-width:290px;max-width:330px;position:relative;z-index:2;}
+.qcard h3{font-size:.92rem;font-weight:800;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.qcard .fl{font-size:.76rem;font-weight:700;color:var(--muted);display:block;margin-bottom:4px;}
+.qcard select,.qcard input{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-family:'Nunito',sans-serif;font-size:.9rem;margin-bottom:10px;outline:none;}
+.pbtn{width:100%;padding:11px;background:var(--mred);color:#fff;border:none;border-radius:9px;font-weight:800;font-size:.93rem;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;justify-content:center;gap:7px;}
+.pbtn:hover{opacity:.88;}
+.stats-row{background:var(--light);padding:36px 5%;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;}
+.scard{background:#fff;border-radius:var(--r);padding:20px;text-align:center;border:1.5px solid #DBEAFE;}
+.scard .si{width:44px;height:44px;background:var(--light);border-radius:11px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+.scard .sn{font-size:1.7rem;font-weight:900;color:var(--navy);}
+.scard .sl{font-size:.78rem;color:var(--muted);margin-top:3px;font-weight:600;}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;}
+.fcard{background:var(--card);border:1.5px solid #E2EAF7;border-radius:var(--r);padding:24px 20px;transition:transform .2s,box-shadow .2s,border-color .2s;}
+.fcard:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(37,99,235,.1);border-color:#93C5FD;}
+.fcard .fi{width:48px;height:48px;background:var(--light);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:13px;}
+.fcard h4{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:6px;}
+.fcard p{font-size:.85rem;color:var(--muted);line-height:1.6;}
+/* PAY */
+.pay-hero{background:linear-gradient(135deg,#fff9e6,#fffdf0);border-bottom:3px solid var(--gold);padding:52px 5%;}
+.pay-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;padding:48px 5%;align-items:start;}
+.pay-form-box{background:#fff;border:1.5px solid #E2EAF7;border-radius:var(--r);padding:28px;}
+.pay-form-box h3{font-family:'Merriweather',serif;font-size:1.15rem;color:var(--navy);margin-bottom:18px;display:flex;align-items:center;gap:9px;}
+.pend-card{display:none;margin-top:14px;border-radius:var(--r);overflow:hidden;border:1.5px solid #FCD34D;}
+.pend-top{background:#FEF3C7;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.pend-top .plabel{font-size:.68rem;font-weight:800;color:#92400E;text-transform:uppercase;letter-spacing:.6px;}
+#payStatusBadge{font-size:.68rem;font-weight:800;background:#F59E0B;color:#fff;padding:3px 11px;border-radius:50px;}
+.pend-body{background:#fff;padding:14px 16px;}
+.pend-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:12px;}
+.pend-grid .pf{font-size:.6rem;color:var(--muted);font-weight:600;}
+.pend-grid .pv{font-size:.8rem;font-weight:700;}
+.tok-reveal{display:none;background:var(--light);border-radius:11px;padding:18px;text-align:center;border:1.5px solid #BFDBFE;margin-top:10px;}
+.tok-reveal .tok-label{font-size:.65rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.tok-reveal .tok-num{font-size:3.5rem;font-weight:900;color:var(--navy);letter-spacing:10px;font-family:monospace;line-height:1;}
+.tok-reveal .tok-name{font-size:.73rem;color:var(--muted);margin-top:6px;font-weight:600;}
+.tok-reveal .tok-hint{font-size:.68rem;color:var(--muted);margin-top:8px;}
+.phone-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.phone{width:190px;background:#111;border-radius:32px;padding:12px 9px;border:3px solid #333;box-shadow:0 20px 50px rgba(0,0,0,.3);}
+.p-notch{width:60px;height:14px;background:#111;border-radius:0 0 9px 9px;margin:0 auto 9px;}
+.p-screen{background:#fff;border-radius:22px;overflow:hidden;}
+.p-head{background:var(--mred);padding:10px 12px;display:flex;align-items:center;gap:7px;}
+.p-logo{width:26px;height:26px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:900;color:var(--mred);}
+.p-title{font-size:.66rem;font-weight:800;color:#fff;line-height:1.3;}
+.p-body{padding:11px;}
+.p-lbl{font-size:.56rem;color:var(--muted);font-weight:700;text-transform:uppercase;}
+.p-amt{font-size:1.35rem;font-weight:900;color:var(--navy);}
+.p-cur{font-size:.7rem;color:var(--muted);}
+.p-div{height:1px;background:#EEF2F8;margin:7px 0;}
+.p-row{display:flex;justify-content:space-between;margin-bottom:4px;}
+.p-rl{font-size:.56rem;color:var(--muted);font-weight:600;}
+.p-rv{font-size:.63rem;font-weight:700;color:var(--text);}
+.p-btn{background:var(--green);color:#fff;border:none;border-radius:8px;padding:8px;font-size:.7rem;font-weight:800;font-family:'Nunito',sans-serif;width:100%;margin-top:5px;cursor:pointer;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,.35);}50%{box-shadow:0 0 0 7px rgba(22,163,74,0);}}
+.pulse{animation:pulse 2s infinite;}
+/* LOGIN */
+#page-student{background:linear-gradient(135deg,var(--navy),#1e4d8c 50%,#2563eb);}
+#page-staff{background:linear-gradient(135deg,#0F2147,var(--navy));}
+.login-wrap{min-height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;padding:44px 5%;gap:44px;flex-wrap:wrap;}
+.login-info{max-width:360px;color:#fff;}
+.login-info .badge{display:inline-block;background:rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.4);color:var(--gold);padding:4px 13px;border-radius:50px;font-size:.76rem;font-weight:700;margin-bottom:16px;}
+.login-info h1{font-family:'Merriweather',serif;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.3;margin-bottom:12px;}
+.login-info h1 em{color:var(--gold);font-style:normal;}
+.login-info p{color:#94AECF;line-height:1.7;font-size:.91rem;margin-bottom:20px;}
+.pay-badge{background:var(--mred);color:#fff;padding:10px 16px;border-radius:10px;font-weight:800;font-size:.86rem;display:flex;align-items:center;gap:8px;}
+.login-card{background:#fff;border-radius:20px;padding:34px 30px;width:100%;max-width:390px;box-shadow:0 24px 80px rgba(0,0,0,.4);}
+.card-icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:13px;}
+.ci-blue{background:var(--light);}.ci-gold{background:#FEF3C7;}
+.login-card h2{font-family:'Merriweather',serif;font-size:1.35rem;color:var(--navy);margin-bottom:4px;}
+.login-card p.sub{color:var(--muted);font-size:.84rem;margin-bottom:20px;}
+.login-btn{width:100%;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
+.login-btn:hover{background:var(--blue);}
+.sec-note{text-align:center;margin-top:10px;font-size:.72rem;color:var(--muted);}
+.help{text-align:center;margin-top:12px;font-size:.76rem;color:var(--muted);}
+.help a{color:var(--blue);font-weight:700;cursor:pointer;}
+/* STUDENT DASH */
+.dash-bg{background:#F1F5FB;min-height:calc(100vh - 64px);}
+.dash-inner{padding:26px 5%;}
+.dash-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:24px;padding-bottom:18px;border-bottom:1.5px solid #E2EAF7;}
+.dash-top h2{font-family:'Merriweather',serif;font-size:1.4rem;color:var(--navy);}
+.dash-top p{color:var(--muted);font-size:.84rem;margin-top:3px;}
+.dash-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin-bottom:22px;}
+.dc{background:#fff;border:1.5px solid #E2EAF7;border-radius:var(--r);padding:18px;}
+.dc .dci{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.dci-b{background:#DBEAFE;}.dci-r{background:#FEE2E2;}.dci-g{background:#DCFCE7;}.dci-o{background:#FEF3C7;}
+.dc .dl{font-size:.74rem;color:var(--muted);font-weight:600;margin-bottom:3px;}
+.dc .dv{font-size:1.25rem;font-weight:900;color:var(--navy);}
+.dc .ds{font-size:.68rem;color:var(--muted);margin-top:2px;}
+.dv-r{color:var(--red)!important;}.dv-g{color:var(--green)!important;}
+.s-tabs{display:flex;gap:3px;background:#E2EAF7;border-radius:11px;padding:4px;margin-bottom:20px;flex-wrap:wrap;}
+.s-tab{padding:8px 16px;border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer;border:none;background:none;font-family:'Nunito',sans-serif;color:var(--muted);transition:all .2s;display:flex;align-items:center;gap:5px;}
+.s-tab.active{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.s-sec{display:none;}.s-sec.active{display:block;}
+.dash-two{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.dbox{background:#fff;border:1.5px solid #E2EAF7;border-radius:var(--r);padding:20px;}
+.dbox h4{font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:12px;padding-bottom:9px;border-bottom:1.5px solid #EEF2F8;display:flex;align-items:center;gap:6px;}
+.pi{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #EEF2F8;font-size:.83rem;}
+.pi:last-of-type{border:none;}
+.pil{font-weight:600;}.pid{font-size:.7rem;color:var(--muted);}
+.pip{font-weight:800;color:var(--green);}.piu{font-weight:800;color:var(--red);}
+.logout-btn{background:none;border:1.5px solid #E2EAF7;color:var(--muted);padding:7px 15px;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.logout-btn:hover{border-color:var(--red);color:var(--red);}
+/* INBOX */
+.inbox-wrap{display:flex;gap:0;border:1.5px solid #E2EAF7;border-radius:var(--r);overflow:hidden;background:#fff;min-height:420px;}
+.inbox-list{width:280px;min-width:240px;border-right:1.5px solid #E2EAF7;display:flex;flex-direction:column;}
+.inbox-list-header{padding:12px 14px;font-size:.82rem;font-weight:800;color:var(--navy);border-bottom:1.5px solid #EEF2F8;display:flex;align-items:center;justify-content:space-between;}
+.inbox-list-header .ub{background:var(--blue);color:#fff;font-size:.68rem;padding:2px 8px;border-radius:50px;font-weight:800;}
+.msg-item{padding:12px 14px;border-bottom:1px solid #EEF2F8;cursor:pointer;transition:background .15s;position:relative;}
+.msg-item:hover{background:#F8FAFF;}
+.msg-item.active{background:var(--light);border-left:3px solid var(--blue);}
+.msg-item.unread .msg-sender{font-weight:900;color:var(--navy);}
+.msg-item.unread::after{content:'';width:8px;height:8px;background:var(--blue);border-radius:50%;position:absolute;right:12px;top:50%;transform:translateY(-50%);}
+.msg-sender{font-size:.82rem;font-weight:700;color:var(--navy);}
+.msg-subject{font-size:.76rem;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
+.msg-date{font-size:.67rem;color:var(--muted);margin-top:2px;}
+.msg-preview{font-size:.72rem;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:210px;}
+.inbox-detail{flex:1;display:flex;flex-direction:column;}
+.inbox-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);gap:10px;padding:40px;}
+.inbox-empty p{font-size:.9rem;}
+.msg-detail{flex:1;display:none;flex-direction:column;}
+.msg-detail.visible{display:flex;}
+.msg-detail-head{padding:18px 20px;border-bottom:1.5px solid #EEF2F8;}
+.msg-detail-subject{font-size:1rem;font-weight:900;color:var(--navy);margin-bottom:8px;}
+.msg-detail-meta{display:flex;flex-wrap:wrap;gap:12px;font-size:.76rem;color:var(--muted);}
+.msg-detail-body{padding:20px;flex:1;font-size:.88rem;line-height:1.75;color:var(--text);white-space:pre-wrap;}
+.msg-detail-footer{padding:12px 20px;border-top:1.5px solid #EEF2F8;background:#F8FAFF;}
+.msg-tag{display:inline-flex;align-items:center;gap:4px;background:#FEF3C7;color:#92400E;padding:3px 10px;border-radius:50px;font-size:.7rem;font-weight:700;}
+/* ADMIN DASH */
+.admin-bg{background:#F1F5FB;min-height:calc(100vh - 64px);padding:26px 5%;}
+.admin-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:20px;}
+.admin-top h2{font-family:'Merriweather',serif;font-size:1.4rem;color:var(--navy);}
+.admin-top p{color:var(--muted);font-size:.84rem;margin-top:2px;}
+.tabs{display:flex;gap:3px;background:#E2EAF7;border-radius:11px;padding:4px;margin-bottom:20px;flex-wrap:wrap;}
+.tab{padding:8px 14px;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;border:none;background:none;font-family:'Nunito',sans-serif;color:var(--muted);transition:all .2s;display:flex;align-items:center;gap:5px;}
+.tab.active{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.asec{display:none;}.asec.active{display:block;}
+.a-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:13px;margin-bottom:20px;}
+.asc{background:#fff;border-radius:var(--r);padding:16px;border:1.5px solid #E2EAF7;}
+.asc .asl{font-size:.73rem;color:var(--muted);font-weight:600;margin-bottom:5px;}
+.asc .asv{font-size:1.55rem;font-weight:900;color:var(--navy);}
+.asc .ass{font-size:.68rem;color:var(--muted);margin-top:2px;}
+.pend-alert{display:none;background:#FEF3C7;border:1.5px solid #FCD34D;border-radius:var(--r);padding:14px 16px;margin-bottom:16px;}
+.pend-alert-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.pend-alert-top h4{font-size:.9rem;font-weight:800;color:#92400E;display:flex;align-items:center;gap:6px;margin:0;}
+#pendingCount{background:var(--gold);color:#fff;padding:2px 11px;border-radius:50px;font-size:.73rem;font-weight:800;}
+/* ANALYTICS */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.chart-box{background:#fff;border:1.5px solid #E2EAF7;border-radius:var(--r);padding:20px;}
+.chart-box h4{font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:7px;}
+.bar-chart{display:flex;flex-direction:column;gap:10px;}
+.bar-row{display:flex;align-items:center;gap:10px;}
+.bar-label{font-size:.76rem;font-weight:700;color:var(--text);width:90px;flex-shrink:0;}
+.bar-track{flex:1;height:22px;background:#EEF2F8;border-radius:6px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:8px;font-size:.7rem;font-weight:800;color:#fff;transition:width .6s ease;}
+.bar-val{font-size:.76rem;font-weight:800;color:var(--navy);width:80px;text-align:right;flex-shrink:0;}
+.donut-wrap{display:flex;align-items:center;gap:20px;}
+.donut-legend{display:flex;flex-direction:column;gap:8px;}
+.dl-item{display:flex;align-items:center;gap:8px;font-size:.78rem;}
+.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.dl-label{color:var(--text);font-weight:600;}
+.dl-val{color:var(--muted);font-size:.73rem;}
+.trend-row{display:flex;align-items:flex-end;gap:6px;height:80px;padding-top:10px;}
+.trend-bar{flex:1;border-radius:4px 4px 0 0;min-width:20px;position:relative;transition:height .4s;}
+.trend-bar span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:.6rem;font-weight:800;color:var(--navy);white-space:nowrap;}
+.trend-labels{display:flex;gap:6px;margin-top:4px;}
+.trend-labels span{flex:1;text-align:center;font-size:.62rem;color:var(--muted);min-width:20px;}
+/* DEADLINES */
+.deadline-section{margin-bottom:18px;}
+.deadline-section h4{font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:13px;display:flex;align-items:center;gap:7px;}
+.dl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:13px;margin-bottom:16px;}
+.dl-card{background:#fff;border-radius:var(--r);padding:16px;border:1.5px solid #E2EAF7;position:relative;overflow:hidden;}
+.dl-card.overdue{border-color:var(--red);background:#FFF5F5;}
+.dl-card.urgent{border-color:var(--gold);background:#FFFBEB;}
+.dl-card.upcoming{border-color:#93C5FD;background:#F0F9FF;}
+.dl-card.ok{border-color:#86EFAC;background:#F0FDF4;}
+.dl-card .dl-stripe{position:absolute;top:0;left:0;right:0;height:4px;}
+.dl-stripe-r{background:var(--red);}
+.dl-stripe-o{background:var(--gold);}
+.dl-stripe-b{background:var(--blue);}
+.dl-stripe-g{background:var(--green);}
+.dl-card .dl-title{font-size:.82rem;font-weight:800;color:var(--navy);margin-top:6px;margin-bottom:4px;}
+.dl-card .dl-date{font-size:.76rem;color:var(--muted);margin-bottom:8px;}
+.dl-card .dl-days{font-size:1.3rem;font-weight:900;}
+.dl-card .dl-sub{font-size:.7rem;color:var(--muted);margin-top:2px;}
+.dl-days-r{color:var(--red);}
+.dl-days-o{color:#D97706;}
+.dl-days-b{color:var(--blue);}
+.dl-days-g{color:var(--green);}
+.progress-bar{height:6px;background:#EEF2F8;border-radius:3px;margin-top:10px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;transition:width .6s;}
+.pf-r{background:var(--red);}
+.pf-o{background:var(--gold);}
+.pf-b{background:var(--blue);}
+.pf-g{background:var(--green);}
+.dl-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+/* REMINDERS */
+.rem-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.rem-box{background:#fff;border:1.5px solid #E2EAF7;border-radius:var(--r);padding:20px;}
+.rem-box h4{font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:13px;display:flex;align-items:center;gap:7px;}
+.rem-item{display:flex;align-items:flex-start;gap:9px;padding:10px;background:var(--card);border-radius:9px;border:1px solid #E2EAF7;margin-bottom:8px;}
+.rdot{width:9px;height:9px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+.rd-r{background:var(--red);}.rd-o{background:var(--gold);}
+.rem-item h5{font-size:.82rem;font-weight:800;color:var(--text);}
+.rem-item p{font-size:.72rem;color:var(--muted);}
+.compose{background:#fff;border:1.5px solid #E2EAF7;border-radius:var(--r);padding:20px;}
+.compose h4{font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:13px;display:flex;align-items:center;gap:7px;}
+.compose textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;resize:vertical;min-height:90px;}
+.compose textarea:focus{border-color:var(--blue);}
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;padding:52px 5%;}
+.ci-card h2{font-family:'Merriweather',serif;font-size:1.65rem;color:var(--navy);margin-bottom:12px;}
+.ci-card p.intro{color:var(--muted);line-height:1.7;margin-bottom:20px;}
+.ci-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:15px;}
+.ci-ico{width:40px;height:40px;background:var(--light);border-radius:10px;display:flex;align-items:center;justify-content:center;min-width:40px;}
+.ci-txt h5{font-weight:800;color:var(--navy);font-size:.9rem;}
+.ci-txt p{font-size:.82rem;color:var(--muted);}
+.cform{background:var(--card);border:1.5px solid #E2EAF7;border-radius:var(--r);padding:26px;}
+.cform h3{font-family:'Merriweather',serif;font-size:1.15rem;color:var(--navy);margin-bottom:16px;}
+.cform textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;resize:vertical;min-height:100px;}
+.cform textarea:focus{border-color:var(--blue);}
+@media(max-width:900px){.dash-two,.rem-grid,.contact-grid,.pay-grid,.fr,.chart-row,.dl-grid{grid-template-columns:1fr;}.inbox-wrap{flex-direction:column;}.inbox-list{width:100%;border-right:none;border-bottom:1.5px solid #E2EAF7;max-height:220px;overflow-y:auto;}}
+@media(max-width:680px){.nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--navy);flex-direction:column;padding:8px 0;z-index:998;}.nav-links.open{display:flex;}.nav-links a{padding:12px 20px;border-radius:0;}.hbg{display:flex;}.hero,.login-wrap{flex-direction:column;}.qcard{max-width:100%;width:100%;}.tab,.s-tab{padding:7px 9px;font-size:.74rem;}}
+</style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">FeeFlow</a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="student/login.html">Student Portal</a></li>
-                <li><a href="admin/login.html" class="admin-link">Staff Login</a></li>
-            </ul>
-        </div>
-    </nav>
-    <main class="container main-content">
+<div id="toast"></div>
+<nav>
+  <span class="logo" onclick="go('home')"><em>Fee</em>Flow</span>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="go('home')" id="nav-home" class="active"><svg width="13" height="13" fill="none" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 21V12h6v9" stroke="currentColor" stroke-width="2"/></svg>Home</a></li>
+    <li><a onclick="go('features')" id="nav-features"><svg width="13" height="13" fill="none" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Features</a></li>
+    <li><a onclick="go('pay')" id="nav-pay"><svg width="13" height="13" fill="none" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M2 10h20" stroke="currentColor" stroke-width="2"/></svg>Pay Fees</a></li>
+    <li><a onclick="go('contact')" id="nav-contact"><svg width="13" height="13" fill="none" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.8 19.8 0 01.01 2.82 2 2 0 012 .67h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Contact</a></li>
+    <li><a onclick="go('staff')" id="nav-staff"><svg width="13" height="13" fill="none" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Admin</a></li>
+  </ul>
+  <button class="nav-cta" onclick="go('student')">Student Portal</button>
+  <div class="hbg" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+<!-- HOME -->
+<div class="page active" id="page-home">
+<div class="hero"><div class="hero-text"><div class="hero-badge">Uganda's School Payment Platform</div><h1>Skip the Queue.<br><em>Pay Your Fees</em><br>in Minutes.</h1><p>FeeFlow makes school fee payments fast and stress-free. Pay with Airtel Money, track your balance, and book finance office appointments.</p><div class="hero-btns"><button class="btn-gold" onclick="go('student')">Student Portal</button><button class="btn-ghost" onclick="go('pay')">How Payments Work</button></div></div>
+<div class="qcard"><h3>Quick Payment</h3><label class="fl">Student Account</label><select id="quickStudent"><option value="">-- Select --</option><option value="Sarah Nakato">Sarah Nakato (S101)</option><option value="Jackie Apio">Jackie Apio (S102)</option><option value="Winnie Namukasa">Winnie Namukasa (S103)</option></select><label class="fl">Amount (UGX)</label><input type="number" id="quickAmt" placeholder="e.g. 500000"><label class="fl">Airtel Money Number</label><input type="tel" id="quickPhone" placeholder="e.g. 0752 234 567"><button class="pbtn pulse" onclick="quickPay()">Pay via Airtel Money</button></div></div>
+<div class="stats-row"><div class="scard"><div class="si"><svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="var(--blue)" stroke-width="2" stroke-linejoin="round"/></svg></div><div class="sn">85.4%</div><div class="sl">Collections Rate</div></div><div class="scard"><div class="si"><svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="var(--blue)" stroke-width="2"/></svg></div><div class="sn">12,500+</div><div class="sl">Active Students</div></div><div class="scard"><div class="si"><svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" stroke="var(--blue)" stroke-width="2"/><path d="M2 10h20" stroke="var(--blue)" stroke-width="2"/></svg></div><div class="sn">UGX 165M</div><div class="sl">Processed Today</div></div><div class="scard"><div class="si"><svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="var(--blue)" stroke-width="2"/><path d="M12 6v6l4 2" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/></svg></div><div class="sn">12 min</div><div class="sl">Avg Wait Time</div></div></div>
+<div class="pad" style="background:var(--light)"><div class="tag">Why FeeFlow?</div><h2 class="stitle">Built for Ugandan Schools</h2><p class="ssub">Payment tokens, student inbox, deadline tracking, and real-time analytics — all in one platform.</p><div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn-navy" onclick="go('features')">Explore Features</button><button class="btn-gold" onclick="go('pay')">Pay Fees Now</button></div></div>
+<footer><span class="flogo" onclick="go('home')"><em>Fee</em>Flow</span><p style="font-size:.78rem">© 2026 FeeFlow</p><div class="flinks"><a onclick="go('staff')">Admin</a><a onclick="go('contact')">Contact</a></div></footer>
+</div>
+<!-- FEATURES -->
+<div class="page" id="page-features">
+<div class="pad"><div class="tag">What We Offer</div><h2 class="stitle">Everything to manage school fees</h2><p class="ssub">Airtel Money, personal tokens, inbox reminders, deadline tracking and analytics — all in one place.</p>
+<div class="feat-grid">
+<div class="fcard"><div class="fi"><svg width="22" height="22" fill="none" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" stroke="var(--blue)" stroke-width="2"/></svg></div><h4>Airtel Money Payments</h4><p>Pay instantly using Airtel Money. No cash queues, no bank visits needed.</p></div>
+<div class="fcard"><div class="fi"><svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="var(--blue)" stroke-width="2"/><path d="M22 6l-10 7L2 6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/></svg></div><h4>Student Inbox</h4><p>Receive and read reminder emails from the Finance Office directly in your student portal.</p></div>
+<div class="fcard"><div class="fi"><svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" stroke="var(--blue)" stroke-width="2" stroke-linejoin="round"/></svg></div><h4>Personal Payment Token</h4><p>Every student gets a unique 4-digit token issued by staff after payment is confirmed.</p></div>
+<div class="fcard"><div class="fi"><svg width="22" height="22" fill="none" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" stroke="var(--blue)" stroke-width="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/></svg></div><h4>Deadline Tracking</h4><p>Admin can set and monitor fee payment deadlines with live countdowns and overdue alerts.</p></div>
+<div class="fcard"><div class="fi"><svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/></svg></div><h4>Payment Analytics</h4><p>Rich charts showing collection rates, monthly trends, fee-type breakdowns and outstanding analysis.</p></div>
+<div class="fcard"><div class="fi"><svg width="22" height="22" fill="none" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke="var(--blue)" stroke-width="2"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/></svg></div><h4>Secure & Encrypted</h4><p>All transactions are end-to-end encrypted. Your financial data is always safe.</p></div>
+</div></div>
+<div style="background:var(--navy);padding:44px 5%;text-align:center"><h2 style="font-family:'Merriweather',serif;color:#fff;margin-bottom:10px">Ready to get started?</h2><p style="color:#94AECF;margin-bottom:20px">Join thousands of students already using FeeFlow.</p><button class="btn-gold" onclick="go('student')">Login to Student Portal</button></div>
+<footer><span class="flogo" onclick="go('home')"><em>Fee</em>Flow</span><p style="font-size:.78rem">© 2026 FeeFlow</p><div class="flinks"><a onclick="go('contact')">Contact</a><a onclick="go('staff')">Staff</a></div></footer>
+</div>
+<!-- PAY -->
+<div class="page" id="page-pay">
+<div class="pay-hero"><div class="tag">Make a Payment</div><h2 class="stitle">Pay School Fees via Airtel Money</h2><p class="ssub" style="margin-bottom:0">Fill in your details. Staff will confirm and issue your personal 4-digit token.</p></div>
+<div class="pay-grid">
+<div><div class="pay-form-box">
+<h3>Payment Details</h3>
+<div class="fr"><div class="fg"><label>Student Full Name</label><input type="text" id="payName" placeholder="e.g. Sarah Nakato"></div><div class="fg"><label>Student ID</label><input type="text" id="payId" placeholder="e.g. S101"></div></div>
+<div class="fg"><label>Fee Type</label><select id="feeType"><option value="">-- Select --</option><option>Tuition Fees</option><option>Boarding Fees</option><option>Examination Fees</option><option>Library Fees</option><option>Sports &amp; Activities</option></select></div>
+<div class="fg"><label>Term</label><select id="payTerm"><option value="">-- Select --</option><option>Term 1, 2026</option><option>Term 2, 2026</option><option>Term 3, 2026</option></select></div>
+<div class="fg"><label>Amount (UGX)</label><input type="number" id="payAmt" placeholder="e.g. 750000"></div>
+<div class="fg"><label>Payment Method</label><select disabled><option>Airtel Money</option></select></div>
+<div class="fg"><label>Airtel Money Number</label><input type="tel" id="payPhone" placeholder="e.g. 0752 234 567"></div>
+<button class="btn-gold pulse" style="width:100%;justify-content:center" onclick="submitPay()">Submit Payment</button>
+<div class="pend-card" id="pendCard">
+<div class="pend-top"><span class="plabel">Payment Status</span><span id="payStatusBadge">PENDING</span></div>
+<div class="pend-body">
+<div class="pend-grid">
+<div><div class="pf">Student</div><div class="pv" id="tkStudent">—</div></div><div><div class="pf">Student ID</div><div class="pv" id="tkId">—</div></div>
+<div><div class="pf">Amount</div><div class="pv" style="color:var(--green)" id="tkAmt">—</div></div><div><div class="pf">Fee Type</div><div class="pv" id="tkFee">—</div></div>
+<div><div class="pf">Term</div><div class="pv" id="tkTerm">—</div></div><div><div class="pf">Airtel No.</div><div class="pv" id="tkPhone">—</div></div>
+<div style="grid-column:1/-1"><div class="pf">Submitted</div><div class="pv" id="tkDate">—</div></div>
+</div>
+<div class="tok-reveal" id="tokReveal"><div class="tok-label">Your Personal Payment Token</div><div class="tok-num" id="tokNum">—</div><div class="tok-name" id="tokName">—</div><div class="tok-hint">Present this 4-digit token at the Finance Office.</div></div>
+<div style="margin-top:10px;font-size:.69rem;color:var(--muted);border-top:1px dashed #E2EAF7;padding-top:8px">Payment submitted. Staff will verify and issue your personal 4-digit token.</div>
+</div></div>
+</div></div>
+<div class="phone-wrap"><span style="background:var(--mred);color:#fff;padding:6px 18px;border-radius:50px;font-weight:900;font-size:.88rem">Airtel Money</span>
+<div class="phone"><div class="p-notch"></div><div class="p-screen"><div class="p-head"><div class="p-logo">A</div><div class="p-title">Airtel Money<br><span style="font-weight:600;opacity:.85">Fee Payment</span></div></div>
+<div class="p-body"><div class="p-lbl">Amount Due</div><div class="p-cur">UGX</div><div class="p-amt">750,000</div><div class="p-div"></div><div class="p-row"><span class="p-rl">Student</span><span class="p-rv">Sarah Nakato</span></div><div class="p-row"><span class="p-rl">ID</span><span class="p-rv">S101</span></div><div class="p-row"><span class="p-rl">Fee</span><span class="p-rv">Tuition</span></div><div class="p-div"></div><div class="p-row"><span class="p-rl">Airtel No.</span><span class="p-rv">0752 *** 567</span></div><button class="p-btn pulse">Confirm &amp; Pay</button></div></div></div>
+<p style="font-size:.74rem;color:var(--muted);text-align:center;max-width:190px">Enter your Airtel PIN to complete payment.</p></div>
+</div>
+<footer><span class="flogo" onclick="go('home')"><em>Fee</em>Flow</span><p style="font-size:.78rem">© 2026 FeeFlow</p><div class="flinks"><a onclick="go('contact')">Contact</a></div></footer>
+</div>
+<!-- STUDENT PORTAL -->
+<div class="page" id="page-student">
+<div id="sLoginView"><div class="login-wrap">
+<div class="login-info"><div class="badge">Student Self-Service Portal</div><h1>Manage your<br><em>fees &amp; payments</em><br>with ease.</h1><p>Log in to view your balance, pay via Airtel Money, read reminder emails, and book appointments.</p><div style="background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:var(--r);padding:14px"><div style="font-size:.84rem;font-weight:800;color:#fff;margin-bottom:9px">Accepted Payment</div><div class="pay-badge">Airtel Money — Fast · Secure · 24/7</div></div></div>
+<div class="login-card"><div class="card-icon ci-blue"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="var(--blue)" stroke-width="2"/></svg></div>
+<h2>Student Login</h2><p class="sub">Enter your credentials to access your dashboard.</p>
+<div class="fg"><label>Full Name</label><input type="text" id="sName" placeholder="e.g. Sarah Nakato"></div>
+<div class="fg"><label>Student ID <span style="color:#94a3b8;font-weight:400">(password)</span></label><input type="password" id="sId" placeholder="e.g. S101"><div class="hint">Your Student ID is on your admission letter.</div></div>
+<div class="fg"><label>Email Address</label><input type="email" id="sEmail" placeholder="e.g. sarah&#64;example.com"></div>
+<label class="stay"><input type="checkbox" id="sStay"> Keep me logged in</label>
+<div class="err" id="sErr">Invalid name or Student ID. Please try again.</div>
+<button class="login-btn" onclick="sLogin()">Login to Dashboard</button>
+<div class="sec-note">Secure &amp; encrypted · © 2026 FeeFlow</div>
+<div class="help">No credentials? <a onclick="go('contact')">Contact the Registrar</a></div>
+</div></div></div></div>
+<div id="sDashView" style="display:none"><div class="dash-bg"><div class="dash-inner">
+<div class="dash-top"><div><h2>Welcome back, <span id="dName">Student</span></h2><p>ID: <strong id="dId">—</strong> · <span id="dEmail" style="color:var(--blue);font-weight:700"></span></p></div>
+<div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn-navy" style="padding:8px 16px;font-size:.82rem" onclick="go('pay')">Pay Fees</button><button class="logout-btn" onclick="sLogout()">Logout</button></div></div>
+<div class="dash-cards">
+<div class="dc"><div class="dci dci-r"><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="var(--red)" stroke-width="2" stroke-linecap="round"/></svg></div><div class="dl">Outstanding Balance</div><div class="dv dv-r">UGX 350,000</div><div class="ds">Due 31 March 2026</div></div>
+<div class="dc"><div class="dci dci-g"><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="dl">Total Paid</div><div class="dv dv-g">UGX 400,000</div><div class="ds">Last: 10 Mar 2026</div></div>
+<div class="dc"><div class="dci dci-b"><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" stroke="var(--blue)" stroke-width="2"/><path d="M2 10h20" stroke="var(--blue)" stroke-width="2"/></svg></div><div class="dl">Total Fees</div><div class="dv">UGX 750,000</div><div class="ds">Tuition + Boarding</div></div>
+<div class="dc" onclick="sTab('inbox')" style="cursor:pointer"><div class="dci dci-o"><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="var(--gold)" stroke-width="2"/><path d="M22 6l-10 7L2 6" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg></div><div class="dl">Inbox</div><div class="dv" id="inboxCount">0 messages</div><div class="ds" id="inboxUnread">No unread</div></div>
+</div>
+<div class="s-tabs">
+<button class="s-tab active" onclick="sTab('overview')" id="st-overview">Overview</button>
+<button class="s-tab" onclick="sTab('inbox')" id="st-inbox">Inbox <span id="inboxBadge" style="display:none;background:var(--blue);color:#fff;font-size:.62rem;padding:1px 6px;border-radius:50px;font-weight:800"></span></button>
+<button class="s-tab" onclick="sTab('payments')" id="st-payments">Payments</button>
+<button class="s-tab" onclick="sTab('appt')" id="st-appt">Appointments</button>
+</div>
+<!-- OVERVIEW -->
+<div class="s-sec active" id="ss-overview"><div class="dash-two">
+<div class="dbox"><h4>Payment History</h4>
+<div class="pi"><div><div class="pil">Tuition – Term 1</div><div class="pid">10 Mar 2026</div></div><span class="pip">UGX 400,000</span><span class="sb sb-paid">Paid</span></div>
+<div class="pi"><div><div class="pil">Boarding Fees</div><div class="pid">Due 31 Mar 2026</div></div><span class="piu">UGX 350,000</span><span class="sb sb-due">Due</span></div>
+<div class="pi"><div><div class="pil">Exam Fees – 2025</div><div class="pid">15 Oct 2025</div></div><span class="pip">UGX 120,000</span><span class="sb sb-paid">Paid</span></div>
+<div class="pi"><div><div class="pil">Library Fee</div><div class="pid">Partial</div></div><span style="font-weight:800;color:#D97706;font-size:.83rem">UGX 20,000</span><span class="sb sb-partial">Partial</span></div>
+<br><button class="btn-gold" style="font-size:.8rem;padding:8px 16px" onclick="toast('Receipt downloaded!')">Download Receipts</button></div>
+<div class="dbox"><h4>Recent Messages</h4><div id="recentMsgs" style="font-size:.84rem;color:var(--muted)">No messages yet.</div><br><button class="btn-navy" style="font-size:.8rem;padding:8px 16px" onclick="sTab('inbox')">Open Inbox</button></div>
+</div></div>
+<!-- INBOX -->
+<div class="s-sec" id="ss-inbox"><div class="inbox-wrap">
+<div class="inbox-list"><div class="inbox-list-header">Messages <span class="ub" id="inboxUnreadBadge">0</span></div><div id="msgList"><div style="padding:24px;text-align:center;color:var(--muted);font-size:.84rem">No messages yet. Admin reminders will appear here.</div></div></div>
+<div class="inbox-detail">
+<div class="inbox-empty" id="inboxEmpty"><svg width="48" height="48" fill="none" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="var(--muted)" stroke-width="1.5"/><path d="M22 6l-10 7L2 6" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round"/></svg><p>Select a message to read it</p></div>
+<div class="msg-detail" id="msgDetail"><div class="msg-detail-head"><div class="msg-detail-subject" id="mdSubject">—</div><div class="msg-detail-meta"><span><strong id="mdFrom">—</strong></span><span><span id="mdDate">—</span></span><span>To: <span id="mdTo">—</span></span></div></div><div class="msg-detail-body" id="mdBody">—</div><div class="msg-detail-footer"><span class="msg-tag">Finance Office Reminder</span></div></div>
+</div></div></div>
+<!-- PAYMENTS -->
+<div class="s-sec" id="ss-payments"><div class="tbl-wrap"><div class="tbl-top"><h4>All Payments</h4></div>
+<table><thead><tr><th>Fee Type</th><th>Amount</th><th>Term</th><th>Date</th><th>Token</th><th>Status</th></tr></thead><tbody>
+<tr><td>Tuition Fees</td><td>UGX 400,000</td><td>Term 1, 2026</td><td>10 Mar 2026</td><td><span class="tok-cell">4821</span></td><td><span class="sb sb-paid">Confirmed</span></td></tr>
+<tr><td>Boarding Fees</td><td>UGX 350,000</td><td>Term 1, 2026</td><td>Due 31 Mar 2026</td><td><span style="color:var(--muted)">—</span></td><td><span class="sb sb-due">Due</span></td></tr>
+<tr><td>Exam Fees</td><td>UGX 120,000</td><td>Term 3, 2025</td><td>15 Oct 2025</td><td><span class="tok-cell">4821</span></td><td><span class="sb sb-paid">Confirmed</span></td></tr>
+</tbody></table></div></div>
+<!-- APPOINTMENTS -->
+<div class="s-sec" id="ss-appt"><div class="dash-two">
+<div class="dbox"><h4>Book Appointment</h4>
+<div class="fg"><label>Date</label><input type="date"></div>
+<div class="fg"><label>Time</label><select><option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option><option>2:00 PM</option></select></div>
+<div class="fg"><label>Reason</label><select><option>Fee payment query</option><option>Receipt collection</option><option>Other</option></select></div>
+<button class="btn-navy" style="width:100%;justify-content:center;padding:10px" onclick="toast('Appointment booked!')">Book Appointment</button></div>
+<div class="dbox"><h4>Upcoming Appointments</h4>
+<div class="pi"><div><div class="pil">Finance Office</div><div class="pid">25 Mar 2026 · 10:00 AM</div></div><span class="sb sb-paid">Confirmed</span></div>
+</div></div>
+</div>
+<footer><span class="flogo" onclick="go('home')"><em>Fee</em>Flow</span><p style="font-size:.78rem">© 2026 FeeFlow</p></footer>
+</div></div></div>
+<!-- STAFF -->
+<div class="page" id="page-staff">
+<div id="staffLoginView"><div class="login-wrap">
+<div class="login-info"><div class="badge">Admin Access</div><h1>Staff<br><em>Admin</em><br>Dashboard</h1><p>Manage payments, deadlines, analytics, tokens, and send email reminders — all from one dashboard.</p></div>
+<div class="login-card"><div class="card-icon ci-gold"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke="var(--gold)" stroke-width="2"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg></div>
+<h2>Staff Login</h2><p class="sub">Restricted to authorised Finance Office staff.</p>
+<div class="fg"><label>Staff Email</label><input type="email" id="aEmail" placeholder="admin&#64;school.ac.ug"></div>
+<div class="fg"><label>Password</label><input type="password" id="aPass" placeholder="Enter password"></div>
+<label class="stay"><input type="checkbox" id="aStay"> Keep me logged in</label>
+<div class="err" id="aErr">Invalid credentials. Use admin&#64;school.ac.ug / admin123</div>
+<button class="login-btn" onclick="aLogin()">Login to Dashboard</button>
+<div class="sec-note">Restricted — authorised staff only</div>
+<div class="help">Forgot password? <a onclick="toast('Reset email sent!')">Reset here</a></div>
+</div></div></div></div>
+<div id="adminDashView" style="display:none"><div class="admin-bg">
+<div class="admin-top"><div><h2>Admin Dashboard</h2><p>Logged in as: <strong id="aEmailDisp">admin&#64;school.ac.ug</strong> · Term 1, 2026</p></div><button class="logout-btn" onclick="aLogout()">Logout</button></div>
+<div class="tabs">
+<button class="tab active" onclick="aTab('overview')" id="at-overview">Overview</button>
+<button class="tab" onclick="aTab('analytics')" id="at-analytics">Analytics</button>
+<button class="tab" onclick="aTab('deadlines')" id="at-deadlines">Deadlines</button>
+<button class="tab" onclick="aTab('students')" id="at-students">Students</button>
+<button class="tab" onclick="aTab('payments')" id="at-payments">Payments</button>
+<button class="tab" onclick="aTab('reminders')" id="at-reminders">Email Reminders</button>
+</div>
 
-    <section class="hero">
-        <div class="container">
-            <h1 id="dynamic-hero-title">Skip the line, Pay online</h1>
-            <p>FeeFlow helps you manage your student fees, book appointments with the finance office, and make payments with ease.</p>
-            <div class="hero-btns">
-                <a href="student/login.html" class="btn primary-btn">Go to Student Dashboard</a>
-            </div>
-            
-            <div style="margin-top: 3rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.2);">
-                <p style="opacity: 0.9; margin-bottom: 1rem;">Quick Payment Access:</p>
-                <form id="quick-payment-form" style="display: flex; gap: 1rem; max-width: 500px; margin: 0 auto;">
-                    <select name="sim_id" id="student-select" style="flex: 1; padding: 0.75rem; border-radius: 0.5rem; border: none; color: var(--text-main);">
-                        <option value="">Select your student account</option>
-                        <option value="S101">Sarah (S101)</option>
-                        <option value="S102">Jackie (S102)</option>
-                        <option value="S103">Winnie (S103)</option>
-                    </select>
-                    <button type="submit" class="btn" style="background: white; color: var(--primary); font-weight: 600; border: none; padding: 0.75rem 2rem;">Pay Now</button>
-                </form>
-            </div>
-        </div>
-    </section>
+<!-- OVERVIEW -->
+<div class="asec active" id="as-overview">
+<div class="a-stats">
+<div class="asc"><div class="asl">Collected</div><div class="asv">UGX 85.4M</div><div class="ass">This semester</div></div>
+<div class="asc"><div class="asl">Outstanding</div><div class="asv" style="color:var(--red)">UGX 14.6M</div><div class="ass">Unpaid</div></div>
+<div class="asc"><div class="asl">Students</div><div class="asv">12,500</div><div class="ass">Registered</div></div>
+<div class="asc"><div class="asl">Today</div><div class="asv">47</div><div class="ass">UGX 21.3M</div></div>
+<div class="asc"><div class="asl">Overdue Accounts</div><div class="asv" style="color:var(--red)">8</div><div class="ass">Need reminders</div></div>
+<div class="asc"><div class="asl">Collection Rate</div><div class="asv">85.4%</div><div class="ass">Target: 95%</div></div>
+</div>
+<div class="tbl-wrap"><div class="tbl-top"><h4>Recent Payments</h4></div>
+<table><thead><tr><th>Student</th><th>Amount</th><th>Fee Type</th><th>Date</th><th>Token</th><th>Status</th></tr></thead><tbody>
+<tr><td class="td-n">Sarah Nakato</td><td>UGX 400,000</td><td>Tuition</td><td>10 Mar 2026</td><td><span class="tok-cell">4821</span></td><td><span class="sb sb-paid">Confirmed</span></td></tr>
+<tr><td class="td-n">Jackie Apio</td><td>UGX 750,000</td><td>Tuition+Boarding</td><td>09 Mar 2026</td><td><span class="tok-cell">3367</span></td><td><span class="sb sb-paid">Confirmed</span></td></tr>
+<tr><td class="td-n">Winnie Namukasa</td><td>UGX 350,000</td><td>Boarding</td><td>08 Mar 2026</td><td><span class="tok-cell">7154</span></td><td><span class="sb sb-partial">Partial</span></td></tr>
+<tr><td class="td-n">Brian Okello</td><td>—</td><td>Tuition</td><td>—</td><td><span style="color:var(--muted)">—</span></td><td><span class="sb sb-due">Unpaid</span></td></tr>
+<tr><td class="td-n">Grace Atim</td><td>UGX 120,000</td><td>Exam Fees</td><td>07 Mar 2026</td><td><span class="tok-cell">5903</span></td><td><span class="sb sb-paid">Confirmed</span></td></tr>
+</tbody></table></div>
+</div>
 
-    <!-- School Stats Preview -->
-    <section class="home-stats" style="margin-bottom: 5rem;">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 1rem; font-size: 2.25rem;">School Payment Data At A Glance</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">Real-time transparency for all school students.</p>
-            
-            <div class="dashboard-grid">
-                <div class="stat-card">
-                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏢</div>
-                    <h3>Collections Rate</h3>
-                    <div class="value" style="font-size: 1.5rem; color: var(--success);">85.4%</div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">Current semester recovery</p>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👥</div>
-                    <h3>Active Students</h3>
-                    <div class="value" style="font-size: 1.5rem;">12,500+</div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">Registered school users</p>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💳</div>
-                    <h3>Daily Payments</h3>
-                    <div class="value" style="font-size: 1.5rem; color: var(--primary);">$45,200</div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">Processed today online</p>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⏱️</div>
-                    <h3>Avg Wait Time</h3>
-                    <div class="value" style="font-size: 1.5rem; color: var(--warning);">12 mins</div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">With online appointments</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ANALYTICS -->
+<div class="asec" id="as-analytics">
+<div class="a-stats" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:20px">
+<div class="asc"><div class="asl">Total Collected</div><div class="asv">UGX 85.4M</div><div class="ass">+12% vs last term</div></div>
+<div class="asc"><div class="asl">Outstanding</div><div class="asv" style="color:var(--red)">UGX 14.6M</div><div class="ass">8 students</div></div>
+<div class="asc"><div class="asl">Collection Rate</div><div class="asv">85.4%</div><div class="ass">Target: 95%</div></div>
+<div class="asc"><div class="asl">Avg Payment</div><div class="asv">UGX 412K</div><div class="ass">Per student</div></div>
+<div class="asc"><div class="asl">On Time</div><div class="asv" style="color:var(--green)">71%</div><div class="ass">Paid by deadline</div></div>
+<div class="asc"><div class="asl">Via Airtel</div><div class="asv">100%</div><div class="ass">All transactions</div></div>
+</div>
+<div class="chart-row">
+<div class="chart-box"><h4>Monthly Collections (UGX)</h4>
+<div>
+<div class="trend-row" id="trendBars"></div>
+<div class="trend-labels" id="trendLabels"></div>
+</div></div>
+<div class="chart-box"><h4>Fee Type Breakdown</h4>
+<div class="bar-chart" id="feeBreakdown"></div>
+</div>
+</div>
+<div class="chart-row">
+<div class="chart-box"><h4>Payment Status Distribution</h4>
+<div class="donut-wrap">
+<svg width="110" height="110" viewBox="0 0 110 110">
+<circle cx="55" cy="55" r="40" fill="none" stroke="#EEF2F8" stroke-width="18"/>
+<circle cx="55" cy="55" r="40" fill="none" stroke="var(--green)" stroke-width="18" stroke-dasharray="159 92" stroke-dashoffset="-40" transform="rotate(-90 55 55)"/>
+<circle cx="55" cy="55" r="40" fill="none" stroke="var(--gold)" stroke-width="18" stroke-dasharray="46 205" stroke-dashoffset="-199" transform="rotate(-90 55 55)"/>
+<circle cx="55" cy="55" r="40" fill="none" stroke="var(--red)" stroke-width="18" stroke-dasharray="46 205" stroke-dashoffset="-245" transform="rotate(-90 55 55)"/>
+<text x="55" y="52" text-anchor="middle" font-size="14" font-weight="900" fill="var(--navy)">85.4%</text>
+<text x="55" y="64" text-anchor="middle" font-size="8" fill="var(--muted)">Collected</text>
+</svg>
+<div class="donut-legend">
+<div class="dl-item"><div class="dl-dot" style="background:var(--green)"></div><div><div class="dl-label">Fully Paid</div><div class="dl-val">UGX 85.4M · 8,700 students</div></div></div>
+<div class="dl-item"><div class="dl-dot" style="background:var(--gold)"></div><div><div class="dl-label">Partial Payment</div><div class="dl-val">UGX 7.2M · 2,300 students</div></div></div>
+<div class="dl-item"><div class="dl-dot" style="background:var(--red)"></div><div><div class="dl-label">Unpaid / Overdue</div><div class="dl-val">UGX 7.4M · 1,500 students</div></div></div>
+</div>
+</div></div>
+<div class="chart-box"><h4>Top Outstanding Students</h4>
+<div class="bar-chart">
+<div class="bar-row"><span class="bar-label" style="font-size:.72rem">Brian Okello</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--red)">750K</div></div></div>
+<div class="bar-row"><span class="bar-label" style="font-size:.72rem">Winnie Namukasa</span><div class="bar-track"><div class="bar-fill" style="width:53%;background:var(--red)">400K</div></div></div>
+<div class="bar-row"><span class="bar-label" style="font-size:.72rem">Sarah Nakato</span><div class="bar-track"><div class="bar-fill" style="width:47%;background:var(--gold)">350K</div></div></div>
+<div class="bar-row"><span class="bar-label" style="font-size:.72rem">Daniel Mwesige</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--gold)">300K</div></div></div>
+<div class="bar-row"><span class="bar-label" style="font-size:.72rem">Rose Akello</span><div class="bar-track"><div class="bar-fill" style="width:27%;background:var(--gold)">200K</div></div></div>
+</div></div>
+</div>
+</div>
 
-    <section class="features">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.25rem;">How we reduce your wait time</h2>
-            <div class="dashboard-grid">
-                <div class="stat-card" style="text-align: left;">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">💳</div>
-                    <h3>Multiple Payment Methods</h3>
-                    <p>Pay using credit cards, mobile money, bank transfers, or flexible installment plans.</p>
-                </div>
-                <div class="stat-card" style="text-align: left;">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📅</div>
-                    <h3>Flexible Payment Plans</h3>
-                    <p>Split your fees over 2, 3, or 6 months with no interest charges. Easy budgeting made simple.</p>
-                </div>
-                <div class="stat-card" style="text-align: left;">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">🎓</div>
-                    <h3>Scholarships & Discounts</h3>
-                    <p>Access merit-based scholarships, need-based grants, and discount codes to reduce your fees.</p>
-                </div>
-                <div class="stat-card" style="text-align: left;">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
-                    <h3>Fee Calculator</h3>
-                    <p>Instantly calculate your costs and compare different payment scenarios.</p>
-                </div>
-                <div class="stat-card" style="text-align: left;">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📜</div>
-                    <h3>Documents & Receipts</h3>
-                    <p>Download receipts, financial statements, and official certificates anytime.</p>
-                </div>
-                <div class="stat-card" style="text-align: left;">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📅</div>
-                    <h3>Smart Appointments</h3>
-                    <p>Book convenient time slots with the finance office without the wait.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- DEADLINES -->
+<div class="asec" id="as-deadlines">
+<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+<h3 style="font-family:'Merriweather',serif;font-size:1.1rem;color:var(--navy)">Payment Deadlines — Term 1, 2026</h3>
+<button class="btn-gold" style="font-size:.8rem;padding:8px 16px" onclick="showAddDeadline()">+ Add Deadline</button>
+</div>
 
-    <!-- Payment Reminders Section -->
-    <section class="reminders" style="padding: 5rem 0; background: #fee2e2; margin: 4rem 0; border-radius: 2rem;">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 1rem; font-size: 2.25rem;">⚠️ Stay on Top of Your Payments</h2>
-            <p style="text-align: center; color: #7f1d1d; margin-bottom: 3rem; font-size: 1.1rem;">Never miss a payment deadline with our smart reminder system</p>
-            
-            <div class="dashboard-grid">
-                <div style="background: white; padding: 2rem; border-radius: 1rem; border-left: 5px solid var(--danger);">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📧</div>
-                    <h3 style="margin: 0 0 0.5rem;">Email Reminders</h3>
-                    <p style="color: var(--text-muted); margin: 0;">Automatic email notifications when payments are due or overdue.</p>
-                </div>
-                
-                <div style="background: white; padding: 2rem; border-radius: 1rem; border-left: 5px solid var(--warning);">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">🔔</div>
-                    <h3 style="margin: 0 0 0.5rem;">Dashboard Alerts</h3>
-                    <p style="color: var(--text-muted); margin: 0;">See payment status and reminders instantly when you log in.</p>
-                </div>
-                
-                <div style="background: white; padding: 2rem; border-radius: 1rem; border-left: 5px solid var(--danger);">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
-                    <h3 style="margin: 0 0 0.5rem;">Payment Timeline</h3>
-                    <p style="color: var(--text-muted); margin: 0;">Track overdue and upcoming deadlines in one dedicated reminders page.</p>
-                </div>
-                
-                <div style="background: white; padding: 2rem; border-radius: 1rem; border-left: 5px solid var(--success);">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">✓</div>
-                    <h3 style="margin: 0 0 0.5rem;">No More Late Fees</h3>
-                    <p style="color: var(--text-muted); margin: 0;">Pay on time and avoid late fees, penalties, and academic holds.</p>
-                </div>
-            </div>
-            
-            <div style="margin-top: 3rem; text-align: center;">
-                <a href="student/login.html" class="btn primary-btn" style="background: var(--danger); display: inline-block;">Check Your Reminders</a>
-            </div>
-        </div>
-    </section>
+<!-- Add deadline form -->
+<div id="addDeadlineForm" style="display:none;background:#fff;border:1.5px solid #BFDBFE;border-radius:var(--r);padding:20px;margin-bottom:16px">
+<h4 style="font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:14px">Set New Deadline</h4>
+<div class="fr">
+<div class="fg"><label>Fee Type</label><select id="dlFeeType"><option>Tuition Fees</option><option>Boarding Fees</option><option>Examination Fees</option><option>Library Fees</option><option>Sports &amp; Activities</option></select></div>
+<div class="fg"><label>Deadline Date</label><input type="date" id="dlDate"></div>
+</div>
+<div class="fr">
+<div class="fg"><label>Amount Due (UGX)</label><input type="number" id="dlAmount" placeholder="e.g. 750000"></div>
+<div class="fg"><label>Term</label><select id="dlTerm"><option>Term 1, 2026</option><option>Term 2, 2026</option><option>Term 3, 2026</option></select></div>
+</div>
+<div class="fg"><label>Notes (optional)</label><input type="text" id="dlNotes" placeholder="e.g. Late fee applies after this date"></div>
+<div style="display:flex;gap:10px"><button class="btn-gold" style="font-size:.85rem;padding:9px 20px" onclick="addDeadline()">Save Deadline</button><button class="btn-navy" style="font-size:.85rem;padding:9px 20px;background:#64748B" onclick="document.getElementById('addDeadlineForm').style.display='none'">Cancel</button></div>
+</div>
 
-    <!-- CTA Section -->
-    <section class="cta" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); padding: 4rem 0; border-radius: 2rem; margin: 4rem 0; text-align: center; color: white;">
-        <div class="container">
-            <h2>Ready to simplify your school fee payment?</h2>
-            <p style="margin: 1rem 0 2rem; opacity: 0.9;">Join thousands of students already using FeeFlow for hassle-free fee management.</p>
-            <a href="student/login.html" class="btn primary-btn" style="background: white; color: var(--primary); border: none;">Login to Student Dashboard</a>
-        </div>
-    </section>
+<div class="dl-grid" id="deadlineCards">
+<div class="dl-card overdue"><div class="dl-stripe dl-stripe-r"></div><div class="dl-title">Library Fees</div><div class="dl-date">Was due: 01 Mar 2026</div><div class="dl-days dl-days-r">22 days overdue</div><div class="dl-sub">UGX 40,000 · 120 students unpaid</div><div class="progress-bar"><div class="progress-fill pf-r" style="width:35%"></div></div><div style="font-size:.68rem;color:var(--muted);margin-top:4px">35% collection rate</div><div class="dl-actions"><button class="ab ab-ok" onclick="toast('Reminders sent to 78 overdue students!')">Send Reminders</button><button class="ab ab-bl" onclick="toast('Deadline extended to 30 Apr 2026')">Extend</button></div></div>
 
-    </main>
-    <footer class="footer">
-        <div class="container footer-container">
-            <div class="footer-info">
-                <h3>FeeFlow</h3>
-                <p>Reducing students' wait time with digital payment and queue management.</p>
-            </div>
-            <div class="footer-links">
-                <p>&copy; 2026 FeeFlow. All rights reserved.</p>
-                <ul>
-                    <li><a href="admin/login.html">Staff Login</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-    <script>
-        const config = {
-            title: "Skip the line, Pay online"
-        };
-        document.title = config.title;
-        document.getElementById('dynamic-hero-title').textContent = config.title;
-    </script>
+<div class="dl-card urgent"><div class="dl-stripe dl-stripe-o"></div><div class="dl-title">Boarding Fees</div><div class="dl-date">Deadline: 31 Mar 2026</div><div class="dl-days dl-days-o">8 days left</div><div class="dl-sub">UGX 350,000 · 340 students unpaid</div><div class="progress-bar"><div class="progress-fill pf-o" style="width:62%"></div></div><div style="font-size:.68rem;color:var(--muted);margin-top:4px">62% collection rate</div><div class="dl-actions"><button class="ab ab-ok" onclick="toast('Reminders sent to 340 students!')">Send Reminders</button><button class="ab ab-bl" onclick="toast('Deadline updated!')">Edit</button></div></div>
+
+<div class="dl-card upcoming"><div class="dl-stripe dl-stripe-b"></div><div class="dl-title">Tuition Fees</div><div class="dl-date">Deadline: 15 Apr 2026</div><div class="dl-days dl-days-b">23 days left</div><div class="dl-sub">UGX 750,000 · 180 students unpaid</div><div class="progress-bar"><div class="progress-fill pf-b" style="width:78%"></div></div><div style="font-size:.68rem;color:var(--muted);margin-top:4px">78% collection rate</div><div class="dl-actions"><button class="ab ab-ok" onclick="toast('Reminders sent!')">Send Reminders</button><button class="ab ab-bl" onclick="toast('Deadline updated!')">Edit</button></div></div>
+
+<div class="dl-card ok"><div class="dl-stripe dl-stripe-g"></div><div class="dl-title">Examination Fees</div><div class="dl-date">Deadline: 15 May 2026</div><div class="dl-days dl-days-g">53 days left</div><div class="dl-sub">UGX 80,000 · 50 students unpaid</div><div class="progress-bar"><div class="progress-fill pf-g" style="width:95%"></div></div><div style="font-size:.68rem;color:var(--muted);margin-top:4px">95% collection rate</div><div class="dl-actions"><button class="ab ab-bl" onclick="toast('Deadline updated!')">Edit</button></div></div>
+</div>
+
+<div id="customDeadlines"></div>
+
+<div class="tbl-wrap" style="margin-top:4px"><div class="tbl-top"><h4>All Deadline Records</h4></div>
+<table><thead><tr><th>Fee Type</th><th>Deadline</th><th>Amount</th><th>Unpaid</th><th>Collection Rate</th><th>Status</th><th>Action</th></tr></thead>
+<tbody id="deadlineTbody">
+<tr><td>Library Fees</td><td>01 Mar 2026</td><td>UGX 40,000</td><td>78 students</td><td><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:6px;background:#EEF2F8;border-radius:3px"><div style="width:35%;height:100%;background:var(--red);border-radius:3px"></div></div><span style="font-size:.75rem;font-weight:700;color:var(--red)">35%</span></div></td><td><span class="sb sb-over">Overdue</span></td><td><button class="ab ab-ok" onclick="toast('Reminders sent!')">Remind</button></td></tr>
+<tr><td>Boarding Fees</td><td>31 Mar 2026</td><td>UGX 350,000</td><td>340 students</td><td><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:6px;background:#EEF2F8;border-radius:3px"><div style="width:62%;height:100%;background:var(--gold);border-radius:3px"></div></div><span style="font-size:.75rem;font-weight:700;color:var(--gold)">62%</span></div></td><td><span class="sb sb-warn">Urgent</span></td><td><button class="ab ab-ok" onclick="toast('Reminders sent!')">Remind</button></td></tr>
+<tr><td>Tuition Fees</td><td>15 Apr 2026</td><td>UGX 750,000</td><td>180 students</td><td><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:6px;background:#EEF2F8;border-radius:3px"><div style="width:78%;height:100%;background:var(--blue);border-radius:3px"></div></div><span style="font-size:.75rem;font-weight:700;color:var(--blue)">78%</span></div></td><td><span class="sb sb-new">Upcoming</span></td><td><button class="ab ab-ok" onclick="toast('Reminders sent!')">Remind</button></td></tr>
+<tr><td>Exam Fees</td><td>15 May 2026</td><td>UGX 80,000</td><td>50 students</td><td><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:6px;background:#EEF2F8;border-radius:3px"><div style="width:95%;height:100%;background:var(--green);border-radius:3px"></div></div><span style="font-size:.75rem;font-weight:700;color:var(--green)">95%</span></div></td><td><span class="sb sb-ok">On Track</span></td><td><button class="ab ab-bl" onclick="toast('Viewed!')">View</button></td></tr>
+</tbody></table></div>
+</div>
+
+<!-- STUDENTS -->
+<div class="asec" id="as-students">
+<div class="tbl-wrap"><div class="tbl-top"><h4>All Students</h4><input class="search-box" placeholder="Search by name or ID…" oninput="filterStudents(this.value)"></div>
+<table><thead><tr><th>Name</th><th>ID</th><th>Email</th><th>Class</th><th>Balance</th><th>Token</th><th>Status</th><th>Action</th></tr></thead>
+<tbody id="sTbody">
+<tr><td class="td-n">Sarah Nakato</td><td class="td-id">S101</td><td style="font-size:.78rem">sarah.nakato&#64;school.ac.ug</td><td>S.4 West</td><td style="color:var(--red);font-weight:700">UGX 350,000</td><td><span class="tok-cell">4821</span></td><td><span class="sb sb-partial">Partial</span></td><td><button class="ab ab-bl" onclick="toast('Viewing Sarah Nakato…')">View</button></td></tr>
+<tr><td class="td-n">Jackie Apio</td><td class="td-id">S102</td><td style="font-size:.78rem">jackie.apio&#64;school.ac.ug</td><td>S.3 East</td><td style="color:var(--green);font-weight:700">UGX 0</td><td><span class="tok-cell">3367</span></td><td><span class="sb sb-paid">Cleared</span></td><td><button class="ab ab-bl" onclick="toast('Viewing Jackie Apio…')">View</button></td></tr>
+<tr><td class="td-n">Winnie Namukasa</td><td class="td-id">S103</td><td style="font-size:.78rem">winnie.n&#64;school.ac.ug</td><td>S.5 Arts</td><td style="color:var(--red);font-weight:700">UGX 400,000</td><td><span class="tok-cell">7154</span></td><td><span class="sb sb-due">Due</span></td><td><button class="ab ab-bl" onclick="toast('Viewing Winnie…')">View</button></td></tr>
+<tr><td class="td-n">Brian Okello</td><td class="td-id">S104</td><td style="font-size:.78rem">brian.okello&#64;school.ac.ug</td><td>S.6 Science</td><td style="color:var(--red);font-weight:700">UGX 750,000</td><td><span class="tok-cell">2648</span></td><td><span class="sb sb-due">Due</span></td><td><button class="ab ab-bl" onclick="toast('Viewing Brian…')">View</button></td></tr>
+<tr><td class="td-n">Grace Atim</td><td class="td-id">S105</td><td style="font-size:.78rem">grace.atim&#64;school.ac.ug</td><td>S.4 East</td><td style="color:var(--green);font-weight:700">UGX 0</td><td><span class="tok-cell">5903</span></td><td><span class="sb sb-paid">Cleared</span></td><td><button class="ab ab-bl" onclick="toast('Viewing Grace…')">View</button></td></tr>
+</tbody></table></div>
+</div>
+
+<!-- PAYMENTS -->
+<div class="asec" id="as-payments">
+<div class="pend-alert" id="pendingAlert"><div class="pend-alert-top"><h4>Pending Confirmations</h4><span id="pendingCount">0 pending</span></div>
+<div class="tbl-wrap" style="border:none"><table><thead><tr><th>Student</th><th>ID</th><th>Amount</th><th>Fee Type</th><th>Term</th><th>Airtel No.</th><th>Submitted</th><th>Action</th></tr></thead><tbody id="pendTbody"></tbody></table></div></div>
+<div class="tbl-wrap"><div class="tbl-top"><h4>All Confirmed Payments &amp; Tokens</h4><button class="btn-gold" style="font-size:.76rem;padding:6px 14px" onclick="toast('Report exported!')">Export</button></div>
+<table><thead><tr><th>Student</th><th>Amount</th><th>Fee Type</th><th>Method</th><th>Date</th><th>Token</th><th>Status</th></tr></thead>
+<tbody id="adminPayTbody">
+<tr><td class="td-n">Sarah Nakato</td><td>UGX 400,000</td><td>Tuition</td><td>Airtel Money</td><td>10 Mar 2026</td><td><span class="tok-cell">4821</span></td><td><span class="sb sb-paid">Confirmed</span></td></tr>
+<tr><td class="td-n">Jackie Apio</td><td>UGX 750,000</td><td>Tuition+Boarding</td><td>Airtel Money</td><td>09 Mar 2026</td><td><span class="tok-cell">3367</span></td><td><span class="sb sb-paid">Confirmed</span></td></tr>
+<tr><td class="td-n">Winnie Namukasa</td><td>UGX 350,000</td><td>Boarding</td><td>Airtel Money</td><td>08 Mar 2026</td><td><span class="tok-cell">7154</span></td><td><span class="sb sb-partial">Partial</span></td></tr>
+<tr><td class="td-n">Grace Atim</td><td>UGX 120,000</td><td>Exam Fees</td><td>Airtel Money</td><td>07 Mar 2026</td><td><span class="tok-cell">5903</span></td><td><span class="sb sb-paid">Confirmed</span></td></tr>
+</tbody></table></div>
+</div>
+
+<!-- EMAIL REMINDERS -->
+<div class="asec" id="as-reminders">
+<div class="rem-grid">
+<div class="rem-box"><h4>Overdue Students</h4>
+<div class="rem-item"><div class="rdot rd-r"></div><div><h5>Winnie Namukasa (S103)</h5><p>Boarding – UGX 400,000 · 19 days overdue</p></div><button class="ab ab-ok" style="margin-left:auto;flex-shrink:0" onclick="quickSendReminder('Winnie Namukasa','winnie.n&#64;school.ac.ug','Boarding Fee Overdue','Dear Winnie Namukasa,\n\nThis is a reminder that your Boarding Fee balance of UGX 400,000 is 19 days overdue. Please make payment via Airtel Money as soon as possible to avoid academic penalties.\n\nKind regards,\nFinance Office')">Send</button></div>
+<div class="rem-item"><div class="rdot rd-r"></div><div><h5>Brian Okello (S104)</h5><p>Tuition – UGX 750,000 · 21 days overdue</p></div><button class="ab ab-ok" style="margin-left:auto;flex-shrink:0" onclick="quickSendReminder('Brian Okello','brian.okello&#64;school.ac.ug','Tuition Fee Overdue — Urgent','Dear Brian Okello,\n\nYour Tuition Fee of UGX 750,000 is 21 days overdue. Please pay immediately via Airtel Money.\n\nFinance Office')">Send</button></div>
+<div class="rem-item"><div class="rdot rd-o"></div><div><h5>Sarah Nakato (S101)</h5><p>Boarding – UGX 350,000 · Due in 12 days</p></div><button class="ab ab-ok" style="margin-left:auto;flex-shrink:0" onclick="quickSendReminder('Sarah Nakato','sarah.nakato&#64;school.ac.ug','Upcoming Fee Reminder','Dear Sarah Nakato,\n\nYour Boarding Fee of UGX 350,000 is due in 12 days (31 March 2026). Please ensure payment is made via Airtel Money before the deadline.\n\nFinance Office')">Send</button></div>
+<br><button class="btn-red" onclick="sendAllRem()">Send All Overdue Reminders</button></div>
+<div class="compose"><h4>Compose Reminder</h4>
+<div class="fg"><label>Send To</label><select id="remTo"><option value="">-- Select recipient --</option><option value="sarah nakato|Sarah Nakato|sarah.nakato&#64;school.ac.ug">Sarah Nakato (S101)</option><option value="jackie apio|Jackie Apio|jackie.apio&#64;school.ac.ug">Jackie Apio (S102)</option><option value="winnie namukasa|Winnie Namukasa|winnie.n&#64;school.ac.ug">Winnie Namukasa (S103)</option><option value="brian okello|Brian Okello|brian.okello&#64;school.ac.ug">Brian Okello (S104)</option><option value="grace atim|Grace Atim|grace.atim&#64;school.ac.ug">Grace Atim (S105)</option><option value="all|All Students|all">All Students with Outstanding Balances</option></select></div>
+<div class="fg"><label>Subject</label><input type="text" id="remSubj" placeholder="e.g. Urgent: Fee Payment Due"></div>
+<div class="fg"><label>Message</label><textarea id="remMsg" placeholder="Dear Student,&#10;&#10;This is a reminder that your fee balance is outstanding.&#10;&#10;Finance Office"></textarea></div>
+<button class="btn-gold" style="width:100%;justify-content:center" onclick="sendRem()">Send Email Reminder</button></div>
+</div>
+<div class="tbl-wrap"><div class="tbl-top"><h4>Sent History</h4></div>
+<table><thead><tr><th>Recipient</th><th>Subject</th><th>Sent By</th><th>Date &amp; Time</th><th>Status</th></tr></thead>
+<tbody id="remHistory"><tr><td class="td-n">All Students (12)</td><td>Term 1 Fee Deadline Reminder</td><td>Admin</td><td>15 Mar 2026, 9:00 AM</td><td><span class="sb sb-paid">Delivered</span></td></tr><tr><td class="td-n">Brian Okello (S104)</td><td>Urgent: Tuition Fee Overdue</td><td>Admin</td><td>10 Mar 2026, 2:30 PM</td><td><span class="sb sb-paid">Delivered</span></td></tr></tbody></table></div>
+</div>
+</div></div>
+<!-- CONTACT -->
+<div class="page" id="page-contact">
+<div class="pad" style="background:var(--light)"><div class="tag">Get in Touch</div><h2 class="stitle">Contact the Finance Office</h2><p class="ssub">Have a question about your fees? Reach out and we will get back to you quickly.</p></div>
+<div class="contact-grid">
+<div class="ci-card"><h2>We are here to help</h2><p class="intro">Whether it is a balance query, receipt request, or help with Airtel Money — our team is ready.</p>
+<div class="ci-row"><div class="ci-ico"><svg width="17" height="17" fill="none" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z" stroke="var(--blue)" stroke-width="2"/><circle cx="12" cy="10" r="3" stroke="var(--blue)" stroke-width="2"/></svg></div><div class="ci-txt"><h5>Finance Office</h5><p>Main Admin Block, Ground Floor</p></div></div>
+<div class="ci-row"><div class="ci-ico"><svg width="17" height="17" fill="none" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="var(--blue)" stroke-width="2"/><path d="M22 6l-10 7L2 6" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/></svg></div><div class="ci-txt"><h5>Email</h5><p>finance&#64;school.ac.ug</p></div></div>
+<div class="ci-row"><div class="ci-ico"><svg width="17" height="17" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="var(--blue)" stroke-width="2"/><path d="M12 6v6l4 2" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/></svg></div><div class="ci-txt"><h5>Office Hours</h5><p>Mon–Fri 8AM–5PM · Sat 9AM–1PM</p></div></div>
+<button class="btn-navy" onclick="go('student')" style="margin-top:10px">Book via Student Portal</button></div>
+<div class="cform"><h3>Send a Message</h3>
+<div class="fg"><label>Full Name</label><input type="text" id="cName" placeholder="e.g. Sarah Nakato"></div>
+<div class="fg"><label>Student ID</label><input type="text" id="cId" placeholder="e.g. S101"></div>
+<div class="fg"><label>Your Email</label><input type="email" id="cEmail" placeholder="e.g. sarah&#64;example.com"></div>
+<div class="fg"><label>Subject</label><select id="cSubject"><option value="">-- Select --</option><option>Query about fee balance</option><option>Receipt request</option><option>Payment not reflecting</option><option>Other</option></select></div>
+<div class="fg"><label>Message</label><textarea id="cMsg" placeholder="Describe your issue…"></textarea></div>
+<button class="btn-gold" style="width:100%;justify-content:center" onclick="sendMsg()">Send Message</button>
+</div></div>
+<footer><span class="flogo" onclick="go('home')"><em>Fee</em>Flow</span><p style="font-size:.78rem">© 2026 FeeFlow</p><div class="flinks"><a onclick="go('student')">Student Portal</a><a onclick="go('staff')">Staff</a></div></footer>
+</div>
+<script>
+var DB={'sarah nakato|s101':{name:'Sarah Nakato',id:'S101'},'jackie apio|s102':{name:'Jackie Apio',id:'S102'},'winnie namukasa|s103':{name:'Winnie Namukasa',id:'S103'}};
+var TOKEN_REGISTRY={'sarah nakato':'4821','jackie apio':'3367','winnie namukasa':'7154','grace atim':'5903','brian okello':'2648'};
+var usedTokens=['4821','3367','7154','5903','2648'];
+var inboxMessages={};
+var pending=[];
+var currentStudent='';
+function getToken(name){var key=name.trim().toLowerCase();if(TOKEN_REGISTRY[key])return TOKEN_REGISTRY[key];var tok;do{tok=String(Math.floor(1000+Math.random()*9000));}while(usedTokens.indexOf(tok)!==-1);TOKEN_REGISTRY[key]=tok;usedTokens.push(tok);return tok;}
+function nowStr(){var d=new Date();return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+', '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
+function go(page){var ps=document.querySelectorAll('.page');for(var i=0;i<ps.length;i++)ps[i].classList.remove('active');var ns=document.querySelectorAll('.nav-links a');for(var i=0;i<ns.length;i++)ns[i].classList.remove('active');var el=document.getElementById('page-'+page);var nav=document.getElementById('nav-'+page);if(el)el.classList.add('active');if(nav)nav.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});document.getElementById('navLinks').classList.remove('open');}
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}
+var toastTimer;
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove('show');},3500);}
+window.addEventListener('load',function(){
+  if(sessionStorage.getItem('sLoggedIn')){var n=sessionStorage.getItem('sName'),i=sessionStorage.getItem('sId'),e=sessionStorage.getItem('sEmail');currentStudent=n?n.toLowerCase():'';showSDash(n,i,e);go('student');}
+  if(sessionStorage.getItem('aLoggedIn')){showADash(sessionStorage.getItem('aEmail'));go('staff');}
+  buildCharts();
+});
+function quickPay(){var s=document.getElementById('quickStudent').value,a=document.getElementById('quickAmt').value,p=document.getElementById('quickPhone').value;if(!s)return toast('Please select a student account');if(!a||a<=0)return toast('Please enter a valid amount');if(!p)return toast('Please enter an Airtel Money number');toast('Payment prompt sent to '+p+' for '+s+'!');}
+function sLogin(){var name=document.getElementById('sName').value.trim().toLowerCase(),id=document.getElementById('sId').value.trim().toLowerCase(),email=document.getElementById('sEmail').value.trim(),stay=document.getElementById('sStay').checked,err=document.getElementById('sErr'),key=name+'|'+id;if(DB[key]){err.style.display='none';var s=DB[key],em=email||s.name.split(' ')[0].toLowerCase()+'@school.ac.ug';currentStudent=s.name.toLowerCase();if(stay){sessionStorage.setItem('sLoggedIn','1');sessionStorage.setItem('sName',s.name);sessionStorage.setItem('sId',s.id);sessionStorage.setItem('sEmail',em);}showSDash(s.name,s.id,em);go('student');toast('Welcome back, '+s.name+'!');}else{err.style.display='block';}}
+function showSDash(name,id,email){document.getElementById('dName').textContent=name;document.getElementById('dId').textContent=id;document.getElementById('dEmail').textContent=email||'';document.getElementById('sLoginView').style.display='none';document.getElementById('sDashView').style.display='block';renderInbox();}
+function sLogout(){['sLoggedIn','sName','sId','sEmail'].forEach(function(k){sessionStorage.removeItem(k);});currentStudent='';document.getElementById('sLoginView').style.display='block';document.getElementById('sDashView').style.display='none';['sName','sId','sEmail'].forEach(function(i){var el=document.getElementById(i);if(el)el.value='';});document.getElementById('sErr').style.display='none';toast('Logged out.');}
+function sTab(t){var ts=document.querySelectorAll('.s-tab');for(var i=0;i<ts.length;i++)ts[i].classList.remove('active');var ss=document.querySelectorAll('.s-sec');for(var i=0;i<ss.length;i++)ss[i].classList.remove('active');document.getElementById('st-'+t).classList.add('active');document.getElementById('ss-'+t).classList.add('active');}
+function renderInbox(){var msgs=inboxMessages[currentStudent]||[],unread=msgs.filter(function(m){return !m.read;}).length;var badge=document.getElementById('inboxBadge');if(badge){badge.textContent=unread;badge.style.display=unread>0?'inline':'none';}var cardCount=document.getElementById('inboxCount'),cardUnread=document.getElementById('inboxUnread');if(cardCount)cardCount.textContent=msgs.length+(msgs.length===1?' message':' messages');if(cardUnread)cardUnread.textContent=unread>0?unread+' unread':'No unread';var ub=document.getElementById('inboxUnreadBadge');if(ub)ub.textContent=unread;var listEl=document.getElementById('msgList');if(!listEl)return;if(msgs.length===0){listEl.innerHTML='<div style="padding:24px;text-align:center;color:var(--muted);font-size:.84rem">No messages yet.<br>Admin reminders will appear here.</div>';return;}listEl.innerHTML=msgs.map(function(m,i){return '<div class="msg-item'+(m.read?'':' unread')+'" onclick="openMsg('+i+')" id="msgItem'+i+'"><div class="msg-sender">'+m.from+'</div><div class="msg-subject">'+m.subject+'</div><div class="msg-preview">'+m.body.substring(0,55).replace(/\n/g,' ')+'…</div><div class="msg-date">'+m.date+'</div></div>';}).join('');var recentEl=document.getElementById('recentMsgs');if(recentEl){if(msgs.length===0){recentEl.innerHTML='<span style="color:var(--muted)">No messages yet.</span>';}else{recentEl.innerHTML=msgs.slice(0,3).map(function(m){return '<div class="pi"><div><div class="pil">'+m.subject+'</div><div class="pid">'+m.from+' · '+m.date+'</div></div><span class="sb '+(m.read?'sb-paid':'sb-new')+'">'+(m.read?'Read':'New')+'</span></div>';}).join('');}}}
+function openMsg(i){var msgs=inboxMessages[currentStudent]||[],m=msgs[i];if(!m)return;m.read=true;var item=document.getElementById('msgItem'+i);if(item)item.classList.remove('unread');document.getElementById('mdSubject').textContent=m.subject;document.getElementById('mdFrom').textContent=m.from;document.getElementById('mdDate').textContent=m.date;document.getElementById('mdTo').textContent=m.to;document.getElementById('mdBody').textContent=m.body;document.getElementById('inboxEmpty').style.display='none';document.getElementById('msgDetail').style.display='flex';var all=document.querySelectorAll('.msg-item');for(var j=0;j<all.length;j++)all[j].classList.remove('active');if(item)item.classList.add('active');renderInbox();}
+function deliverToInbox(key,msg){var k=key.toLowerCase();if(!inboxMessages[k])inboxMessages[k]=[];inboxMessages[k].unshift(msg);if(currentStudent===k)renderInbox();}
+function aLogin(){var email=document.getElementById('aEmail').value.trim(),pass=document.getElementById('aPass').value.trim(),stay=document.getElementById('aStay').checked,err=document.getElementById('aErr');if(email==='admin@school.ac.ug'&&pass==='admin123'){err.style.display='none';if(stay){sessionStorage.setItem('aLoggedIn','1');sessionStorage.setItem('aEmail',email);}showADash(email);go('staff');toast('Welcome, Admin!');}else{err.style.display='block';}}
+function showADash(email){document.getElementById('aEmailDisp').textContent=email||'admin@school.ac.ug';document.getElementById('staffLoginView').style.display='none';document.getElementById('adminDashView').style.display='block';}
+function aLogout(){['aLoggedIn','aEmail'].forEach(function(k){sessionStorage.removeItem(k);});document.getElementById('staffLoginView').style.display='block';document.getElementById('adminDashView').style.display='none';['aEmail','aPass'].forEach(function(i){var el=document.getElementById(i);if(el)el.value='';});document.getElementById('aErr').style.display='none';toast('Admin logged out.');}
+function aTab(t){var ts=document.querySelectorAll('.tab');for(var i=0;i<ts.length;i++)ts[i].classList.remove('active');var ss=document.querySelectorAll('.asec');for(var i=0;i<ss.length;i++)ss[i].classList.remove('active');document.getElementById('at-'+t).classList.add('active');document.getElementById('as-'+t).classList.add('active');}
+function filterStudents(q){var rows=document.querySelectorAll('#sTbody tr');for(var i=0;i<rows.length;i++){rows[i].style.display=rows[i].textContent.toLowerCase().indexOf(q.toLowerCase())!==-1?'':'none';}}
+function submitPay(){var n=document.getElementById('payName').value.trim(),id=document.getElementById('payId').value.trim(),ft=document.getElementById('feeType').value,term=document.getElementById('payTerm').value,a=document.getElementById('payAmt').value,p=document.getElementById('payPhone').value.trim();if(!n||!id||!ft||!term||!a||!p)return toast('Please fill in all fields');if(isNaN(a)||Number(a)<=0)return toast('Please enter a valid amount');getToken(n);var fmt='UGX '+Number(a).toLocaleString(),issued=nowStr();document.getElementById('tkStudent').textContent=n;document.getElementById('tkId').textContent=id.toUpperCase();document.getElementById('tkAmt').textContent=fmt;document.getElementById('tkFee').textContent=ft;document.getElementById('tkTerm').textContent=term;document.getElementById('tkPhone').textContent=p;document.getElementById('tkDate').textContent=issued;var badge=document.getElementById('payStatusBadge');badge.textContent='PENDING ADMIN CONFIRMATION';badge.style.background='#F59E0B';badge.style.color='#fff';document.getElementById('tokReveal').style.display='none';document.getElementById('pendCard').style.display='block';pending.unshift({name:n,id:id.toUpperCase(),amt:fmt,fee:ft,term:term,phone:p,issued:issued,status:'Pending'});renderPending();toast('Payment submitted! Awaiting staff confirmation.');['payName','payId','payAmt','payPhone'].forEach(function(i){document.getElementById(i).value='';});document.getElementById('feeType').value='';document.getElementById('payTerm').value='';}
+function renderPending(){var alert=document.getElementById('pendingAlert'),tbody=document.getElementById('pendTbody'),count=document.getElementById('pendingCount');if(!alert||!tbody)return;var rows=pending.filter(function(t){return t.status==='Pending';});alert.style.display=rows.length?'block':'none';if(count)count.textContent=rows.length+' pending';tbody.innerHTML=rows.map(function(t,i){return '<tr><td class="td-n">'+t.name+'</td><td class="td-id">'+t.id+'</td><td style="font-weight:700;color:var(--green)">'+t.amt+'</td><td>'+t.fee+'</td><td>'+t.term+'</td><td style="font-size:.78rem">'+t.phone+'</td><td style="font-size:.75rem">'+t.issued+'</td><td><div style="display:flex;gap:5px"><button class="ab ab-ok" onclick="confirmPayment('+i+')">Confirm</button><button class="ab ab-no" onclick="rejectPayment('+i+')">Reject</button></div></td></tr>';}).join('');}
+function confirmPayment(i){var t=pending[i];t.status='Confirmed';var tok=getToken(t.name);var tbody=document.getElementById('adminPayTbody');if(tbody){var row=document.createElement('tr');row.innerHTML='<td class="td-n">'+t.name+'</td><td>'+t.amt+'</td><td>'+t.fee+'</td><td>Airtel Money</td><td>'+t.issued+'</td><td><span class="tok-cell">'+tok+'</span></td><td><span class="sb sb-paid">Confirmed</span></td>';tbody.insertBefore(row,tbody.firstChild);}var cur=document.getElementById('tkStudent');if(cur&&cur.textContent.trim().toLowerCase()===t.name.toLowerCase()){document.getElementById('tokNum').textContent=tok;document.getElementById('tokName').textContent=t.name+' — confirmed by Finance Office';document.getElementById('tokReveal').style.display='block';var badge=document.getElementById('payStatusBadge');badge.textContent='PAYMENT CONFIRMED';badge.style.background='#16A34A';badge.style.color='#fff';}renderPending();toast('Confirmed! Token '+tok+' issued to '+t.name+'.');}
+function rejectPayment(i){var t=pending[i];t.status='Rejected';var tbody=document.getElementById('adminPayTbody');if(tbody){var row=document.createElement('tr');row.innerHTML='<td class="td-n">'+t.name+'</td><td>'+t.amt+'</td><td>'+t.fee+'</td><td>Airtel Money</td><td>'+t.issued+'</td><td style="color:var(--muted)">—</td><td><span class="sb sb-due">Rejected</span></td>';tbody.insertBefore(row,tbody.firstChild);}var cur=document.getElementById('tkStudent');if(cur&&cur.textContent.trim().toLowerCase()===t.name.toLowerCase()){var badge=document.getElementById('payStatusBadge');badge.textContent='REJECTED — Contact Finance Office';badge.style.background='#DC2626';badge.style.color='#fff';}renderPending();toast('Payment rejected for '+t.name+'.');}
+function quickSendReminder(sn,email,subject,body){var key=sn.toLowerCase(),msg={from:'Finance Office',to:email,subject:subject,body:body,date:nowStr(),read:false};deliverToInbox(key,msg);addRemHistory(sn,subject);toast('Reminder sent to '+sn+'! Available in their inbox.');}
+function sendRem(){var toVal=document.getElementById('remTo').value,subj=document.getElementById('remSubj').value.trim(),msg=document.getElementById('remMsg').value.trim();if(!toVal||!subj||!msg)return toast('Please fill in all reminder fields');var parts=toVal.split('|');if(parts[0]==='all'){var all=[{key:'sarah nakato',email:'sarah.nakato@school.ac.ug',name:'Sarah Nakato'},{key:'jackie apio',email:'jackie.apio@school.ac.ug',name:'Jackie Apio'},{key:'winnie namukasa',email:'winnie.n@school.ac.ug',name:'Winnie Namukasa'},{key:'brian okello',email:'brian.okello@school.ac.ug',name:'Brian Okello'},{key:'grace atim',email:'grace.atim@school.ac.ug',name:'Grace Atim'}];all.forEach(function(s){deliverToInbox(s.key,{from:'Finance Office',to:s.email,subject:subj,body:msg,date:nowStr(),read:false});});addRemHistory('All Students (5)',subj);toast('Reminder sent to all students!');}else{var key=parts[0],sname=parts[1],semail=parts[2];deliverToInbox(key,{from:'Finance Office',to:semail,subject:subj,body:msg,date:nowStr(),read:false});addRemHistory(sname,subj);toast('Reminder sent to '+sname+'!');}document.getElementById('remTo').value='';document.getElementById('remSubj').value='';document.getElementById('remMsg').value='';}
+function sendAllRem(){var all=[{key:'winnie namukasa',email:'winnie.n@school.ac.ug',name:'Winnie Namukasa'},{key:'brian okello',email:'brian.okello@school.ac.ug',name:'Brian Okello'}],subj='Overdue Fee Payment — Urgent Action Required',body='Dear Student,\n\nThis is an urgent reminder that your fee balance is overdue. Please make payment immediately via Airtel Money.\n\nFinance Office';all.forEach(function(s){deliverToInbox(s.key,{from:'Finance Office',to:s.email,subject:subj,body:body,date:nowStr(),read:false});});addRemHistory('All Overdue Students (2)',subj);toast('Bulk reminder sent!');}
+function addRemHistory(to,subj){var tbody=document.getElementById('remHistory'),row=document.createElement('tr');row.innerHTML='<td class="td-n">'+to+'</td><td>'+subj+'</td><td>Admin</td><td>'+nowStr()+'</td><td><span class="sb sb-paid">Delivered</span></td>';tbody.insertBefore(row,tbody.firstChild);}
+function sendMsg(){var n=document.getElementById('cName').value.trim(),id=document.getElementById('cId').value.trim(),e=document.getElementById('cEmail').value.trim(),s=document.getElementById('cSubject').value,m=document.getElementById('cMsg').value.trim();if(!n||!id||!e||!s||!m)return toast('Please fill in all fields');toast('Message sent! We will reply to '+e+' within 24 hours.');['cName','cId','cEmail','cMsg'].forEach(function(i){document.getElementById(i).value='';});document.getElementById('cSubject').value='';}
+function showAddDeadline(){var f=document.getElementById('addDeadlineForm');f.style.display=f.style.display==='none'?'block':'none';}
+function addDeadline(){var ft=document.getElementById('dlFeeType').value,date=document.getElementById('dlDate').value,amt=document.getElementById('dlAmount').value,term=document.getElementById('dlTerm').value,notes=document.getElementById('dlNotes').value;if(!ft||!date||!amt)return toast('Please fill Fee Type, Date, and Amount');var d=new Date(date),now=new Date(),diff=Math.ceil((d-now)/(1000*60*60*24));var cls='upcoming',stripeClass='dl-stripe-b',daysClass='dl-days-b',pfClass='pf-b',sbClass='sb-new',statusText='Upcoming';if(diff<0){cls='overdue';stripeClass='dl-stripe-r';daysClass='dl-days-r';pfClass='pf-r';sbClass='sb-over';statusText='Overdue';}else if(diff<=14){cls='urgent';stripeClass='dl-stripe-o';daysClass='dl-days-o';pfClass='pf-o';sbClass='sb-warn';statusText='Urgent';}else if(diff>30){cls='ok';stripeClass='dl-stripe-g';daysClass='dl-days-g';pfClass='pf-g';sbClass='sb-ok';statusText='On Track';}var fmtAmt='UGX '+Number(amt).toLocaleString(),fmtDate=d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}),daysText=diff<0?Math.abs(diff)+' days overdue':diff+' days left';var card=document.createElement('div');card.className='dl-card '+cls;card.innerHTML='<div class="dl-stripe '+stripeClass+'"></div><div class="dl-title">'+ft+'</div><div class="dl-date">'+(diff<0?'Was due: ':'Deadline: ')+fmtDate+'</div><div class="dl-days '+daysClass+'">'+daysText+'</div><div class="dl-sub">'+fmtAmt+(notes?' · '+notes:'')+'</div><div class="progress-bar"><div class="progress-fill '+pfClass+'" style="width:0%"></div></div><div style="font-size:.68rem;color:var(--muted);margin-top:4px">0% collection rate</div><div class="dl-actions"><button class="ab ab-ok" onclick="toast(\'Reminders sent!\')">Send Reminders</button><button class="ab ab-bl" onclick="toast(\'Deadline updated!\')">Edit</button></div>';document.getElementById('customDeadlines').appendChild(card);var tbody=document.getElementById('deadlineTbody'),row=document.createElement('tr');row.innerHTML='<td>'+ft+'</td><td>'+fmtDate+'</td><td>'+fmtAmt+'</td><td>—</td><td><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:6px;background:#EEF2F8;border-radius:3px"><div style="width:0;height:100%;background:var(--blue);border-radius:3px"></div></div><span style="font-size:.75rem;font-weight:700;color:var(--blue)">0%</span></div></td><td><span class="sb '+sbClass+'">'+statusText+'</span></td><td><button class="ab ab-ok" onclick="toast(\'Reminders sent!\')">Remind</button></td>';tbody.insertBefore(row,tbody.firstChild);document.getElementById('addDeadlineForm').style.display='none';['dlDate','dlAmount','dlNotes'].forEach(function(i){document.getElementById(i).value='';});toast('Deadline for '+ft+' added successfully!');}
+function buildCharts(){var months=['Oct','Nov','Dec','Jan','Feb','Mar'],vals=[42,58,51,73,68,85],maxVal=90;var barsEl=document.getElementById('trendBars'),labelsEl=document.getElementById('trendLabels');if(!barsEl)return;var barsHtml='',labelsHtml='';for(var i=0;i<months.length;i++){var h=Math.round((vals[i]/maxVal)*70);var col=i===months.length-1?'var(--blue)':'var(--light)';var tc=i===months.length-1?'var(--navy)':'var(--muted)';barsHtml+='<div class="trend-bar" style="height:'+h+'px;background:'+col+'"><span style="color:'+tc+'">'+vals[i]+'M</span></div>';}for(var i=0;i<months.length;i++){labelsHtml+='<span>'+months[i]+'</span>';}barsEl.innerHTML=barsHtml;labelsEl.innerHTML=labelsHtml;var feeData=[{label:'Tuition',val:45,color:'var(--blue)'},{label:'Boarding',val:28,color:'var(--navy)'},{label:'Exam Fees',val:15,color:'var(--green)'},{label:'Library',val:7,color:'var(--gold)'},{label:'Sports',val:5,color:'var(--muted)'}];var fbEl=document.getElementById('feeBreakdown');if(!fbEl)return;var total=45+28+15+7+5;fbEl.innerHTML=feeData.map(function(f){var pct=Math.round((f.val/total)*100);return '<div class="bar-row"><span class="bar-label">'+f.label+'</span><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+f.color+'">'+pct+'%</div></div><span class="bar-val">UGX '+f.val+'M</span></div>';}).join('');}
+</script>
 </body>
 </html>
-
