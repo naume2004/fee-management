@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#f0f2f5"/>
+  <text x="400" y="40" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="22" font-weight="bold">Secure Payment Gateway</text>
+  <text x="400" y="62" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="12">Choose your preferred payment method to settle your school fees</text>
+
+  <!-- Payment Summary Sidebar -->
+  <rect x="30" y="85" width="280" height="480" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="115" fill="#1e293b" font-family="Arial" font-size="15" font-weight="bold">Payment Summary</text>
+  <text x="50" y="145" fill="#64748b" font-family="Arial" font-size="11">Student: Aisha Nakato</text>
+  <text x="50" y="165" fill="#64748b" font-family="Arial" font-size="11">ID: S101</text>
+  <line x1="50" y1="180" x2="290" y2="180" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="205" fill="#64748b" font-family="Arial" font-size="12" font-weight="bold">Outstanding Fees:</text>
+  <text x="50" y="230" fill="#1e293b" font-family="Arial" font-size="12">School Meals</text>
+  <text x="250" y="230" fill="#ef4444" font-family="Arial" font-size="12" font-weight="bold">UGX 1,140,000</text>
+
+  <rect x="30" y="250" width="280" height="80" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+  <text x="50" y="275" fill="#92400e" font-family="Arial" font-size="12"><tspan font-weight="bold">Total Due:</tspan></text>
+  <text x="50" y="310" fill="#ef4444" font-family="Arial" font-size="24" font-weight="900">UGX 1,140,000</text>
+
+  <rect x="50" y="350" width="240" height="36" rx="8" fill="#f1f5f9"/>
+  <text x="170" y="373" text-anchor="middle" fill="#4f46e5" font-family="Arial" font-size="12" font-weight="bold">← Back to Dashboard</text>
+
+  <!-- Payment Methods -->
+  <rect x="340" y="85" width="430" height="150" rx="12" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+  <text x="360" y="115" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">💳 Credit/Debit Card</text>
+  <text x="360" y="135" fill="#64748b" font-family="Arial" font-size="11">Visa, Mastercard, American Express</text>
+  <rect x="360" y="150" width="390" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="375" y="170" fill="#9ca3af" font-family="Arial" font-size="11">1234 5678 9012 3456</text>
+  <rect x="360" y="188" width="185" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="375" y="208" fill="#9ca3af" font-family="Arial" font-size="11">MM/YY</text>
+  <rect x="555" y="188" width="90" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="570" y="208" fill="#9ca3af" font-family="Arial" font-size="11">CVV</text>
+
+  <!-- Mobile Money -->
+  <rect x="340" y="250" width="430" height="150" rx="12" fill="white" stroke="#4f46e5" stroke-width="2"/>
+  <rect x="340" y="250" width="430" height="150" rx="12" fill="rgba(79,70,229,0.03)" stroke="#4f46e5" stroke-width="2"/>
+  <text x="360" y="280" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">📱 Mobile Money</text>
+  <text x="360" y="300" fill="#64748b" font-family="Arial" font-size="11">M-Pesa, MTN Money, MTN Mobile Money</text>
+  <rect x="360" y="315" width="390" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="375" y="335" fill="#9ca3af" font-family="Arial" font-size="11">+256 7xx xxx xxx</text>
+  <rect x="360" y="353" width="390" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="375" y="373" fill="#9ca3af" font-family="Arial" font-size="11">MTN Mobile Money (Uganda)</text>
+  <rect x="360" y="390" width="390" height="40" rx="8" fill="#4f46e5"/>
+  <text x="555" y="415" text-anchor="middle" fill="white" font-family="Arial" font-size="13" font-weight="bold">Pay UGX 1,140,000 via Mobile Money</text>
+
+  <!-- Bank Transfer -->
+  <rect x="340" y="415" width="430" height="150" rx="12" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+  <text x="360" y="445" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">🏦 Bank Transfer</text>
+  <text x="360" y="465" fill="#64748b" font-family="Arial" font-size="11">Direct bank account transfer</text>
+  <rect x="360" y="480" width="390" height="70" rx="6" fill="#f8fafc"/>
+  <text x="375" y="500" fill="#64748b" font-family="Arial" font-size="11"><tspan font-weight="bold">Bank Name:</tspan> First National Bank</text>
+  <text x="375" y="518" fill="#64748b" font-family="Arial" font-size="11"><tspan font-weight="bold">Account:</tspan> 1234567890</text>
+  <text x="375" y="536" fill="#64748b" font-family="Arial" font-size="11"><tspan font-weight="bold">Reference:</tspan> S101</text>
+  <text x="375" y="554" fill="#ef4444" font-family="Arial" font-size="11"><tspan font-weight="bold">Amount:</tspan> UGX 1,140,000</text>
+</svg>

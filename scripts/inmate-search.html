@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inmate Search - Uganda Prisons Service</title>
+    <link rel="stylesheet" href="uganda_prisons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="page-header">
+        <div class="container">
+            <a href="uganda_prisons.html" class="back-btn">&#8592; Back to Home</a>
+            <span class="page-title">🔍 Inmate Search</span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="service-page">
+            <h1>Inmate Search</h1>
+            <p class="subtitle">Search for an inmate by name or prison number to view their current facility and status.</p>
+
+            <form class="service-form" id="searchForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inmateId">Prison Number</label>
+                        <input type="text" id="inmateId" placeholder="e.g. UPS/LUZ/2024/0012">
+                    </div>
+                    <div class="form-group">
+                        <label for="inmateName">Full Name</label>
+                        <input type="text" id="inmateName" placeholder="Enter inmate's full name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="facility">Facility</label>
+                        <select id="facility">
+                            <option value="">-- All Facilities --</option>
+                            <option>Luzira Upper Prison</option>
+                            <option>Luzira Women's Prison</option>
+                            <option>Gulu Prison</option>
+                            <option>Arua Prison</option>
+                            <option>Fort Portal Prison</option>
+                            <option>Kabale Prison</option>
+                            <option>Soroti Prison</option>
+                            <option>Masaka Prison</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status">
+                            <option value="">-- All Statuses --</option>
+                            <option>Remand</option>
+                            <option>Convicted</option>
+                            <option>Released</option>
+                            <option>Transferred</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Search Inmate</button>
+            </form>
+
+            <div class="results-area" id="resultsArea" style="display:none;">
+                <div class="loading-state" id="loadingState">
+                    <div class="loading-spinner"></div>
+                    <p>Searching records...</p>
+                </div>
+                <div id="resultsContent" style="display:none;">
+                    <h3 id="resultsHeading">Search Results</h3>
+                    <div id="resultsList"></div>
+                </div>
+                <div class="empty-state" id="emptyState" style="display:none;">
+                    <div class="empty-icon">🔍</div>
+                    <p>No records found matching your search.</p>
+                    <p style="font-size:0.85rem; margin-top:0.5rem;">Try a different name or prison number.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Uganda Prisons Service. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data for demonstration
+        const sampleInmates = [
+            { id: 'UPS/LUZ/2024/0012', name: 'John Okello', facility: 'Luzira Upper Prison', status: 'Remand', since: 'March 2024' },
+            { id: 'UPS/GUL/2023/0045', name: 'David Ongom', facility: 'Gulu Prison', status: 'Convicted', since: 'July 2023' },
+            { id: 'UPS/ARU/2024/0031', name: 'Moses Aciro', facility: 'Arua Prison', status: 'Remand', since: 'Jan 2024' },
+        ];
+
+        const statusColors = {
+            'Remand': '#b45309',
+            'Convicted': '#013220',
+            'Released': '#166534',
+            'Transferred': '#1e40af',
+        };
+
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('inmateName').value.trim().toLowerCase();
+            const id = document.getElementById('inmateId').value.trim().toLowerCase();
+            const facility = document.getElementById('facility').value;
+            const status = document.getElementById('status').value;
+
+            const resultsArea = document.getElementById('resultsArea');
+            const loadingState = document.getElementById('loadingState');
+            const resultsContent = document.getElementById('resultsContent');
+            const emptyState = document.getElementById('emptyState');
+
+            resultsArea.style.display = 'block';
+            loadingState.style.display = 'block';
+            resultsContent.style.display = 'none';
+            emptyState.style.display = 'none';
+
+            // Simulate network delay
+            setTimeout(() => {
+                loadingState.style.display = 'none';
+
+                let results = sampleInmates.filter(inmate => {
+                    const matchName = !name || inmate.name.toLowerCase().includes(name);
+                    const matchId = !id || inmate.id.toLowerCase().includes(id);
+                    const matchFacility = !facility || inmate.facility === facility;
+                    const matchStatus = !status || inmate.status === status;
+                    return (matchName || matchId) && matchFacility && matchStatus;
+                });
+
+                if (results.length === 0) {
+                    emptyState.style.display = 'block';
+                } else {
+                    const list = document.getElementById('resultsList');
+                    document.getElementById('resultsHeading').textContent = `${results.length} record(s) found`;
+                    list.innerHTML = results.map(inmate => `
+                        <div class="result-item">
+                            <span class="result-badge" style="background:${statusColors[inmate.status] || '#013220'}">${inmate.status}</span>
+                            <div class="result-info">
+                                <strong>${inmate.name}</strong>
+                                <span>${inmate.id} &bull; ${inmate.facility} &bull; Since ${inmate.since}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                    resultsContent.style.display = 'block';
+                }
+            }, 1400);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500">
+  <rect width="700" height="500" fill="#f0f2f5"/>
+  <text x="350" y="40" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="22" font-weight="bold">Live Queue Monitor</text>
+  <text x="350" y="62" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="12">Check the current progress of the Finance Office queue in real-time</text>
+
+  <!-- Currently Serving Panel -->
+  <rect x="30" y="85" width="300" height="200" rx="16" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="180" y="115" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="13">Currently Serving</text>
+  <circle cx="180" cy="155" r="40" fill="#f0fdf4" stroke="#10b981" stroke-width="2"/>
+  <text x="180" y="162" text-anchor="middle" fill="#10b981" font-family="Arial" font-size="28" font-weight="900">301</text>
+  <text x="180" y="195" text-anchor="middle" fill="#10b981" font-family="Arial" font-size="14" font-weight="bold">Counter #1</text>
+  <line x1="50" y1="210" x2="310" y2="210" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="60" y="235" fill="#64748b" font-family="Arial" font-size="12">Estimated Wait Time: <tspan fill="#1e293b" font-weight="bold">20 minutes</tspan></text>
+  <text x="60" y="258" fill="#64748b" font-family="Arial" font-size="12">People in Queue: <tspan fill="#1e293b" font-weight="bold">4 students</tspan></text>
+
+  <!-- Join queue -->
+  <rect x="30" y="305" width="300" height="165" rx="16" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="180" y="340" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="15" font-weight="bold">Need to join the line?</text>
+  <text x="50" y="370" fill="#64748b" font-family="Arial" font-size="11" text-anchor="middle">You can generate a digital token</text>
+  <text x="50" y="388" fill="#64748b" font-family="Arial" font-size="11" text-anchor="middle">from your student dashboard and get</text>
+  <text x="50" y="406" fill="#64748b" font-family="Arial" font-size="11" text-anchor="middle">notified when it's almost your turn.</text>
+  <rect x="75" y="425" width="210" height="36" rx="8" fill="#4f46e5"/>
+  <text x="180" y="448" text-anchor="middle" fill="white" font-family="Arial" font-size="13" font-weight="bold">Generate Digital Token</text>
+
+  <!-- Queue List -->
+  <rect x="360" y="85" width="310" height="385" rx="16" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="380" y="115" fill="#1e293b" font-family="Arial" font-size="15" font-weight="bold">Queue Overview</text>
+  <line x1="380" y1="130" x2="650" y2="130" stroke="#e5e7eb" stroke-width="1"/>
+  <!-- Table header -->
+  <rect x="380" y="140" width="270" height="30" fill="#f8fafc"/>
+  <text x="400" y="160" fill="#64748b" font-family="Arial" font-size="11" font-weight="bold">TOKEN #</text>
+  <text x="490" y="160" fill="#64748b" font-family="Arial" font-size="11" font-weight="bold">STUDENT ID</text>
+  <text x="580" y="160" fill="#64748b" font-family="Arial" font-size="11" font-weight="bold">STATUS</text>
+
+  <!-- Row 1 - Serving -->
+  <rect x="380" y="172" width="270" height="40" fill="#f0fdf4"/>
+  <text x="400" y="198" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">#301</text>
+  <text x="490" y="198" fill="#1e293b" font-family="Arial" font-size="12">S102</text>
+  <rect x="570" y="184" width="55" height="20" rx="10" fill="#dcfce7"/>
+  <text x="597" y="198" text-anchor="middle" fill="#15803d" font-family="Arial" font-size="10" font-weight="bold">Serving</text>
+
+  <!-- Row 2 -->
+  <line x1="380" y1="214" x2="650" y2="214" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="400" y="238" fill="#1e293b" font-family="Arial" font-size="12">#302</text>
+  <text x="490" y="238" fill="#1e293b" font-family="Arial" font-size="12">S106</text>
+  <rect x="570" y="228" width="55" height="20" rx="10" fill="#fef3c7"/>
+  <text x="597" y="242" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="10" font-weight="bold">Waiting</text>
+
+  <!-- Row 3 -->
+  <line x1="380" y1="254" x2="650" y2="254" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="400" y="278" fill="#1e293b" font-family="Arial" font-size="12">#303</text>
+  <text x="490" y="278" fill="#1e293b" font-family="Arial" font-size="12">S110</text>
+  <rect x="570" y="268" width="55" height="20" rx="10" fill="#fef3c7"/>
+  <text x="597" y="282" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="10" font-weight="bold">Waiting</text>
+
+  <!-- Row 4 -->
+  <line x1="380" y1="294" x2="650" y2="294" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="400" y="318" fill="#1e293b" font-family="Arial" font-size="12">#304</text>
+  <text x="490" y="318" fill="#1e293b" font-family="Arial" font-size="12">S114</text>
+  <rect x="570" y="308" width="55" height="20" rx="10" fill="#fef3c7"/>
+  <text x="597" y="322" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="10" font-weight="bold">Waiting</text>
+
+  <!-- Row 5 -->
+  <line x1="380" y1="334" x2="650" y2="334" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="400" y="358" fill="#1e293b" font-family="Arial" font-size="12">#305</text>
+  <text x="490" y="358" fill="#1e293b" font-family="Arial" font-size="12">S116</text>
+  <rect x="570" y="348" width="55" height="20" rx="10" fill="#fef3c7"/>
+  <text x="597" y="362" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="10" font-weight="bold">Waiting</text>
+
+  <!-- Tip -->
+  <rect x="380" y="400" width="270" height="60" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1"/>
+  <text x="395" y="422" fill="#92400e" font-family="Arial" font-size="10">💡 If your wait time is more than</text>
+  <text x="395" y="440" fill="#92400e" font-family="Arial" font-size="10">30 minutes, consider grabbing a coffee</text>
+</svg>

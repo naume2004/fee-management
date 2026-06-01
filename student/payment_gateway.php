@@ -105,7 +105,7 @@ include 'header.php';
                 <div style="font-size: 2rem; margin-right: 1rem;">📱</div>
                 <div>
                     <h3 style="margin: 0; font-size: 1.1rem;">Mobile Money</h3>
-                    <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">M-Pesa, Airtel Money, MTN Mobile Money</p>
+                    <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.85rem;">M-Pesa, MTN Money, MTN Mobile Money</p>
                 </div>
             </div>
             <form action="process_payment.php" method="POST" style="margin-top: 1rem;">
@@ -121,7 +121,7 @@ include 'header.php';
                     <select name="provider" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;" required>
                         <option value="">Select Provider</option>
                         <option value="MTN Mobile Money">MTN Mobile Money (Uganda)</option>
-                        <option value="Airtel Money">Airtel Money (Uganda)</option>
+                        <option value="MTN Money">MTN Money (Uganda)</option>
                         <option value="M-Pesa">M-Pesa</option>
                     </select>
                 </div>

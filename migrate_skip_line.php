@@ -103,7 +103,7 @@ if ($count['cnt'] == 0) {
         "INSERT INTO online_payments (student_id, amount_ugx, amount_usd, payment_type, payment_method, transaction_ref, status, created_at) 
          VALUES ('S103', 2090000, 550, 'bank', 'Bank Transfer', 'FTN123456789', 'Completed', DATE_SUB(NOW(), INTERVAL 25 DAY))",
         "INSERT INTO online_payments (student_id, amount_ugx, amount_usd, payment_type, payment_method, phone, status, created_at) 
-         VALUES ('S105', 2204000, 580, 'mobile', 'Mobile Money (Airtel)', '+256702345678', 'Pending', NOW())",
+         VALUES ('S105', 2204000, 580, 'mobile', 'Mobile Money (MTN)', '+256702345678', 'Pending', NOW())",
     ];
     
     foreach ($sample_payments as $sql) {

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitation Booking - Uganda Prisons Service</title>
+    <link rel="stylesheet" href="uganda_prisons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .slot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+        .slot-btn {
+            padding: 0.55rem 0.5rem;
+            border-radius: 0.5rem;
+            border: 1.5px solid #d5dbd5;
+            background: var(--white);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+        }
+        .slot-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: rgba(212,175,55,0.08);
+        }
+        .slot-btn.selected {
+            background: var(--secondary);
+            color: var(--primary);
+            border-color: var(--secondary);
+        }
+        .slot-btn:disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+        .slot-legend {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+        .slot-legend span { display: flex; align-items: center; gap: 0.35rem; }
+        .leg-dot {
+            width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+        }
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 2rem;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #e0e7e0;
+            z-index: 0;
+        }
+        .step.done:not(:last-child)::after,
+        .step.active:not(:last-child)::after {
+            background: var(--secondary);
+        }
+        .step-circle {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            border: 2px solid #d5dbd5;
+            background: var(--white);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700;
+            color: var(--text-muted);
+            position: relative; z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .step.active .step-circle {
+            border-color: var(--secondary);
+            background: var(--secondary);
+            color: var(--primary);
+        }
+        .step.done .step-circle {
+            border-color: var(--secondary);
+            background: var(--secondary);
+            color: var(--primary);
+        }
+        .step-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.35rem;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .step.active .step-label { color: var(--secondary); }
+        .step.done .step-label { color: var(--secondary); }
+
+        .form-step { display: none; }
+        .form-step.active { display: block; }
+
+        .guidelines-list {
+            list-style: none;
+            padding: 0;
+        }
+        .guidelines-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f0f4f0;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+        .guidelines-list li:last-child { border-bottom: none; }
+        .g-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+        .confirm-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f0f4f0;
+            font-size: 0.9rem;
+        }
+        .confirm-row:last-child { border-bottom: none; }
+        .confirm-label { color: var(--text-muted); }
+        .confirm-value { font-weight: 600; color: var(--secondary); }
+
+        .success-screen {
+            text-align: center;
+            padding: 3rem 1rem;
+            display: none;
+        }
+        .success-icon {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: rgba(1,50,32,0.08);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 1.25rem;
+        }
+        .ref-box {
+            background: rgba(1,50,32,0.06);
+            border: 1px dashed rgba(1,50,32,0.3);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            display: inline-block;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            letter-spacing: 2px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <div class="container">
+            <a href="uganda_prisons.html" class="back-btn">&#8592; Back to Home</a>
+            <span class="page-title">📅 Visitation Booking</span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="service-page">
+            <h1>Book a Prison Visit</h1>
+            <p class="subtitle">Schedule a visit to see a loved one at any Uganda Prisons Service facility.</p>
+
+            <!-- Step Indicator -->
+            <div class="step-indicator" id="stepIndicator">
+                <div class="step active" id="step-ind-1">
+                    <div class="step-circle">1</div>
+                    <span class="step-label">Your Details</span>
+                </div>
+                <div class="step" id="step-ind-2">
+                    <div class="step-circle">2</div>
+                    <span class="step-label">Inmate & Facility</span>
+                </div>
+                <div class="step" id="step-ind-3">
+                    <div class="step-circle">3</div>
+                    <span class="step-label">Date & Time</span>
+                </div>
+                <div class="step" id="step-ind-4">
+                    <div class="step-circle">4</div>
+                    <span class="step-label">Confirm</span>
+                </div>
+            </div>
+
+            <div class="service-form" id="mainForm">
+
+                <!-- STEP 1: Visitor Details -->
+                <div class="form-step active" id="formStep1">
+                    <h3 style="color:var(--secondary); margin-bottom:1.25rem; font-size:1.05rem;">Your Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name *</label>
+                            <input type="text" id="visitorFirst" placeholder="First name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name *</label>
+                            <input type="text" id="visitorLast" placeholder="Last name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>National ID (NIN) *</label>
+                            <input type="text" id="visitorNin" placeholder="e.g. CM123456789UG" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" id="visitorPhone" placeholder="+256 7XX XXX XXX" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Relationship to Inmate *</label>
+                        <select id="relationship" required>
+                            <option value="">-- Select Relationship --</option>
+                            <option>Spouse</option>
+                            <option>Parent</option>
+                            <option>Child</option>
+                            <option>Sibling</option>
+                            <option>Legal Representative</option>
+                            <option>Friend</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; justify-content:flex-end; margin-top:0.5rem;">
+                        <button type="button" class="btn btn-primary" onclick="nextStep(1)">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Inmate & Facility -->
+                <div class="form-step" id="formStep2">
+                    <h3 style="color:var(--secondary); margin-bottom:1.25rem; font-size:1.05rem;">Inmate &amp; Facility</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Inmate Full Name *</label>
+                            <input type="text" id="inmateName" placeholder="Full name of the inmate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Prison Number (if known)</label>
+                            <input type="text" id="inmateNumber" placeholder="e.g. UPS/LUZ/2024/0012">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Prison Facility *</label>
+                        <select id="facilitySelect" required onchange="updateSlots()">
+                            <option value="">-- Select Facility --</option>
+                            <option>Luzira Upper Prison</option>
+                            <option>Luzira Women's Prison</option>
+                            <option>Gulu Prison</option>
+                            <option>Arua Prison</option>
+                            <option>Fort Portal Prison</option>
+                            <option>Kabale Prison</option>
+                            <option>Soroti Prison</option>
+                            <option>Masaka Prison</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-top:0.5rem;">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep(2)">&larr; Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Date & Time -->
+                <div class="form-step" id="formStep3">
+                    <h3 style="color:var(--secondary); margin-bottom:1.25rem; font-size:1.05rem;">Select Date &amp; Time Slot</h3>
+                    <div class="form-group">
+                        <label>Visit Date * <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(Tue, Thu &amp; Sat only)</span></label>
+                        <input type="date" id="visitDate" required onchange="updateSlots()">
+                    </div>
+                    <div class="form-group">
+                        <label>Available Time Slots *</label>
+                        <div class="slot-grid" id="slotGrid">
+                            <p style="color:var(--text-muted); font-size:0.88rem; grid-column:1/-1;">Select a facility and date to see available slots.</p>
+                        </div>
+                        <div class="slot-legend">
+                            <span><span class="leg-dot" style="background:var(--secondary)"></span> Available</span>
+                            <span><span class="leg-dot" style="background:#d1d5db"></span> Booked</span>
+                            <span><span class="leg-dot" style="background:var(--primary)"></span> Selected</span>
+                        </div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-top:0.5rem;">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep(3)">&larr; Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Confirm -->
+                <div class="form-step" id="formStep4">
+                    <h3 style="color:var(--secondary); margin-bottom:1.25rem; font-size:1.05rem;">Confirm Booking</h3>
+
+                    <div class="info-card" style="margin-bottom:1.5rem;">
+                        <h3>Visiting Guidelines</h3>
+                        <ul class="guidelines-list">
+                            <li><span class="g-icon">🪪</span> Bring your original National ID on the day of the visit.</li>
+                            <li><span class="g-icon">⏰</span> Arrive at least 15 minutes before your scheduled time slot.</li>
+                            <li><span class="g-icon">👔</span> Dress modestly — no shorts, sleeveless tops, or military-style clothing.</li>
+                            <li><span class="g-icon">📵</span> Mobile phones are not permitted inside the visitation area.</li>
+                            <li><span class="g-icon">🛍️</span> Parcels must be declared and inspected at the gate.</li>
+                        </ul>
+                    </div>
+
+                    <div id="confirmSummary" style="margin-bottom:1.5rem;"></div>
+
+                    <div style="display:flex; justify-content:space-between;">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep(4)">&larr; Back</button>
+                        <button type="button" class="btn btn-primary" id="submitBtn" onclick="submitBooking()">✔ Confirm Booking</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Screen -->
+            <div class="success-screen" id="successScreen">
+                <div class="success-icon">✅</div>
+                <h2 style="color:var(--secondary);">Booking Confirmed!</h2>
+                <p style="color:var(--text-muted); margin-top:0.5rem;">Your visitation request has been submitted successfully.</p>
+                <div class="ref-box" id="refNumber"></div>
+                <p style="font-size:0.85rem; color:var(--text-muted); max-width:400px; margin:0 auto 1.5rem;">Save your reference number. You will need it and your National ID to check in at the facility.</p>
+                <a href="uganda_prisons.html" class="btn btn-primary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedSlot = '';
+        const totalSteps = 4;
+        const allSlots = ['09:00 AM','09:45 AM','10:30 AM','11:15 AM','12:00 PM','01:00 PM','01:45 PM','02:30 PM'];
+
+        // Restrict date picker: only Tue(2), Thu(4), Sat(6), min = tomorrow
+        const dateInput = document.getElementById('visitDate');
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        dateInput.min = tomorrow.toISOString().split('T')[0];
+        dateInput.addEventListener('input', function() {
+            const d = new Date(this.value);
+            const day = d.getUTCDay();
+            if (![2, 4, 6].includes(day)) {
+                this.setCustomValidity('Visits are only allowed on Tuesday, Thursday, and Saturday.');
+                this.reportValidity();
+                this.value = '';
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        function nextStep(step) {
+            if (step === 3 && !selectedSlot) {
+                alert('Please select a time slot.');
+                return;
+            }
+            if (step === 4) return;
+
+            document.getElementById('formStep' + step).classList.remove('active');
+            document.getElementById('step-ind-' + step).classList.add('done');
+            
+            currentStep = step + 1;
+            document.getElementById('formStep' + currentStep).classList.add('active');
+            document.getElementById('step-ind-' + currentStep).classList.add('active');
+
+            if (currentStep === 4) prepareSummary();
+        }
+
+        function prevStep(step) {
+            document.getElementById('formStep' + step).classList.remove('active');
+            document.getElementById('step-ind-' + step).classList.remove('active');
+            
+            currentStep = step - 1;
+            document.getElementById('formStep' + currentStep).classList.add('active');
+            document.getElementById('step-ind-' + currentStep).classList.remove('done');
+        }
+
+        function updateSlots() {
+            const facility = document.getElementById('facilitySelect').value;
+            const date = document.getElementById('visitDate').value;
+            const grid = document.getElementById('slotGrid');
+            
+            if (!facility || !date) return;
+
+            grid.innerHTML = allSlots.map(slot => {
+                const isBooked = Math.random() > 0.7; // Simulating some booked slots
+                return `<button class="slot-btn" ${isBooked ? 'disabled' : ''} onclick="selectSlot('${slot}', this)">${slot}</button>`;
+            }).join('');
+            selectedSlot = '';
+        }
+
+        function selectSlot(slot, btn) {
+            document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedSlot = slot;
+        }
+
+        function prepareSummary() {
+            const summary = document.getElementById('confirmSummary');
+            const data = {
+                'Visitor': document.getElementById('visitorFirst').value + ' ' + document.getElementById('visitorLast').value,
+                'NIN': document.getElementById('visitorNin').value,
+                'Inmate': document.getElementById('inmateName').value,
+                'Facility': document.getElementById('facilitySelect').value,
+                'Date': document.getElementById('visitDate').value,
+                'Time': selectedSlot
+            };
+
+            summary.innerHTML = Object.entries(data).map(([label, val]) => `
+                <div class="confirm-row">
+                    <span class="confirm-label">${label}</span>
+                    <span class="confirm-value">${val}</span>
+                </div>
+            `).join('');
+        }
+
+        function submitBooking() {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+
+            setTimeout(() => {
+                document.getElementById('mainForm').style.display = 'none';
+                document.getElementById('stepIndicator').style.display = 'none';
+                document.getElementById('successScreen').style.display = 'block';
+                document.getElementById('refNumber').textContent = 'UPS-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

@@ -179,7 +179,7 @@ $summary = mysqli_fetch_assoc($summary_result);
         <div class="payment-option-icon">📱</div>
         <div>
             <h3 style="margin: 0; font-size: 1.1rem;">Mobile Money</h3>
-            <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.9rem;">MTN, Airtel Money - Instant deduction</p>
+            <p style="margin: 0.25rem 0 0; color: var(--text-muted); font-size: 0.9rem;">MTN, MTN Money - Instant deduction</p>
         </div>
     </div>
     

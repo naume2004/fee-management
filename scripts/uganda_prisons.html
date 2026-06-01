@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uganda Prisons Service - Digital Platform</title>
+    <link rel="stylesheet" href="uganda_prisons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <ul class="nav-links">
+                <li><a href="uganda_prisons.html">Home</a></li>
+                <li><a href="inmate-search.html">Inmate Records</a></li>
+                <li><a href="visitor-info.html">Visit Booking</a></li>
+                <li><a href="officer-login.html">Staff Login</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </nav>
+
+    <main id="home">
+        <section class="hero hero-fullscreen">
+            <!-- Animated background particles -->
+            <div class="hero-particles" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+
+            <div class="container hero-inner">
+                <!-- Live system status bar -->
+                <div class="status-bar">
+                    <span class="status-dot"></span>
+                    <span class="status-label">System Online</span>
+                    <span class="status-divider">|</span>
+                    <span id="liveClock" class="status-clock">--:--:--</span>
+                    <span class="status-divider">|</span>
+                    <span id="liveDate" class="status-date">--- --, ----</span>
+                </div>
+
+                <div class="hero-logo-wrap">
+                    <svg width="110" height="110" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#D4AF37" stroke-width="1"/>
+                        <path d="M45,65 L50,45 L55,65 M48,58 L52,58" fill="none" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="50" cy="40" r="4" fill="#D4AF37"/>
+                        <path d="M50,36 L50,30" fill="none" stroke="#D4AF37" stroke-width="2"/>
+                    </svg>
+                </div>
+
+                <h1>Welcome to Uganda Prisons Service</h1>
+                <p class="hero-tagline">Secure &bull; Digital &bull; Accountable</p>
+                <p class="hero-sub">Uganda Prisons Service's official digital platform — search inmate records, book visitations, and access legal aid, from anywhere, at any time.</p>
+
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Hamburger toggle
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('open');
+        });
+
+        // Live clock & date
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('liveClock').textContent = `${h}:${m}:${s}`;
+
+            const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            document.getElementById('liveDate').textContent =
+                `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Animated counters
+        function animateCounter(el) {
+            const target = parseInt(el.dataset.target, 10);
+            const duration = 1800;
+            const step = target / (duration / 16);
+            let current = 0;
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                el.textContent = Math.floor(current);
+            }, 16);
+        }
+
+        // Trigger counters when visible
+        const counters = document.querySelectorAll('.stat-number[data-target]');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        counters.forEach(c => observer.observe(c));
+    </script>
+</body>
+</html>

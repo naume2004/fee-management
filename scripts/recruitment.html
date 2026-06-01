@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruitment - Uganda Prisons Service</title>
+    <link rel="stylesheet" href="uganda_prisons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="page-header">
+        <div class="container">
+            <a href="uganda_prisons.html" class="back-btn">&#8592; Back to Home</a>
+            <span class="page-title">👮 Recruitment</span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="service-page">
+            <h1>Join Uganda Prisons Service</h1>
+            <p class="subtitle">Build a career in correctional services. We are hiring disciplined, dedicated individuals to serve the nation.</p>
+
+            <div class="alert alert-info">
+                📢 &nbsp;<strong>Recruitment Drive 2026:</strong> Applications are open until <strong>30 May 2026</strong>. Ensure all documents are in order before submitting.
+            </div>
+
+            <!-- Open Positions -->
+            <h2 style="color: var(--secondary); font-size: 1.3rem; margin-bottom: 1.25rem;">Open Positions</h2>
+
+            <div class="job-card">
+                <h3>Prison Officer (Grade III)</h3>
+                <div class="job-meta">
+                    <span class="job-tag">Full Time</span>
+                    <span class="job-tag">Nationwide</span>
+                    <span class="job-tag">200 Posts</span>
+                </div>
+                <p>Responsible for maintaining order, security and welfare of inmates in designated facilities. Must be physically fit and of good character.</p>
+                <button class="btn btn-primary" onclick="openApplication('Prison Officer (Grade III)')">Apply Now</button>
+            </div>
+
+            <div class="job-card">
+                <h3>Healthcare Officer (Nursing)</h3>
+                <div class="job-meta">
+                    <span class="job-tag">Full Time</span>
+                    <span class="job-tag">Selected Facilities</span>
+                    <span class="job-tag">40 Posts</span>
+                </div>
+                <p>Provide medical care and health services to inmates. Must hold a diploma or degree in Nursing from a recognised institution.</p>
+                <button class="btn btn-primary" onclick="openApplication('Healthcare Officer (Nursing)')">Apply Now</button>
+            </div>
+
+            <div class="job-card">
+                <h3>Agricultural Officer</h3>
+                <div class="job-meta">
+                    <span class="job-tag">Full Time</span>
+                    <span class="job-tag">Prison Farms</span>
+                    <span class="job-tag">25 Posts</span>
+                </div>
+                <p>Supervise agricultural production activities in prison farms, supporting inmate rehabilitation and self-sufficiency programmes.</p>
+                <button class="btn btn-primary" onclick="openApplication('Agricultural Officer')">Apply Now</button>
+            </div>
+
+            <div class="job-card">
+                <h3>Social Rehabilitation Officer</h3>
+                <div class="job-meta">
+                    <span class="job-tag">Full Time</span>
+                    <span class="job-tag">Kampala</span>
+                    <span class="job-tag">15 Posts</span>
+                </div>
+                <p>Facilitate counselling, skills training and reintegration programmes for inmates to reduce recidivism and support community safety.</p>
+                <button class="btn btn-primary" onclick="openApplication('Social Rehabilitation Officer')">Apply Now</button>
+            </div>
+
+            <!-- Application Modal -->
+            <div id="appModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:2000; overflow-y:auto;">
+                <div style="max-width:600px; margin:3rem auto; background:#fff; border-radius:1.25rem; padding:2.5rem; position:relative;">
+                    <button onclick="closeApplication()" style="position:absolute;top:1rem;right:1.25rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#666;">&times;</button>
+                    <h2 id="modalTitle" style="color:var(--secondary); margin-bottom:0.5rem; font-size:1.3rem;"></h2>
+                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.75rem;">Fill in all required fields. You will receive a confirmation SMS upon successful submission.</p>
+                    <form id="appForm" class="service-form" style="box-shadow:none; padding:0; border:none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name *</label>
+                                <input type="text" required placeholder="First name">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name *</label>
+                                <input type="text" required placeholder="Last name">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>National ID (NIN) *</label>
+                                <input type="text" required placeholder="CM123456789UG">
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth *</label>
+                                <input type="date" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" required placeholder="+256 7XX XXX XXX">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Highest Education Level *</label>
+                            <select required>
+                                <option value="">-- Select --</option>
+                                <option>Certificate</option>
+                                <option>Diploma</option>
+                                <option>Bachelor's Degree</option>
+                                <option>Master's Degree</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>District of Origin *</label>
+                            <input type="text" required placeholder="e.g. Gulu">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.5rem;">Submit Application</button>
+                    </form>
+                    <div id="successMsg" style="display:none; text-align:center; padding:2rem;">
+                        <div style="font-size:3rem; margin-bottom:1rem;">✅</div>
+                        <h3 style="color:var(--secondary);">Application Submitted!</h3>
+                        <p style="color:var(--text-muted); margin-top:0.5rem;">You will receive an SMS confirmation shortly. Keep your reference number for follow-up.</p>
+                        <button class="btn btn-primary" onclick="closeApplication()" style="margin-top:1.5rem;">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Uganda Prisons Service. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function openApplication(position) {
+            document.getElementById('modalTitle').textContent = 'Apply: ' + position;
+            document.getElementById('appModal').style.display = 'block';
+            document.getElementById('appForm').style.display = 'block';
+            document.getElementById('successMsg').style.display = 'none';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeApplication() {
+            document.getElementById('appModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('appModal').addEventListener('click', function(e) {
+            if (e.target === this) closeApplication();
+        });
+
+        document.getElementById('appForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            this.style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

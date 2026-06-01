@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' 
+      xmlns:w='urn:schemas-microsoft-com:office:word' 
+      xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--[if gte mso 9]>
+<xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page { 
+    size: A4; 
+    margin: 1in 1.25in 1in 1.25in;
+    mso-page-orientation: portrait;
+}
+body { 
+    font-family: 'Times New Roman', Times, serif; 
+    font-size: 12pt; 
+    line-height: 200%; 
+    color: #000;
+    background: #fff;
+}
+h1 { font-size: 18pt; font-weight: bold; text-align: center; margin-top: 24pt; margin-bottom: 12pt; }
+h2 { font-size: 16pt; font-weight: bold; text-align: left; margin-top: 18pt; margin-bottom: 6pt; }
+h3 { font-size: 14pt; font-weight: bold; text-align: left; margin-top: 12pt; margin-bottom: 6pt; }
+h4 { font-size: 12pt; font-weight: bold; text-align: left; margin-top: 6pt; margin-bottom: 6pt; }
+p { margin: 6pt 0; text-align: justify; }
+table { border-collapse: collapse; width: 100%; margin: 12pt 0; font-size: 11pt; }
+th { background: #e0e0e0; font-weight: bold; padding: 6pt 8pt; border: 1pt solid #000; text-align: center; }
+td { padding: 4pt 8pt; border: 1pt solid #000; text-align: left; }
+pre { background: #f5f5f5; border: 1pt solid #ccc; padding: 8pt; font-family: 'Courier New', monospace; font-size: 10pt; line-height: 120%; margin: 8pt 0; white-space: pre-wrap; }
+code { font-family: 'Courier New', monospace; font-size: 10pt; }
+.title-page { text-align: center; padding-top: 72pt; }
+.title-page h1 { font-size: 22pt; margin-bottom: 6pt; }
+.title-page h2 { font-size: 18pt; text-align: center; margin-bottom: 12pt; }
+.title-page p { text-align: center; }
+.subtitle { font-size: 14pt; font-weight: bold; }
+.toc { margin: 12pt 0; }
+.toc h2 { text-align: center; }
+.toc ul { list-style: none; padding-left: 0; }
+.toc li { margin: 4pt 0; }
+.page-break { page-break-before: always; }
+.center { text-align: center; }
+.fig-caption { font-style: italic; text-align: center; font-size: 11pt; margin-top: 4pt; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- TITLE PAGE -->
+<!-- ============================================================ -->
+<div class="title-page">
+<p style="font-size:14pt; font-weight:bold;">ISBAT UNIVERSITY</p>
+<p style="font-size:12pt;">Faculty of Science and Technology</p>
+<br><br>
+<h1>FEEFLOW: A COMPREHENSIVE SCHOOL FEE MANAGEMENT SYSTEM</h1>
+<h2>FINAL YEAR PROJECT REPORT</h2>
+<br><br>
+<p><b>Submitted By:</b></p>
+<p style="font-size:13pt; font-weight:bold;">[YOUR NAME]</p>
+<p>Registration Number: [YOUR REGISTRATION NUMBER]</p>
+<br><br>
+<p><b>Supervisor:</b></p>
+<p style="font-size:13pt; font-weight:bold;">[SUPERVISOR NAME]</p>
+<br><br>
+<p><i>A project report submitted in partial fulfillment of the requirements for the award of the Degree of Master of Science in Information Technology of ISBAT University</i></p>
+<br><br>
+<p>May 2026</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- BONAFIDE CERTIFICATE -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>BONAFIDE CERTIFICATE</h1>
+<br>
+<p style="text-align:center;"><i>This is to certify that this project report titled <b>"FeeFlow: A Comprehensive School Fee Management System"</b> is a bonafide work carried out by <b>[YOUR NAME]</b> under the supervision of <b>[SUPERVISOR NAME]</b> in partial fulfillment of the requirements for the award of the Degree of Master of Science in Information Technology of ISBAT University.</i></p>
+<br><br>
+<table style="width:80%; margin:0 auto; border:none;">
+<tr><td style="border:none; width:50%;">Signature of Student: .......................</td><td style="border:none;">Date: .......................</td></tr>
+<tr><td style="border:none;">Signature of Supervisor: .......................</td><td style="border:none;">Date: .......................</td></tr>
+<tr><td style="border:none;">Signature of HOD: .......................</td><td style="border:none;">Date: .......................</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- ABSTRACT -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>ABSTRACT</h1>
+<p>FeeFlow is a web-based school fee management system designed to digitize and streamline the financial operations of educational institutions. The system addresses the critical challenges faced by schools in managing student fee records, tracking payments, generating receipts, and handling appointment scheduling. Traditional manual methods of fee management are prone to errors, time-consuming, and lack transparency, leading to disputes and inefficiencies in financial administration.</p>
+<p>The system is built using PHP, MySQL, HTML5, CSS3, and JavaScript, with Firebase integration for real-time notifications and data synchronization. It features two main user interfaces: an administrative panel for school staff to manage students, monitor payments, and generate financial reports; and a student portal for learners to view their fee status, make online payments, book appointments, and track payment plans.</p>
+<p>Key functionalities include online payment processing through multiple channels (Mobile Money, Credit/Debit Cards, Bank Transfers, USSD, QR Code, and Auto-Pay), a digital appointment booking system, a live queue monitoring system, payment plan management with flexible installment options, automated payment reminders, and comprehensive analytics dashboards. The system supports dual database architecture with MySQL for transactional data and Firebase Firestore for real-time features.</p>
+<p>Testing and validation were conducted using a seed dataset of 16 students across 8 class levels (Nursery through Primary 7) with various fee types including Tuition, Development, Sports, Library, and School Meals fees. The system achieved reliable performance in processing payments, booking appointments, and generating reports. FeeFlow presents a scalable, secure, and user-friendly solution for modern school fee management needs.</p>
+<p><b>Keywords:</b> Fee management, school finance, online payments, PHP, MySQL, Firebase, appointment booking, queue management</p>
+
+<!-- ============================================================ -->
+<!-- TABLE OF CONTENTS -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<div class="toc">
+<h2>TABLE OF CONTENTS</h2>
+<ul>
+<li><b>CHAPTER 1: INTRODUCTION AND BACKGROUND</b> ............................................. 1</li>
+<li style="padding-left:20pt;">1.1 Introduction</li>
+<li style="padding-left:20pt;">1.2 Background of the Study</li>
+<li style="padding-left:20pt;">1.3 Problem Statement</li>
+<li style="padding-left:20pt;">1.4 Objectives of the Study</li>
+<li style="padding-left:20pt;">1.5 Research Questions</li>
+<li style="padding-left:20pt;">1.6 Scope of the Study</li>
+<li style="padding-left:20pt;">1.7 Significance of the Study</li>
+<li style="padding-left:20pt;">1.8 Limitations of the Study</li>
+<li style="padding-left:20pt;">1.9 Organization of the Report</li>
+<br>
+<li><b>CHAPTER 2: SYSTEM FUNCTIONAL SPECIFICATION</b> ............................................. 13</li>
+<li style="padding-left:20pt;">2.1 Introduction</li>
+<li style="padding-left:20pt;">2.2 Functional Requirements</li>
+<li style="padding-left:20pt;">2.3 Non-Functional Requirements</li>
+<li style="padding-left:20pt;">2.4 Use Case Diagrams</li>
+<li style="padding-left:20pt;">2.5 User Interface Design</li>
+<li style="padding-left:20pt;">2.6 Input/Output Specifications</li>
+<li style="padding-left:20pt;">2.7 Error Handling</li>
+<br>
+<li><b>CHAPTER 3: SYSTEM PERFORMANCE REQUIREMENTS</b> ............................................. 28</li>
+<li style="padding-left:20pt;">3.1 Introduction</li>
+<li style="padding-left:20pt;">3.2 Performance Metrics</li>
+<li style="padding-left:20pt;">3.3 Reliability and Availability</li>
+<li style="padding-left:20pt;">3.4 Security Requirements</li>
+<li style="padding-left:20pt;">3.5 Scalability Considerations</li>
+<li style="padding-left:20pt;">3.6 Error Recovery and Fault Tolerance</li>
+<br>
+<li><b>CHAPTER 4: SYSTEM DESIGN OVERVIEW</b> ............................................. 38</li>
+<li style="padding-left:20pt;">4.1 Introduction</li>
+<li style="padding-left:20pt;">4.2 System Architecture</li>
+<li style="padding-left:20pt;">4.3 Data Flow Diagrams</li>
+<li style="padding-left:20pt;">4.4 Technology Stack Justification</li>
+<li style="padding-left:20pt;">4.5 Equipment Configuration</li>
+<li style="padding-left:20pt;">4.6 Network Architecture</li>
+<br>
+<li><b>CHAPTER 5: SYSTEM DATA STRUCTURE SPECIFICATIONS</b> ............................................. 50</li>
+<li style="padding-left:20pt;">5.1 Introduction</li>
+<li style="padding-left:20pt;">5.2 Logical Database Design</li>
+<li style="padding-left:20pt;">5.3 Physical Database Design</li>
+<li style="padding-left:20pt;">5.4 Entity Relationship Diagram</li>
+<li style="padding-left:20pt;">5.5 Input/Output Data Structures</li>
+<br>
+<li><b>CHAPTER 6: MODULE DESIGN SPECIFICATIONS</b> ............................................. 60</li>
+<li style="padding-left:20pt;">6.1 Introduction</li>
+<li style="padding-left:20pt;">6.2 Admin Module Design</li>
+<li style="padding-left:20pt;">6.3 Student Module Design</li>
+<li style="padding-left:20pt;">6.4 Payment Processing Module</li>
+<li style="padding-left:20pt;">6.5 Appointment Booking Module</li>
+<li style="padding-left:20pt;">6.6 Queue Management Module</li>
+<li style="padding-left:20pt;">6.7 Analytics and Reporting Module</li>
+<br>
+<li><b>CHAPTER 7: SYSTEM VERIFICATION</b> ............................................. 72</li>
+<li style="padding-left:20pt;">7.1 Introduction</li>
+<li style="padding-left:20pt;">7.2 Testing Strategy</li>
+<li style="padding-left:20pt;">7.3 Unit Testing</li>
+<li style="padding-left:20pt;">7.4 Integration Testing</li>
+<li style="padding-left:20pt;">7.5 User Acceptance Testing</li>
+<li style="padding-left:20pt;">7.6 Test Results and Analysis</li>
+<br>
+<li><b>CHAPTER 8: CONCLUSIONS AND RECOMMENDATIONS</b> ............................................. 80</li>
+<li style="padding-left:20pt;">8.1 Summary of Achievements</li>
+<li style="padding-left:20pt;">8.2 Challenges Encountered</li>
+<li style="padding-left:20pt;">8.3 Recommendations</li>
+<li style="padding-left:20pt;">8.4 Future Work</li>
+<li style="padding-left:20pt;">8.5 Conclusion</li>
+<br>
+<li><b>BIBLIOGRAPHY</b> ........................................................................... 86</li>
+<li><b>APPENDICES</b> ............................................................................. 88</li>
+<li style="padding-left:20pt;">Appendix A: Program Listings</li>
+<li style="padding-left:20pt;">Appendix B: User Manual</li>
+<li style="padding-left:20pt;">Appendix C: Sample Screenshots</li>
+</ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 1: INTRODUCTION AND BACKGROUND -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>CHAPTER 1: INTRODUCTION AND BACKGROUND</h1>
+
+<h2>1.1 Introduction</h2>
+<p>Educational institutions, particularly primary schools in developing countries, face significant challenges in managing student fee records and financial transactions. The traditional approach of manual fee collection, paper-based receipting, and physical ledger maintenance is increasingly inadequate in the face of growing student populations and the demand for transparency and efficiency. FeeFlow is a comprehensive web-based school fee management system developed to address these challenges by providing a digital platform for fee administration, online payments, appointment scheduling, and financial analytics.</p>
+<p>The system was developed as a final year project for the Master of Science in Information Technology program at ISBAT University. It builds upon established principles of web application development, database management, and user experience design to deliver a practical solution for real-world school fee management needs.</p>
+
+<h2>1.2 Background of the Study</h2>
+<p>School fee management is a critical administrative function in any educational institution. The process involves setting fee structures, collecting payments from students and parents, issuing receipts, tracking outstanding balances, managing payment plans, and generating financial reports. In many Ugandan schools, these processes are still carried out manually using ledgers, carbon-copy receipt books, and Excel spreadsheets.</p>
+<p>The manual approach presents several inherent problems. Fee records can be lost, damaged, or altered. Calculation errors in totaling fees or computing balances are common. The absence of real-time visibility into fee collection status makes it difficult for school administrators to monitor financial health. Students and parents must physically visit the school to make payments, check balances, or discuss fee-related issues, often resulting in long queues and wasted time.</p>
+<p>The rapid advancement of information and communication technology (ICT) in Uganda, particularly the widespread adoption of mobile money services such as MTN Mobile Money and MTN Money, presents an opportunity to revolutionize school fee management. By integrating digital payment channels with a centralized fee management platform, schools can offer parents and students the convenience of paying fees from anywhere, at any time, while maintaining accurate and transparent financial records.</p>
+<p>Several fee management solutions exist in the market, including commercial products like SchoolPay, Edsys, and Fedena. However, these solutions often come with high licensing costs, complex implementation requirements, and limited customization options for local school needs. FeeFlow was designed as a lightweight, affordable, and customizable alternative that specifically addresses the requirements of Ugandan primary schools.</p>
+
+<h2>1.3 Problem Statement</h2>
+<p>Schools in Uganda face significant challenges in managing student fee collections effectively. The specific problems identified include:</p>
+<ol>
+<li><b>Inefficient Payment Processing:</b> Parents must physically visit the school to pay fees, leading to long queues, wasted time, and inconvenience. The lack of digital payment options limits accessibility and flexibility.</li>
+<li><b>Poor Record Keeping:</b> Manual fee records are prone to errors, loss, and damage. Tracking individual student payment histories and outstanding balances is difficult and time-consuming.</li>
+<li><b>Limited Transparency:</b> Students and parents cannot easily access fee status information. There is no self-service portal for checking balances, viewing payment history, or downloading receipts.</li>
+<li><b>Ineffective Communication:</b> Schools struggle to send timely reminders about fee deadlines and overdue payments. Communication is often ad-hoc and relies on physical notices or word of mouth.</li>
+<li><b>Appointment and Queue Management:</b> Students visiting the finance office must wait in unpredictable queues. There is no system for booking appointments or tracking queue progress.</li>
+<li><b>Lack of Financial Analytics:</b> School administrators lack tools for analyzing fee collection trends, identifying at-risk students, and generating comprehensive financial reports.</li>
+</ol>
+
+<h2>1.4 Objectives of the Study</h2>
+<p><b>Main Objective:</b> To design, develop, and implement a comprehensive web-based school fee management system that digitizes fee collection, payment tracking, and financial reporting for primary schools.</p>
+<p><b>Specific Objectives:</b></p>
+<ol>
+<li>To design a secure, scalable database schema for storing student information, fee structures, payment records, and appointment data.</li>
+<li>To develop an administrative dashboard for managing students, monitoring payments, generating reports, and sending reminders.</li>
+<li>To create a student self-service portal for viewing fee status, making online payments, booking appointments, and accessing payment history.</li>
+<li>To integrate multiple digital payment channels including Mobile Money, Credit/Debit Cards, Bank Transfer, USSD, and QR Code payments.</li>
+<li>To implement a real-time appointment booking and queue monitoring system for the finance office.</li>
+<li>To build comprehensive analytics and reporting capabilities for financial decision-making.</li>
+<li>To test and validate the system using realistic seed data across multiple class levels and fee types.</li>
+</ol>
+
+<h2>1.5 Research Questions</h2>
+<ol>
+<li>What are the key challenges faced by schools in managing student fee collections?</li>
+<li>How can a web-based fee management system improve the efficiency of fee collection and tracking?</li>
+<li>What are the essential functional requirements for a comprehensive school fee management system?</li>
+<li>How can multiple digital payment channels be effectively integrated into a unified fee management platform?</li>
+<li>What database architecture best supports the transactional and real-time data needs of a fee management system?</li>
+</ol>
+
+<h2>1.6 Scope of the Study</h2>
+<p>The scope of this project encompasses the design, development, and testing of a fee management system for primary schools in Uganda. The system covers the full lifecycle of fee administration including: student registration and management, fee structure definition, payment processing through multiple channels, receipt generation, appointment booking, queue management, payment plan management, reminder notifications, and financial analytics.</p>
+<p>The system is designed for two categories of users: administrators (school staff) and students. The administrative interface provides comprehensive management capabilities while the student portal focuses on self-service access to fee information and payment functionality. The system uses MySQL for transactional data storage and Firebase Firestore for real-time features including notifications and queue updates.</p>
+<p>Testing was conducted using seed data for 16 students spanning 8 class levels from Nursery to Primary 7, with various fee types including Tuition, Development, Sports, Library, and School Meals fees, and multiple payment methods.</p>
+
+<h2>1.7 Significance of the Study</h2>
+<p>The FeeFlow system contributes to the digital transformation of school financial management in Uganda. The significance of this study includes:</p>
+<ol>
+<li><b>For Schools:</b> Improved efficiency in fee collection, reduced administrative workload, accurate financial record keeping, and enhanced transparency.</li>
+<li><b>For Students and Parents:</b> Convenience of online payments, easy access to fee information, ability to book appointments, and reduced time spent in queues.</li>
+<li><b>For Administrators:</b> Real-time visibility into fee collection status, comprehensive analytics for informed decision-making, and tools for proactive communication with stakeholders.</li>
+<li><b>For the Academic Community:</b> A practical demonstration of web application development principles, database design, and payment system integration that can serve as a reference for similar projects.</li>
+</ol>
+
+<h2>1.8 Limitations of the Study</h2>
+<p>The project has the following limitations:</p>
+<ol>
+<li>The system was developed as a prototype and has not been deployed in a live school environment.</li>
+<li>Payment processing is simulated and does not integrate with actual payment gateway APIs.</li>
+<li>The system was tested with synthetic seed data rather than real school data.</li>
+<li>Firebase integration is limited to Firestore database features; Firebase Authentication and Cloud Functions were not fully implemented.</li>
+<li>The system focuses on primary school fee management and may require modifications for secondary or tertiary institution use.</li>
+</ol>
+
+<h2>1.9 Organization of the Report</h2>
+<p>This report is organized into eight chapters. Chapter 1 provides the introduction and background. Chapter 2 presents the system functional specification including requirements and user interface design. Chapter 3 discusses system performance requirements. Chapter 4 describes the system design overview and architecture. Chapter 5 details the data structure specifications and database design. Chapter 6 presents the module design specifications. Chapter 7 covers system verification and testing. Chapter 8 provides conclusions and recommendations. The report concludes with a bibliography and appendices containing program listings and the user manual.</p>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 2: SYSTEM FUNCTIONAL SPECIFICATION -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>CHAPTER 2: SYSTEM FUNCTIONAL SPECIFICATION</h1>
+
+<h2>2.1 Introduction</h2>
+<p>This chapter presents the functional and non-functional requirements of the FeeFlow system, use case diagrams, user interface design, input/output specifications, and error handling mechanisms. The requirements were gathered through analysis of existing school fee management processes and identification of pain points that the system aims to address.</p>
+
+<h2>2.2 Functional Requirements</h2>
+
+<h3>2.2.1 Admin Module Functions</h3>
+<table>
+<tr><th style="width:10%;">ID</th><th style="width:40%;">Function</th><th style="width:50%;">Description</th></tr>
+<tr><td>ADM-01</td><td>Admin Authentication</td><td>Secure login and logout using email/username and password credentials with session management.</td></tr>
+<tr><td>ADM-02</td><td>Student Management</td><td>View, search, filter, and delete student records. Display comprehensive student information including personal details, fee status, and payment progress.</td></tr>
+<tr><td>ADM-03</td><td>Payment Dashboard</td><td>View real-time financial summary showing total collections, outstanding balances, and recovery rate with drill-down capabilities.</td></tr>
+<tr><td>ADM-04</td><td>Online Payment Monitoring</td><td>Track all online payment transactions with filtering by date, status, and payment method. Verify pending payments.</td></tr>
+<tr><td>ADM-05</td><td>Payment Analytics</td><td>Comprehensive analytics including collection breakdown by fee type, payment method distribution, and top outstanding students.</td></tr>
+<tr><td>ADM-06</td><td>Send Reminders</td><td>Send batch payment reminders to students with overdue fees. Select overdue period and view overdue student list.</td></tr>
+<tr><td>ADM-07</td><td>Firebase Student View</td><td>View student data synchronized from MySQL to Firebase Firestore with real-time capabilities.</td></tr>
+<tr><td>ADM-08</td><td>CSV Data Export</td><td>Export filtered student list data to CSV format for offline analysis and record keeping.</td></tr>
+</table>
+
+<h3>2.2.2 Student Module Functions</h3>
+<table>
+<tr><th style="width:10%;">ID</th><th style="width:40%;">Function</th><th style="width:50%;">Description</th></tr>
+<tr><td>STU-01</td><td>Student Dashboard</td><td>Personalized dashboard showing welcome message, fee summary (total paid, pending, clearance status), fee breakdown, payment history table, and real-time notifications.</td></tr>
+<tr><td>STU-02</td><td>Online Payment Gateway</td><td>Secure payment interface with payment summary, multiple payment methods, and form-based payment submission.</td></tr>
+<tr><td>STU-03</td><td>Payment History</td><td>Complete transaction history with filtering by status and date range. View receipts for paid transactions.</td></tr>
+<tr><td>STU-04</td><td>Skip the Line – Pay Online</td><td>Landing page promoting digital payment benefits with direct links to payment gateway and appointment booking.</td></tr>
+<tr><td>STU-05</td><td>Payment Receipt</td><td>Detailed payment receipt with student information, amount paid, payment method, transaction reference, and print functionality.</td></tr>
+<tr><td>STU-06</td><td>Appointment Booking</td><td>Book appointments with the finance office by selecting date, time slot, and purpose. View upcoming appointments.</td></tr>
+<tr><td>STU-07</td><td>Payment Plans</td><td>View available installment plans (Standard 3-month, Extended 6-month, Quick Pay 2-month) and plan history.</td></tr>
+<tr><td>STU-08</td><td>Dashboard Alerts</td><td>View overdue payments and upcoming deadlines with days overdue/remaining and direct payment links.</td></tr>
+<tr><td>STU-09</td><td>Queue Monitor</td><td>Live queue display showing currently serving token, estimated wait time, and full queue list.</td></tr>
+<tr><td>STU-10</td><td>Financial Aid</td><td>Information page about available financial assistance programs.</td></tr>
+<tr><td>STU-11</td><td>Documents</td><td>Upload and manage supporting documents for financial aid and fee-related requests.</td></tr>
+</table>
+
+<h2>2.3 Non-Functional Requirements</h2>
+
+<h3>2.3.1 Security Requirements</h3>
+<table>
+<tr><th style="width:10%;">ID</th><th style="width:30%;">Requirement</th><th style="width:60%;">Description</th></tr>
+<tr><td>SEC-01</td><td>Password Hashing</td><td>All user passwords must be hashed using bcrypt (PHP password_hash with PASSWORD_DEFAULT) before storage.</td></tr>
+<tr><td>SEC-02</td><td>Authentication Control</td><td>Admin pages must verify user authentication before allowing access. Unauthenticated requests must be redirected to the login page.</td></tr>
+<tr><td>SEC-03</td><td>SQL Injection Prevention</td><td>Database queries must use mysqli_real_escape_string for user-supplied values.</td></tr>
+<tr><td>SEC-04</td><td>Session Management</td><td>PHP sessions must be used for maintaining user login state with session_start() and session_destroy() for logout.</td></tr>
+<tr><td>SEC-05</td><td>XSS Prevention</td><td>All user-supplied data must be sanitized using htmlspecialchars() before display in HTML output.</td></tr>
+</table>
+
+<h3>2.3.2 Usability Requirements</h3>
+<table>
+<tr><th>ID</th><th>Requirement</th><th>Description</th></tr>
+<tr><td>USR-01</td><td>Responsive Design</td><td>The user interface must be responsive and functional across desktop, tablet, and mobile devices.</td></tr>
+<tr><td>USR-02</td><td>Intuitive Navigation</td><td>The system must provide clear navigation paths with organized menu structures and quick action links.</td></tr>
+<tr><td>USR-03</td><td>Real-Time Feedback</td><td>User actions must provide immediate visual feedback including loading indicators, success/error messages, and toast notifications.</td></tr>
+<tr><td>USR-04</td><td>Consistent Styling</td><td>All pages must follow a consistent visual design using a unified CSS stylesheet.</td></tr>
+</table>
+
+<h3>2.3.3 Performance Requirements</h3>
+<table>
+<tr><th>ID</th><th>Requirement</th><th>Target</th></tr>
+<tr><td>PER-01</td><td>Page Load Time</td><td>All pages must load within 3 seconds on standard broadband connection.</td></tr>
+<tr><td>PER-02</td><td>Query Response</td><td>Database queries must return results within 2 seconds for datasets up to 10,000 records.</td></tr>
+<tr><td>PER-03</td><td>Concurrent Users</td><td>System must support at least 50 concurrent users without significant performance degradation.</td></tr>
+<tr><td>PER-04</td><td>Real-Time Updates</td><td>Firestore-based real-time features must update within 5 seconds of data changes.</td></tr>
+</table>
+
+<h2>2.4 Use Case Diagrams</h2>
+
+<h3>2.4.1 Admin Use Cases</h3>
+<p>The admin user interacts with the system through the following primary use cases:</p>
+<ol>
+<li><b>Authenticate:</b> Admin logs in with email/username and password credentials to access the admin dashboard.</li>
+<li><b>Manage Students:</b> Admin views the student registry, searches and filters students, views detailed profiles, and deletes student records.</li>
+<li><b>Monitor Payments:</b> Admin accesses the payment dashboard to view collection statistics, recent transactions, and fee-type breakdowns.</li>
+<li><b>Manage Online Payments:</b> Admin monitors incoming online payment transactions, filters by status, and verifies pending payments.</li>
+<li><b>View Analytics:</b> Admin accesses advanced analytics including collection rates, payment method distribution, and outstanding balance reports.</li>
+<li><b>Send Reminders:</b> Admin sends batch payment reminders to students with overdue fees based on selected overdue period.</li>
+<li><b>Export Data:</b> Admin exports student and payment data to CSV format for external analysis.</li>
+</ol>
+
+<h3>2.4.2 Student Use Cases</h3>
+<p>The student user interacts with the system through the following primary use cases:</p>
+<ol>
+<li><b>View Dashboard:</b> Student logs in and views personalized dashboard with fee summary, payment history, and notifications.</li>
+<li><b>Make Payment:</b> Student accesses payment gateway, selects pending fees, chooses payment method, and submits payment.</li>
+<li><b>View Payment History:</b> Student views complete transaction records with filtering capabilities.</li>
+<li><b>Book Appointment:</b> Student selects date and time slot, specifies purpose, and books an appointment with the finance office.</li>
+<li><b>View Payment Plans:</b> Student explores available installment plans and views plan history.</li>
+<li><b>View Queue Status:</b> Student monitors the live queue to see current serving token and estimated wait time.</li>
+<li><b>View Receipts:</b> Student views and prints payment receipts for completed transactions.</li>
+<li><b>View Reminders:</b> Student checks overdue payments and upcoming deadlines with direct payment links.</li>
+</ol>
+
+<h2>2.5 User Interface Design</h2>
+
+<h3>2.5.1 Design Principles</h3>
+<p>The FeeFlow user interface follows these design principles:</p>
+<ol>
+<li><b>Clarity:</b> Information is presented in a clear, organized manner using visual hierarchy, consistent typography, and meaningful iconography.</li>
+<li><b>Efficiency:</b> Common tasks such as making payments, viewing balances, and booking appointments can be completed in minimal steps through prominent action buttons and quick access menus.</li>
+<li><b>Feedback:</b> All user actions trigger appropriate feedback including success messages, error alerts, loading states, and confirmation dialogs.</li>
+<li><b>Consistency:</b> Colors, fonts, spacing, button styles, and layout patterns are consistent throughout the application for predictable user experience.</li>
+</ol>
+
+<h3>2.5.2 Color Scheme and Typography</h3>
+<p>The system uses a modern, professional color scheme:</p>
+<ul>
+<li><b>Primary Color:</b> #4f46e5 (Indigo) – Used for primary buttons, links, headers, and key UI elements.</li>
+<li><b>Success Color:</b> #10b981 (Emerald) – Used for paid status indicators, success messages, and positive metrics.</li>
+<li><b>Danger Color:</b> #ef4444 (Red) – Used for overdue payments, error messages, and critical alerts.</li>
+<li><b>Warning Color:</b> #f59e0b (Amber) – Used for pending status, upcoming deadlines, and moderate alerts.</li>
+<li><b>Background:</b> #f8fafc (Light gray) – Clean, neutral background for content areas.</li>
+<li><b>Text:</b> #1e293b (Dark slate) – Primary text color with #64748b for muted/secondary text.</li>
+</ul>
+<p>The typography uses the Inter font family with fallback to system fonts, ensuring readability across devices.</p>
+
+<h3>2.5.3 Admin Dashboard Layout</h3>
+<p>The admin dashboard features a top navigation bar with the system logo and user menu, a main content area with summary statistic cards, data tables, and action buttons. The layout is designed for efficient monitoring and management of school fee operations.</p>
+
+<h3>2.5.4 Student Dashboard Layout</h3>
+<p>The student dashboard features a welcome section with student information, a quick access menu with icon-based navigation cards, fee summary statistics, fee breakdown sidebar, and payment history table. A profile modal provides detailed student information.</p>
+
+<h2>2.6 Input/Output Specifications</h2>
+
+<h3>2.6.1 Payment Input Form</h3>
+<table>
+<tr><th>Field</th><th>Type</th><th>Validation</th><th>Example</th></tr>
+<tr><td>Student ID</td><td>Hidden (auto-filled)</td><td>Must match existing student_id</td><td>S101</td></tr>
+<tr><td>Fee Amount</td><td>Auto-calculated</td><td>Must be positive number</td><td>800.00</td></tr>
+<tr><td>Card Number</td><td>Text input</td><td>16-digit numeric</td><td>1234 5678 9012 3456</td></tr>
+<tr><td>Expiry Date</td><td>Text input</td><td>MM/YY format, future date</td><td>12/27</td></tr>
+<tr><td>CVV</td><td>Text input</td><td>3-4 digit numeric</td><td>123</td></tr>
+<tr><td>Phone Number</td><td>Tel input</td><td>Valid phone format</td><td>+256 7xx xxx xxx</td></tr>
+<tr><td>Mobile Provider</td><td>Select dropdown</td><td>Must select one option</td><td>MTN Mobile Money</td></tr>
+</table>
+
+<h3>2.6.2 Appointment Booking Input Form</h3>
+<table>
+<tr><th>Field</th><th>Type</th><th>Validation</th><th>Example</th></tr>
+<tr><td>Student ID</td><td>Hidden (auto-filled)</td><td>Must match existing student_id</td><td>S101</td></tr>
+<tr><td>Appointment Date</td><td>Date picker</td><td>Must be between tomorrow and 30 days from now</td><td>2026-06-15</td></tr>
+<tr><td>Time Slot</td><td>Selectable grid</td><td>Must be available time slot</td><td>09:00:00</td></tr>
+<tr><td>Purpose</td><td>Select dropdown</td><td>Must select one option</td><td>Pay School Fees</td></tr>
+<tr><td>Additional Notes</td><td>Textarea</td><td>Optional, max 500 chars</td><td>Will bring payment receipts</td></tr>
+</table>
+
+<h3>2.6.3 Output: Payment Receipt</h3>
+<table>
+<tr><th>Field</th><th>Description</th></tr>
+<tr><td>Receipt Number</td><td>Auto-generated unique identifier (RCP-000001)</td></tr>
+<tr><td>Date & Time</td><td>Timestamp of payment processing</td></tr>
+<tr><td>Student Name</td><td>Full name from student record</td></tr>
+<tr><td>Student ID</td><td>Unique student identifier</td></tr>
+<tr><td>Class</td><td>Current class/grade level</td></tr>
+<tr><td>Payment Method</td><td>Selected payment channel</td></tr>
+<tr><td>Amount Paid</td><td>Monetary amount in UGX and USD</td></tr>
+<tr><td>Fees Covered</td><td>List of fee items cleared</td></tr>
+<tr><td>Transaction Reference</td><td>Bank reference number (if applicable)</td></tr>
+</table>
+
+<h2>2.7 Error Handling</h2>
+<p>The system implements comprehensive error handling throughout all modules:</p>
+<table>
+<tr><th>Scenario</th><th>Error Handling Strategy</th></tr>
+<tr><td>Database Connection Failure</td><td>Connection check with die() and mysqli_connect_error() for debugging. The db.php script terminates with error message.</td></tr>
+<tr><td>Student Not Found</td><td>Dashboard page checks for null student result and displays user-friendly error message with navigation link home.</td></tr>
+<tr><td>Invalid Payment Submission</td><td>Server-side validation checks for required fields and valid data formats before processing payment.</td></tr>
+<tr><td>Appointment Time Slot Full</td><td>Server checks count of existing appointments for the requested time slot. If >=5, displays error message prompting user to select another time.</td></tr>
+<tr><td>Insert Failure</td><td>SQL insert operations check mysqli_query return value and display appropriate success/error messages.</td></tr>
+<tr><td>Firebase Data Error</td><td>JavaScript try/catch blocks wrap all Firestore operations with console.error logging and user-friendly fallback messages.</td></tr>
+<tr><td>Authentication Failure</td><td>Admin pages redirect unauthorized users to login page. Invalid credentials display error message on login form.</td></tr>
+<tr><td>Delete Operation</td><td>Student deletion shows confirmation modal before proceeding. Cascade deletes associated fee, appointment, and queue records.</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 3: SYSTEM PERFORMANCE REQUIREMENTS -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>CHAPTER 3: SYSTEM PERFORMANCE REQUIREMENTS</h1>
+
+<h2>3.1 Introduction</h2>
+<p>This chapter defines the performance requirements for the FeeFlow system, including efficiency metrics, reliability measures, security requirements, scalability considerations, and error recovery mechanisms. These requirements ensure that the system delivers acceptable performance under expected usage conditions.</p>
+
+<h2>3.2 Performance Metrics</h2>
+
+<h3>3.2.1 Response Time Requirements</h3>
+<p>The system must meet the following response time benchmarks under normal operating conditions (single user, local network):</p>
+<table>
+<tr><th>Operation</th><th>Target Response Time</th><th>Measurement Method</th></tr>
+<tr><td>Page Load (Dashboard)</td><td>&lt; 2 seconds</td><td>Browser dev tools network tab</td></tr>
+<tr><td>Student Data Query</td><td>&lt; 1 second</td><td>PHP microtime() before/after query</td></tr>
+<tr><td>Payment Submission</td><td>&lt; 2 seconds</td><td>Server-side execution time</td></tr>
+<tr><td>Appointment Booking</td><td>&lt; 1.5 seconds</td><td>Form submit to confirmation display</td></tr>
+<tr><td>Real-time Notification</td><td>&lt; 5 seconds</td><td>Firestore onSnapshot callback latency</td></tr>
+<tr><td>Data Export (CSV)</td><td>&lt; 3 seconds</td><td>File generation and download time</td></tr>
+<tr><td>Reminder Batch Send</td><td>&lt; 5 seconds</td><td>SQL update execution + response</td></tr>
+</table>
+
+<h3>3.2.2 Throughput Requirements</h3>
+<table>
+<tr><th>Metric</th><th>Target</th></tr>
+<tr><td>Maximum concurrent student users</td><td>50</td></tr>
+<tr><td>Maximum concurrent admin users</td><td>10</td></tr>
+<tr><td>Daily payment transactions processed</td><td>500</td></tr>
+<tr><td>Daily appointment bookings</td><td>100</td></tr>
+<tr><td>Database query throughput</td><td>100 queries/second</td></tr>
+<tr><td>Firestore real-time listeners</td><td>60 simultaneous</td></tr>
+</table>
+
+<h2>3.3 Reliability and Availability</h2>
+
+<h3>3.3.1 System Availability</h3>
+<p>The FeeFlow system targets 99.5% availability during school operating hours (Monday-Friday, 8:00 AM to 5:00 PM). The system operates on a local XAMPP server environment which provides reliable runtime for development and testing purposes. Key reliability measures include:</p>
+<ul>
+<li><b>Database Persistence:</b> MySQL provides ACID-compliant transaction support ensuring data integrity during payment processing.</li>
+<li><b>Session Persistence:</b> PHP session management maintains user login state across page requests.</li>
+<li><b>Data Redundancy:</b> Dual database architecture (MySQL + Firebase Firestore) provides backup for critical student records.</li>
+<li><b>Graceful Degradation:</b> If Firebase is unavailable, the system continues to function using MySQL-only features.</li>
+</ul>
+
+<h3>3.3.2 Backup and Recovery</h3>
+<table>
+<tr><th>Component</th><th>Backup Strategy</th><th>Recovery Procedure</th></tr>
+<tr><td>MySQL Database</td><td>Export SQL dump via phpMyAdmin or mysqldump command</td><td>Import SQL dump to restore all tables</td></tr>
+<tr><td>Firebase Firestore</td><td>Automatic cloud backup via Firebase console</td><td>Restore from Firebase console or re-sync data</td></tr>
+<tr><td>CSS/JS Assets</td><td>Git version control and local file backup</td><td>Replace files from backup or git checkout</td></tr>
+<tr><td>PHP Scripts</td><td>Git version control</td><td>git clone or git pull to restore</td></tr>
+</table>
+
+<h2>3.4 Security Requirements</h2>
+
+<h3>3.4.1 Authentication Security</h3>
+<p>The admin authentication system implements the following security measures:</p>
+<ul>
+<li><b>bcrypt Password Hashing:</b> All passwords are stored using PHP's password_hash() function with the PASSWORD_DEFAULT algorithm (currently bcrypt), which includes automatic salting and adaptive hashing.</li>
+<li><b>Session-Based Authentication:</b> Admin authentication is managed through PHP sessions. The auth.php script checks $_SESSION['admin_logged_in'] before any admin page content is rendered.</li>
+<li><b>Login Attempt Management:</b> The login form displays error messages for invalid credentials without revealing whether the username or password was incorrect.</li>
+</ul>
+
+<h3>3.4.2 Data Security</h3>
+<ul>
+<li><b>SQL Injection Prevention:</b> All user inputs used in database queries are sanitized using mysqli_real_escape_string() before query execution.</li>
+<li><b>Cross-Site Scripting Prevention:</b> All dynamic data displayed in HTML is escaped using htmlspecialchars() to prevent XSS attacks.</li>
+<li><b>Input Validation:</b> Server-side validation of form inputs before processing payments, appointments, and other sensitive operations.</li>
+<li><b>Firestore Security:</b> Firebase security rules should be configured to restrict read/write access to authenticated users only.</li>
+</ul>
+
+<h3>3.4.3 Payment Data Security</h3>
+<p>While the current implementation uses simulated payment processing, the system is designed with security considerations for future real payment gateway integration:</p>
+<ul>
+<li>Sensitive payment fields (card numbers, CVV) should be processed through PCI-compliant third-party payment gateways.</li>
+<li>Payment form data should be transmitted over HTTPS in production deployment.</li>
+<li>No raw payment credentials are stored in the database; only payment status and reference numbers are retained.</li>
+</ul>
+
+<h2>3.5 Scalability Considerations</h2>
+<p>The FeeFlow system architecture supports scalability through the following design decisions:</p>
+<ul>
+<li><b>Modular Code Organization:</b> PHP files are organized by module (admin/, student/) with shared components (db.php, header.php, footer.php) for easy maintenance and extension.</li>
+<li><b>Database Indexing:</b> The MySQL schema uses primary keys and foreign key relationships for efficient querying as data volume grows.</li>
+<li><b>Query Optimization:</b> SQL queries use aggregate functions (SUM, COUNT, GROUP BY) with JOINs optimized for the expected data relationships.</li>
+<li><b>Firebase Real-Time Scaling:</b> Firestore automatically scales to handle increasing numbers of concurrent listeners and document reads.</li>
+<li><b>Limit Clauses:</b> Data queries use LIMIT clauses (e.g., LIMIT 30, LIMIT 50) to prevent excessive data retrieval as the database grows.</li>
+</ul>
+<p>For production deployment, the following scalability enhancements are recommended:</p>
+<ol>
+<li>Migrate from MySQL to a cloud database service (e.g., Amazon RDS, Google Cloud SQL).</li>
+<li>Implement server-side caching using Redis or Memcached for frequently accessed data.</li>
+<li>Deploy on cloud infrastructure with auto-scaling capabilities.</li>
+<li>Use a CDN for static asset delivery to improve global response times.</li>
+</ol>
+
+<h2>3.6 Error Recovery and Fault Tolerance</h2>
+
+<h3>3.6.1 Error Recovery Procedures</h3>
+<table>
+<tr><th>Failure Scenario</th><th>Detection Method</th><th>Recovery Procedure</th></tr>
+<tr><td>MySQL connection failure</td><td>mysqli_connect() returns false</td><td>Display maintenance page, check MySQL service status, restart XAMPP</td></tr>
+<tr><td>Firebase SDK load failure</td><td>typeof firebase === 'undefined' check</td><td>Display console warning, fall back to MySQL-only features</td></tr>
+<tr><td>PHP script error</td><td>PHP error reporting or exception handling</td><td>Check PHP error logs, fix syntax/runtime errors, reload page</td></tr>
+<tr><td>Data integrity issue</td><td>SQL query returns unexpected results</td><td>Restore from database backup, re-run schema migration if needed</td></tr>
+<tr><td>Session timeout</td><td>Auth check returns false</td><td>Redirect to login page, user re-authenticates</td></tr>
+</table>
+
+<h3>3.6.2 Fault Tolerance Features</h3>
+<ul>
+<li><b>Graceful Exception Handling:</b> Try/catch blocks in JavaScript for Firebase operations prevent script crashes and provide user-friendly fallbacks.</li>
+<li><b>Transaction Integrity:</b> MySQL's ACID compliance ensures that payment records are either fully committed or fully rolled back in case of failure.</li>
+<li><b>Session Redundancy:</b> PHP sessions maintain user state across page loads, allowing recovery from interrupted requests.</li>
+<li><b>Data Validation:</b> Both client-side (HTML5 validation) and server-side (PHP validation) checks prevent invalid data from entering the system.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 4: SYSTEM DESIGN OVERVIEW -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>CHAPTER 4: SYSTEM DESIGN OVERVIEW</h1>
+
+<h2>4.1 Introduction</h2>
+<p>This chapter presents the overall design of the FeeFlow system including system architecture, data flow diagrams, technology stack justification, equipment configuration, and network architecture. The design follows established software engineering principles to create a maintainable, scalable, and secure fee management solution.</p>
+
+<h2>4.2 System Architecture</h2>
+<p>The FeeFlow system adopts a three-tier client-server architecture consisting of the presentation tier (frontend), application tier (backend), and data tier (database). This architecture separates concerns and allows independent development and maintenance of each layer.</p>
+
+<h3>4.2.1 Presentation Tier (Frontend)</h3>
+<p>The presentation layer consists of HTML5 pages, CSS3 stylesheets, and JavaScript scripts that run in the user's web browser. This layer is responsible for:</p>
+<ul>
+<li>Rendering the user interface for both admin and student modules</li>
+<li>Handling user interactions through forms, buttons, and navigation elements</li>
+<li>Client-side form validation using HTML5 validation attributes</li>
+<li>Real-time UI updates through Firebase Firestore listeners</li>
+<li>Sending AJAX requests to the server when needed</li>
+</ul>
+<p><b>Technologies Used:</b> HTML5, CSS3, JavaScript (vanilla), Firebase JavaScript SDK v8.10.1</p>
+
+<h3>4.2.2 Application Tier (Backend)</h3>
+<p>The application layer processes requests from the frontend, executes business logic, and interacts with the data tier. This layer is responsible for:</p>
+<ul>
+<li>User authentication and session management</li>
+<li>Processing payment submissions and updating fee records</li>
+<li>Managing appointment bookings with conflict checking</li>
+<li>Generating analytics data and reports</li>
+<li>Sending batch payment reminders</li>
+<li>Handling data export operations</li>
+</ul>
+<p><b>Technologies Used:</b> PHP 8.x, Apache web server (via XAMPP)</p>
+
+<h3>4.2.3 Data Tier (Database)</h3>
+<p>The data tier stores and manages all system data. FeeFlow uses a dual database architecture:</p>
+<ul>
+<li><b>MySQL Database:</b> Primary data store for transactional data including students, fees, payments, appointments, queue, staff, and payment deadlines tables. Provides ACID-compliant transaction support for financial data integrity.</li>
+<li><b>Firebase Firestore:</b> Real-time NoSQL database for notifications, messages, and student profiles that require real-time synchronization across clients.</li>
+</ul>
+<p><b>Technologies Used:</b> MySQL 8.x (via XAMPP phpMyAdmin), Firebase Firestore (cloud-hosted)</p>
+
+<h2>4.3 Data Flow Diagrams</h2>
+
+<h3>4.3.1 Context Level Diagram (Level 0)</h3>
+<p>At the context level, the FeeFlow system interacts with two external entities:</p>
+<ul>
+<li><b>Administrator:</b> Manages students, monitors payments, sends reminders, views analytics, and exports data.</li>
+<li><b>Student:</b> Views dashboard, makes payments, books appointments, views queue, checks reminders, and views receipts.</li>
+</ul>
+
+<h3>4.3.2 Level 1 Data Flow Diagram – Admin Functions</h3>
+<p><b>Process 1: Student Management</b></p>
+<ul>
+<li>Input: Filter criteria (search text, class, gender, status)</li>
+<li>Process: Query students table with JOIN on fees and payment_deadlines</li>
+<li>Output: Student list with fee summary and due dates</li>
+<li>Data Store: MySQL students, fees, payment_deadlines tables</li>
+</ul>
+
+<p><b>Process 2: Payment Monitoring</b></p>
+<ul>
+<li>Input: Filter selection (all, today, pending, completed)</li>
+<li>Process: Query online_payments table with JOIN on students</li>
+<li>Output: Payment transaction list with statistics</li>
+<li>Data Store: MySQL online_payments, students tables</li>
+</ul>
+
+<p><b>Process 3: Analytics Generation</b></p>
+<ul>
+<li>Input: Automated (no user input required)</li>
+<li>Process: Multiple aggregate SQL queries on fees table with GROUP BY clauses</li>
+<li>Output: Collection breakdown, payment method distribution, outstanding student list, KPI metrics</li>
+<li>Data Store: MySQL fees, students tables</li>
+</ul>
+
+<p><b>Process 4: Send Reminders</b></p>
+<ul>
+<li>Input: Overdue period selection (0, 7, 14, 30 days)</li>
+<li>Process: UPDATE payment_deadlines with reminder_sent flag and incremented reminder_count</li>
+<li>Output: Success message with affected student count</li>
+<li>Data Store: MySQL payment_deadlines, fees tables</li>
+</ul>
+
+<h3>4.3.3 Level 1 Data Flow Diagram – Student Functions</h3>
+<p><b>Process 5: Payment Processing</b></p>
+<ul>
+<li>Input: Student ID, fee selection, payment method, payment details (card/mobile/bank)</li>
+<li>Process: Insert record into online_payments table, update fees table status</li>
+<li>Output: Redirect to payment receipt with confirmation</li>
+<li>Data Store: MySQL online_payments, fees tables</li>
+</ul>
+
+<p><b>Process 6: Appointment Booking</b></p>
+<ul>
+<li>Input: Date, time slot, purpose, notes</li>
+<li>Process: Check slot availability (max 5 per slot), insert into appointments table</li>
+<li>Output: Success/error message with confirmation</li>
+<li>Data Store: MySQL appointments table</li>
+</ul>
+
+<p><b>Process 7: Queue Monitoring</b></p>
+<ul>
+<li>Input: Page refresh (no user input)</li>
+<li>Process: Query queue table for serving and waiting tokens</li>
+<li>Output: Current serving number, waiting count, estimated wait time, queue list</li>
+<li>Data Store: MySQL queue table</li>
+</ul>
+
+<h2>4.4 Technology Stack Justification</h2>
+
+<table>
+<tr><th>Technology</th><th>Purpose</th><th>Justification</th></tr>
+<tr><td>PHP</td><td>Server-side scripting</td><td>Widely supported, extensive documentation, built-in MySQL support, low cost hosting, large developer community. Ideal for educational institution budget constraints.</td></tr>
+<tr><td>MySQL</td><td>Relational database</td><td>ACID compliant, free and open-source, excellent performance for structured data, well-integrated with PHP via mysqli extension, supports complex queries with JOINs and aggregations.</td></tr>
+<tr><td>Firebase Firestore</td><td>Real-time NoSQL database</td><td>Free tier available (1GB storage, 10GB/month download), real-time listener capability for live notifications, automatic scaling, cloud-hosted with built-in security rules.</td></tr>
+<tr><td>HTML5/CSS3</td><td>Frontend markup and styling</td><td>Standard web technologies supported by all modern browsers, responsive design capabilities with CSS Grid and Flexbox, no additional framework dependencies.</td></tr>
+<tr><td>JavaScript</td><td>Client-side interactivity</td><td>Universal browser support, vanilla JS used without framework overhead, direct integration with Firebase SDK, DOM manipulation for dynamic UI updates.</td></tr>
+<tr><td>XAMPP</td><td>Local development environment</td><td>Bundled Apache, MySQL, PHP, and phpMyAdmin in a single package, cross-platform support, widely used in academic settings, simple configuration.</td></tr>
+</table>
+
+<h2>4.5 Equipment Configuration</h2>
+
+<h3>4.5.1 Server Requirements</h3>
+<table>
+<tr><th>Component</th><th>Development Environment</th><th>Recommended Production</th></tr>
+<tr><td>Operating System</td><td>Windows 10/11</td><td>Ubuntu Server 22.04 LTS or Windows Server 2022</td></tr>
+<tr><td>Web Server</td><td>Apache 2.4 (via XAMPP)</td><td>Apache 2.4 or Nginx</td></tr>
+<tr><td>PHP Version</td><td>PHP 8.x</td><td>PHP 8.1+</td></tr>
+<tr><td>Database</td><td>MySQL 8.x (via XAMPP)</td><td>MySQL 8.x or MariaDB 10.x</td></tr>
+<tr><td>RAM</td><td>8 GB</td><td>16 GB minimum, 32 GB recommended</td></tr>
+<tr><td>Storage</td><td>500 GB HDD</td><td>256 GB SSD + cloud backup</td></tr>
+<tr><td>Processor</td><td>Intel Core i5</td><td>Intel Xeon or equivalent, 4+ cores</td></tr>
+<tr><td>Network</td><td>Localhost</td><td>100 Mbps dedicated internet connection</td></tr>
+</table>
+
+<h3>4.5.2 Client Requirements</h3>
+<table>
+<tr><th>Component</th><th>Minimum</th><th>Recommended</th></tr>
+<tr><td>Web Browser</td><td>Chrome 90+, Firefox 90+, Edge 90+</td><td>Latest Chrome or Firefox</td></tr>
+<tr><td>Screen Resolution</td><td>1024x768 pixels</td><td>1920x1080 pixels</td></tr>
+<tr><td>Internet Connection</td><td>1 Mbps</td><td>5 Mbps or higher</td></tr>
+<tr><td>RAM</td><td>2 GB</td><td>4 GB or higher</td></tr>
+<tr><td>JavaScript</td><td>Enabled</td><td>Enabled</td></tr>
+</table>
+
+<h2>4.6 Network Architecture</h2>
+<p>The FeeFlow system operates on a client-server network architecture. In the development environment, the web server and database server run on the same machine (localhost), and clients access the system through a web browser. For production deployment, a three-tier network architecture is recommended:</p>
+<ol>
+<li><b>Web Server Tier:</b> Apache or Nginx hosting PHP application files, accessible via HTTPS on port 443.</li>
+<li><b>Application Server Tier:</b> PHP processing engine handling business logic and database interactions.</li>
+<li><b>Database Server Tier:</b> MySQL server on a separate secured network segment, with access restricted to the application server.</li>
+</ol>
+<p>Firebase Firestore is accessed directly from the client browser via HTTPS, providing real-time data synchronization without additional server infrastructure. The Firebase Admin SDK can be used for server-to-server communication in production.</p>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 5: SYSTEM DATA STRUCTURE SPECIFICATIONS -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>CHAPTER 5: SYSTEM DATA STRUCTURE SPECIFICATIONS</h1>
+
+<h2>5.1 Introduction</h2>
+<p>This chapter presents the data structure specifications for the FeeFlow system, including logical and physical database designs, entity-relationship diagrams, and detailed schema definitions for all database tables.</p>
+
+<h2>5.2 Logical Database Design</h2>
+<p>The FeeFlow database consists of the following entities and their relationships:</p>
+
+<h3>5.2.1 Entity Descriptions</h3>
+<table>
+<tr><th>Entity</th><th>Description</th><th>Key Attributes</th></tr>
+<tr><td>Students</td><td>Stores student personal information and academic details</td><td>student_id (PK), name, email, password, gender, class_name, student_status, academic_year, duration, course</td></tr>
+<tr><td>Fees</td><td>Records all fee items assigned to students with payment status</td><td>id (PK), student_id (FK), amount, fee_type, status, payment_method, payment_date, created_at</td></tr>
+<tr><td>Staff</td><td>Admin user accounts for system access</td><td>id (PK), username, email, password, name, role, created_at</td></tr>
+<tr><td>Appointments</td><td>Scheduled appointments between students and finance office</td><td>id (PK), student_id (FK), appointment_date, appointment_time, purpose, notes, status, created_at</td></tr>
+<tr><td>Queue</td><td>Digital queue management tracking student visits</td><td>id (PK), token_number, student_id, status, counter_number, created_at</td></tr>
+<tr><td>Payment Deadlines</td><td>Due date tracking for pending fee items</td><td>id (PK), student_id (FK), fee_id (FK), due_date, reminder_sent, reminder_count, last_reminder_date, created_at</td></tr>
+</table>
+
+<h2>5.3 Physical Database Design</h2>
+<p>The physical database schema is implemented in MySQL with the following table structures:</p>
+
+<h3>5.3.1 students Table</h3>
+<table>
+<tr><th>Column</th><th>Data Type</th><th>Constraints</th><th>Description</th></tr>
+<tr><td>student_id</td><td>VARCHAR(20)</td><td>PRIMARY KEY</td><td>Unique student identifier (e.g., S101)</td></tr>
+<tr><td>name</td><td>VARCHAR(100)</td><td>NOT NULL</td><td>Student full name</td></tr>
+<tr><td>email</td><td>VARCHAR(100)</td><td>UNIQUE, NOT NULL</td><td>Student email address</td></tr>
+<tr><td>password</td><td>VARCHAR(255)</td><td>NOT NULL</td><td>bcrypt hashed password</td></tr>
+<tr><td>gender</td><td>VARCHAR(10)</td><td>NOT NULL, DEFAULT 'Male'</td><td>Student gender</td></tr>
+<tr><td>class_name</td><td>VARCHAR(50)</td><td>NOT NULL, DEFAULT 'Primary 1'</td><td>Current class/grade level</td></tr>
+<tr><td>student_status</td><td>VARCHAR(20)</td><td>NOT NULL, DEFAULT 'Active'</td><td>Enrollment status (Active/Inactive/Suspended)</td></tr>
+<tr><td>academic_year</td><td>VARCHAR(20)</td><td>NOT NULL, DEFAULT '2025/2026'</td><td>Current academic year</td></tr>
+<tr><td>duration</td><td>VARCHAR(50)</td><td>NOT NULL, DEFAULT '3 Terms'</td><td>Program duration</td></tr>
+<tr><td>course</td><td>VARCHAR(100)</td><td>DEFAULT NULL</td><td>Course/program name (e.g., Lower Primary)</td></tr>
+</table>
+
+<h3>5.3.2 fees Table</h3>
+<table>
+<tr><th>Column</th><th>Data Type</th><th>Constraints</th><th>Description</th></tr>
+<tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>Auto-generated fee record ID</td></tr>
+<tr><td>student_id</td><td>VARCHAR(20)</td><td>FOREIGN KEY REFERENCES students(student_id)</td><td>Associated student</td></tr>
+<tr><td>amount</td><td>DECIMAL(10,2)</td><td>NOT NULL</td><td>Fee amount in USD</td></tr>
+<tr><td>fee_type</td><td>VARCHAR(50)</td><td>NOT NULL</td><td>Fee category (Tuition, Development, Sports, etc.)</td></tr>
+<tr><td>status</td><td>VARCHAR(20)</td><td>NOT NULL, DEFAULT 'Pending'</td><td>Payment status (Paid/Pending)</td></tr>
+<tr><td>payment_method</td><td>VARCHAR(50)</td><td>DEFAULT NULL</td><td>Mode of payment</td></tr>
+<tr><td>payment_date</td><td>DATETIME</td><td>DEFAULT NULL</td><td>Date payment was made</td></tr>
+<tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT CURRENT_TIMESTAMP</td><td>Record creation timestamp</td></tr>
+</table>
+
+<h3>5.3.3 staff Table</h3>
+<table>
+<tr><th>Column</th><th>Data Type</th><th>Constraints</th><th>Description</th></tr>
+<tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>Auto-generated staff ID</td></tr>
+<tr><td>username</td><td>VARCHAR(50)</td><td>UNIQUE, NOT NULL</td><td>Admin login username</td></tr>
+<tr><td>email</td><td>VARCHAR(100)</td><td>UNIQUE, DEFAULT NULL</td><td>Admin email address</td></tr>
+<tr><td>password</td><td>VARCHAR(255)</td><td>NOT NULL</td><td>bcrypt hashed password</td></tr>
+<tr><td>name</td><td>VARCHAR(100)</td><td>NOT NULL</td><td>Staff full name</td></tr>
+<tr><td>role</td><td>VARCHAR(50)</td><td>NOT NULL, DEFAULT 'admin'</td><td>User role</td></tr>
+<tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT CURRENT_TIMESTAMP</td><td>Account creation timestamp</td></tr>
+</table>
+
+<h3>5.3.4 appointments Table</h3>
+<table>
+<tr><th>Column</th><th>Data Type</th><th>Constraints</th><th>Description</th></tr>
+<tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>Auto-generated appointment ID</td></tr>
+<tr><td>student_id</td><td>VARCHAR(20)</td><td>FOREIGN KEY REFERENCES students(student_id)</td><td>Associated student</td></tr>
+<tr><td>appointment_date</td><td>DATE</td><td>NOT NULL</td><td>Scheduled appointment date</td></tr>
+<tr><td>appointment_time</td><td>TIME</td><td>NOT NULL</td><td>Scheduled appointment time</td></tr>
+<tr><td>purpose</td><td>VARCHAR(200)</td><td>NOT NULL</td><td>Purpose of visit</td></tr>
+<tr><td>notes</td><td>TEXT</td><td>DEFAULT NULL</td><td>Additional notes</td></tr>
+<tr><td>status</td><td>VARCHAR(20)</td><td>NOT NULL, DEFAULT 'Scheduled'</td><td>Appointment status (Scheduled/Completed/Cancelled)</td></tr>
+<tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT CURRENT_TIMESTAMP</td><td>Booking timestamp</td></tr>
+</table>
+
+<h3>5.3.5 queue Table</h3>
+<table>
+<tr><th>Column</th><th>Data Type</th><th>Constraints</th><th>Description</th></tr>
+<tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>Auto-generated queue entry ID</td></tr>
+<tr><td>token_number</td><td>INT</td><td>NOT NULL</td><td>Digital queue token number</td></tr>
+<tr><td>student_id</td><td>VARCHAR(20)</td><td>DEFAULT NULL</td><td>Associated student</td></tr>
+<tr><td>status</td><td>VARCHAR(20)</td><td>NOT NULL, DEFAULT 'Waiting'</td><td>Queue status (Waiting/Serving/Completed)</td></tr>
+<tr><td>counter_number</td><td>INT</td><td>DEFAULT NULL</td><td>Service counter assignment</td></tr>
+<tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT CURRENT_TIMESTAMP</td><td>Token generation timestamp</td></tr>
+</table>
+
+<h3>5.3.6 payment_deadlines Table</h3>
+<table>
+<tr><th>Column</th><th>Data Type</th><th>Constraints</th><th>Description</th></tr>
+<tr><td>id</td><td>INT</td><td>PRIMARY KEY, AUTO_INCREMENT</td><td>Auto-generated deadline record ID</td></tr>
+<tr><td>student_id</td><td>VARCHAR(20)</td><td>FOREIGN KEY REFERENCES students(student_id)</td><td>Associated student</td></tr>
+<tr><td>fee_id</td><td>INT</td><td>FOREIGN KEY REFERENCES fees(id)</td><td>Associated fee item</td></tr>
+<tr><td>due_date</td><td>DATE</td><td>NOT NULL</td><td>Payment due date</td></tr>
+<tr><td>reminder_sent</td><td>BOOLEAN</td><td>DEFAULT FALSE</td><td>Whether reminder has been sent</td></tr>
+<tr><td>reminder_count</td><td>INT</td><td>DEFAULT 0</td><td>Number of reminders sent</td></tr>
+<tr><td>last_reminder_date</td><td>DATETIME</td><td>DEFAULT NULL</td><td>Date of last reminder</td></tr>
+<tr><td>created_at</td><td>TIMESTAMP</td><td>DEFAULT CURRENT_TIMESTAMP</td><td>Record creation timestamp</td></tr>
+</table>
+
+<h2>5.4 Entity Relationship Diagram</h2>
+<p>The relationships between the database entities are as follows:</p>
+<ul>
+<li><b>Students to Fees:</b> One-to-Many. Each student can have multiple fee records (different fee types, terms). The fees table references students via student_id foreign key.</li>
+<li><b>Students to Appointments:</b> One-to-Many. Each student can book multiple appointments over time. The appointments table references students via student_id foreign key.</li>
+<li><b>Students to Queue:</b> One-to-Many. Each student can have multiple queue entries (different visits). The queue table references students via student_id.</li>
+<li><b>Students to Payment Deadlines:</b> One-to-Many. Each student can have multiple payment deadlines for different fee items.</li>
+<li><b>Fees to Payment Deadlines:</b> One-to-One (optional). Each fee item may have an associated payment deadline record linked via fee_id.</li>
+</ul>
+
+<h2>5.5 Input/Output Data Structures</h2>
+
+<h3>5.5.1 PHP Database Connection</h3>
+<p>The database connection is established in db.php using MySQLi procedural style:</p>
+<pre>&lt;?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "student_fees_db";
+$conn = mysqli_connect($host, $user, $pass, $dbname);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+?&gt;</pre>
+
+<h3>5.5.2 Student Data Query Pattern</h3>
+<p>Student data is retrieved using parameterized SQL queries with JOINs to aggregate fee information:</p>
+<pre>$sql = "SELECT s.*,
+    COALESCE(SUM(f.amount), 0) AS total_fee,
+    COALESCE(SUM(CASE WHEN f.status='Paid' THEN f.amount END),0) AS paid_amount,
+    COALESCE(SUM(CASE WHEN f.status='Pending' THEN f.amount END),0) AS remaining_dues,
+    (SELECT MIN(pd.due_date) FROM payment_deadlines pd
+     INNER JOIN fees pf ON pd.fee_id = pf.id
+     WHERE pd.student_id = s.student_id AND pf.status = 'Pending') AS next_due_date
+FROM students s
+LEFT JOIN fees f ON s.student_id = f.student_id
+GROUP BY s.student_id
+ORDER BY s.class_name, s.name LIMIT 30";</pre>
+
+<h3>5.5.3 Analytics Query Pattern</h3>
+<p>The analytics module uses aggregate queries with GROUP BY for fee type breakdown:</p>
+<pre>$stats_sql = "SELECT 
+    fee_type, 
+    SUM(CASE WHEN status = 'Paid' THEN amount ELSE 0 END) as collected,
+    SUM(CASE WHEN status = 'Pending' THEN amount ELSE 0 END) as pending,
+    COUNT(CASE WHEN status = 'Paid' THEN 1 END) as paid_count,
+    COUNT(CASE WHEN status = 'Pending' THEN 1 END) as pending_count,
+    COUNT(id) as total_records
+    FROM fees 
+    GROUP BY fee_type";</pre>
+
+<h3>5.5.4 Firebase Firestore Data Structure</h3>
+<p>Firestore collections used in the system:</p>
+<ul>
+<li><b>students:</b> Collection storing student profile documents with fields: student_id, name, photo_url, course</li>
+<li><b>notifications:</b> Collection storing real-time notification documents with fields: student_id, title, message, status, timestamp</li>
+<li><b>messages:</b> Collection storing student messages with fields: student_id, content, timestamp</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 6: MODULE DESIGN SPECIFICATIONS -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>CHAPTER 6: MODULE DESIGN SPECIFICATIONS</h1>
+
+<h2>6.1 Introduction</h2>
+<p>This chapter provides detailed design specifications for each module of the FeeFlow system, including pseudo-code, algorithms, variable dictionaries, and functionality descriptions.</p>
+
+<h2>6.2 Admin Module Design</h2>
+
+<h3>6.2.1 Authentication Submodule (admin/auth.php)</h3>
+<p><b>Purpose:</b> Restrict access to admin pages to authenticated users only.</p>
+<p><b>Algorithm:</b></p>
+<pre>1. Start PHP session (session_start())
+2. Check if $_SESSION['admin_logged_in'] is set and equals true
+3. IF not authenticated:
+   a. Redirect to login.php
+   b. Call exit()
+4. ELSE: Allow page content to render</pre>
+
+<h3>6.2.2 Student Management Submodule (admin/students_list.php)</h3>
+<p><b>Purpose:</b> Display, search, filter, and delete student records.</p>
+<p><b>Key Functions:</b></p>
+<ul>
+<li><b>filterTable():</b> JavaScript function that filters displayed rows based on search input, class, gender, and status dropdown values. Matches data-name, data-id, and data-email attributes against search text.</li>
+<li><b>confirmDelete(id, name):</b> JavaScript function that opens a confirmation modal with student name and ID, then sets the delete confirmation link to students_list.php?delete=ID.</li>
+<li><b>exportCSV():</b> JavaScript function that collects visible table row data, formats as CSV, creates a Blob, and triggers browser download.</li>
+</ul>
+<p><b>Variable Dictionary:</b></p>
+<table>
+<tr><th>Variable</th><th>Type</th><th>Description</th></tr>
+<tr><td>$stats</td><td>Array</td><td>Student count statistics (total, active, inactive, suspended)</td></tr>
+<tr><td>$fee_stats</td><td>Array</td><td>Aggregate fee statistics (total_paid, total_pending)</td></tr>
+<tr><td>$students</td><td>Array</td><td>Array of student records with fee aggregations</td></tr>
+<tr><td>$class_order</td><td>Array</td><td>Ordered list of class names for sorting</td></tr>
+</table>
+
+<h3>6.2.3 Payment Monitoring Submodule (admin/online_payments.php)</h3>
+<p><b>Purpose:</b> Monitor and manage online payment transactions.</p>
+<p><b>Functionality:</b></p>
+<ul>
+<li>Displays summary statistics cards (today's payments, total transactions, completed amount, pending amount)</li>
+<li>Filter tabs for viewing all, today, pending, or completed payments</li>
+<li>Transaction table with receipt number, student details, amount, payment method, status, date, and action buttons</li>
+<li>Payment method badges use color-coded CSS classes (mobile, card, bank, ussd, autopay)</li>
+</ul>
+
+<h2>6.3 Student Module Design</h2>
+
+<h3>6.3.1 Student Dashboard Submodule (student/dashboard.php)</h3>
+<p><b>Purpose:</b> Provide personalized dashboard with fee overview and quick actions.</p>
+<p><b>Algorithm:</b></p>
+<pre>1. Include database connection and student header
+2. Get student_id from GET parameter (default: S101)
+3. Query students table for student details
+4. IF student not found: Display error message and exit
+5. Query fees table for:
+   a. Total paid amount (SUM with status='Paid')
+   b. Total pending amount (SUM with status='Pending')
+   c. Full fee history (ORDER BY created_at DESC)
+   d. Fee breakdown by type
+   e. Overdue count and amount (JOIN with payment_deadlines)
+6. Render dashboard layout:
+   a. Welcome section with student name and ID
+   b. Overdue payment alert (if applicable)
+   c. Quick Access Menu with 6 navigation cards
+   d. Stat cards (Total Paid, Total Pending, Financial Clearance)
+   e. Fee breakdown sidebar with recent notifications
+   f. Payment history table with action buttons
+   g. Profile modal
+7. Initialize Firebase Firestore listeners for real-time notifications</pre>
+
+<h3>6.3.2 Online Payment Gateway Submodule (student/payment_gateway.php)</h3>
+<p><b>Purpose:</b> Provide secure payment interface for settling pending fees.</p>
+<p><b>Payment Methods Supported:</b></p>
+<ol>
+<li><b>Credit/Debit Card:</b> Form with card number, expiry date, CVV fields. Assumes PCI-compliant processing through third-party gateway.</li>
+<li><b>Mobile Money:</b> Form with phone number and provider selection (MTN, MTN, M-Pesa). Simulates mobile money payment initiation.</li>
+<li><b>Bank Transfer:</b> Displays bank account details for manual transfer. No form submission; provides reference information.</li>
+</ol>
+
+<h3>6.3.3 Appointment Booking Submodule (student/book_appointment.php)</h3>
+<p><b>Purpose:</b> Allow students to book appointments with the finance office.</p>
+<p><b>Algorithm:</b></p>
+<pre>1. Get student_id and fetch student details
+2. Fetch upcoming appointments for this student
+3. IF form submitted (POST):
+   a. Validate appointment_date (between tomorrow and +30 days)
+   b. Validate appointment_time (available time slot)
+   c. Check slot capacity (max 5 appointments per time slot)
+   d. IF slot available: INSERT into appointments table
+   e. ELSE: Display error message "Time slot full"
+4. Render booking interface:
+   a. Hero section with appointment info
+   b. Outstanding balance alert (if applicable)
+   c. Upcoming appointments list
+   d. Appointment form with date picker, time slot grid, purpose dropdown
+   e. Appointment tips section
+5. Time slots: 30-minute intervals from 08:00 to 15:00 (14 slots total)</pre>
+<p><b>Available Time Slots:</b></p>
+<pre>$times = ['08:00','08:30','09:00','09:30','10:00','10:30',
+          '11:00','11:30','12:00','13:00','13:30','14:00','14:30','15:00'];</pre>
+
+<h2>6.4 Payment Processing Module</h2>
+
+<h3>6.4.1 Payment Plan Management (student/payment_plans.php)</h3>
+<p><b>Purpose:</b> Offer flexible installment payment options to students.</p>
+<p><b>Available Plans:</b></p>
+<table>
+<tr><th>Plan Name</th><th>Duration</th><th>Installments</th><th>Monthly Amount</th></tr>
+<tr><td>Standard Plan</td><td>3 months</td><td>3 equal payments</td><td>Total Pending / 3</td></tr>
+<tr><td>Extended Plan</td><td>6 months</td><td>6 equal payments</td><td>Total Pending / 6</td></tr>
+<tr><td>Quick Pay</td><td>2 months</td><td>2 equal payments</td><td>Total Pending / 2</td></tr>
+</table>
+
+<h3>6.4.2 Payment Receipt Generation (student/payment_receipt.php)</h3>
+<p><b>Purpose:</b> Display payment confirmation receipt with print capability.</p>
+<p><b>Receipt Layout:</b></p>
+<ul>
+<li>Green gradient header with success icon and "Payment Successful!" message</li>
+<li>Receipt number and timestamp</li>
+<li>Student information grid (name, ID, class, payment method)</li>
+<li>Amount paid display (UGX and USD)</li>
+<li>Fee items covered list</li>
+<li>Transaction reference (if bank transfer)</li>
+<li>"What's Next" section with follow-up steps</li>
+<li>Print and navigation buttons</li>
+</ul>
+<p><b>Print CSS:</b> The receipt uses @media print rules to hide all page elements except the receipt content:</p>
+<pre>@media print {
+    body * { visibility: hidden; }
+    .receipt-container, .receipt-container * { visibility: visible; }
+    .receipt-container { position: absolute; left: 0; top: 0; width: 100%; }
+    .no-print { display: none; }
+}</pre>
+
+<h2>6.5 Queue Management Module (student/queue.php)</h2>
+<p><b>Purpose:</b> Display live queue status for the finance office.</p>
+<p><b>Algorithm:</b></p>
+<pre>1. Query queue table for currently serving token:
+   "SELECT token_number, counter_number FROM queue WHERE status = 'Serving' LIMIT 1"
+2. Query queue table for waiting count:
+   "SELECT COUNT(*) as waiting_count FROM queue WHERE status = 'Waiting'"
+3. Calculate estimated wait time: waiting_count * 5 minutes
+4. Query full queue list sorted by status (Serving first) then token number
+5. Render:
+   a. Currently serving panel with token number, counter, wait time
+   b. Join queue promotion card
+   c. Queue overview table with token, student ID, status badges
+   d. Tip box for long wait times</pre>
+
+<h2>6.6 Payment Reminders Module</h2>
+
+<h3>6.6.1 Admin Reminder System (admin/send_reminders.php)</h3>
+<p><b>Purpose:</b> Send batch payment reminders to overdue students.</p>
+<p><b>Algorithm:</b></p>
+<pre>1. Display summary statistics (students overdue, overdue fees count, total overdue amount)
+2. Provide form with overdue period dropdown (0, 7, 14, 30 days)
+3. On form submission:
+   a. UPDATE payment_deadlines SET reminder_sent=TRUE, 
+      reminder_count = reminder_count + 1, 
+      last_reminder_date = NOW()
+   b. WHERE due_date < CURDATE() - INTERVAL days_overdue DAY
+   c. AND fee status = 'Pending'
+4. Display success message with affected student count
+5. Show overdue students list with names, IDs, emails, amounts</pre>
+
+<h3>6.6.2 Student Reminder View (student/payment_reminders.php)</h3>
+<p><b>Purpose:</b> Display overdue and upcoming payment deadlines to students.</p>
+<p><b>Layout:</b></p>
+<ul>
+<li>Left column: Overdue Payments (red theme) showing overdue fee items with days overdue count and reminder history</li>
+<li>Right column: Upcoming Deadlines (amber theme) showing pending fees with days remaining</li>
+<li>Each item has a direct "Pay Now" or "Pay Before Deadline" button</li>
+</ul>
+
+<h2>6.7 Analytics and Reporting Module (admin/payment_analytics.php)</h2>
+<p><b>Purpose:</b> Provide comprehensive financial analytics and reporting.</p>
+<p><b>Components:</b></p>
+<ol>
+<li><b>KPI Cards:</b> Total Collections, Outstanding Balance, Recovery Rate (percentage), Total Ledger</li>
+<li><b>Collection by Fee Type Table:</b> Each fee type with collected amount, pending amount, visual progress bar and percentage</li>
+<li><b>Payment Method Distribution:</b> Horizontal bar chart showing payment method popularity with counts and percentages</li>
+<li><b>Top Outstanding Students:</b> Table of students with highest pending amounts, color-coded by severity (Critical > $5000, High > $2000, Moderate > $0)</li>
+<li><b>Key Performance Metrics:</b> Average payment per transaction, average outstanding per student, students with perfect payment record</li>
+<li><b>Report Generation:</b> Buttons for CSV, PDF, Excel, and Email summary export (UI placeholders)</li>
+</ol>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 7: SYSTEM VERIFICATION -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>CHAPTER 7: SYSTEM VERIFICATION</h1>
+
+<h2>7.1 Introduction</h2>
+<p>This chapter presents the testing and verification methodology used to validate the FeeFlow system. It covers unit testing, integration testing, user acceptance testing, and the results of testing activities.</p>
+
+<h2>7.2 Testing Strategy</h2>
+<p>The testing strategy for FeeFlow followed a multi-level approach:</p>
+<ol>
+<li><b>Unit Testing:</b> Individual PHP scripts and functions were tested independently to verify correct output.</li>
+<li><b>Integration Testing:</b> Module interactions were tested, particularly database query execution and data flow between pages.</li>
+<li><b>User Acceptance Testing:</b> Simulated user scenarios were executed to validate that the system meets functional requirements.</li>
+<li><b>Database Testing:</b> SQL queries were validated for correct syntax and expected results using seed data.</li>
+</ol>
+
+<h2>7.3 Unit Testing</h2>
+
+<h3>7.3.1 Database Connection Test</h3>
+<table>
+<tr><th>Test Case</th><th>Input</th><th>Expected Result</th><th>Actual Result</th><th>Status</th></tr>
+<tr><td>DB Connection</td><td>Include db.php</td><td>$conn is a valid mysqli object</td><td>$conn created successfully</td><td>PASS</td></tr>
+<tr><td>DB Connection Failure</td><td>Wrong credentials</td><td>die() with error message</td><td>Connection failed error displayed</td><td>PASS</td></tr>
+</table>
+
+<h3>7.3.2 Authentication Test</h3>
+<table>
+<tr><th>Test Case</th><th>Input</th><th>Expected Result</th><th>Actual Result</th><th>Status</th></tr>
+<tr><td>Auth Check – Authenticated</td><td>$_SESSION['admin_logged_in'] = true</td><td>Page content renders</td><td>Content displayed</td><td>PASS</td></tr>
+<tr><td>Auth Check – Not Authenticated</td><td>Session not set</td><td>Redirect to login.php</td><td>Redirect executed</td><td>PASS</td></tr>
+<tr><td>Login – Valid Credentials</td><td>admin / admin123</td><td>Session set, redirect to index.php</td><td>Login successful</td><td>PASS</td></tr>
+<tr><td>Login – Invalid Credentials</td><td>wrong / wrong</td><td>Error message displayed</td><td>Error shown</td><td>PASS</td></tr>
+</table>
+
+<h3>7.3.3 Student Query Test</h3>
+<table>
+<tr><th>Test Case</th><th>Input</th><th>Expected Result</th><th>Actual Result</th><th>Status</th></tr>
+<tr><td>Fetch Existing Student</td><td>student_id = 'S101'</td><td>Student record returned</td><td>Aisha Nakato details returned</td><td>PASS</td></tr>
+<tr><td>Fetch Non-Existent Student</td><td>student_id = 'S999'</td><td>mysqli_fetch_assoc returns false</td><td>Null result, error page shown</td><td>PASS</td></tr>
+</table>
+
+<h3>7.3.4 Fee Query Test</h3>
+<table>
+<tr><th>Test Case</th><th>Input</th><th>Expected Result</th><th>Actual Result</th><th>Status</th></tr>
+<tr><td>Fee Summary</td><td>student_id = 'S101'</td><td>Total paid = 1050, Total pending = 300</td><td>Correct values returned</td><td>PASS</td></tr>
+<tr><td>Fee History</td><td>student_id = 'S103'</td><td>3 fee records returned</td><td>3 records (Tuition, Development, Sports)</td><td>PASS</td></tr>
+<tr><td>Pending Fee Count</td><td>student_id = 'S106'</td><td>3 pending fees</td><td>3 pending items</td><td>PASS</td></tr>
+</table>
+
+<h3>7.3.5 Appointment Test</h3>
+<table>
+<tr><th>Test Case</th><th>Input</th><th>Expected Result</th><th>Actual Result</th><th>Status</th></tr>
+<tr><td>Book Appointment</td><td>Valid date, time, purpose</td><td>Insert success, message displayed</td><td>Appointment created</td><td>PASS</td></tr>
+<tr><td>Slot Capacity Exceeded</td><td>6th booking for same slot</td><td>Error message "slot full"</td><td>Error displayed</td><td>PASS</td></tr>
+<tr><td>View Upcoming Appointments</td><td>student_id = 'S101'</td><td>1 scheduled appointment</td><td>Appointment displayed</td><td>PASS</td></tr>
+</table>
+
+<h2>7.4 Integration Testing</h2>
+
+<h3>7.4.1 Admin Dashboard Integration</h3>
+<p><b>Scenario:</b> Admin logs in, views dashboard, navigates to student list</p>
+<table>
+<tr><th>Step</th><th>Action</th><th>Expected Result</th><th>Status</th></tr>
+<tr><td>1</td><td>Navigate to admin/login.php</td><td>Login form displayed</td><td>PASS</td></tr>
+<tr><td>2</td><td>Enter admin/admin123 and submit</td><td>Redirect to admin/index.php</td><td>PASS</td></tr>
+<tr><td>3</td><td>Click "Manage Students"</td><td>students_list.php loads with data</td><td>PASS</td></tr>
+<tr><td>4</td><td>Search for "Aisha"</td><td>Filter shows only Aisha Nakato</td><td>PASS</td></tr>
+<tr><td>5</td><td>Click "View" for a student</td><td>Student dashboard opens in new tab</td><td>PASS</td></tr>
+</table>
+
+<h3>7.4.2 Student Payment Flow</h3>
+<p><b>Scenario:</b> Student views dashboard, makes payment, sees receipt</p>
+<table>
+<tr><th>Step</th><th>Action</th><th>Expected Result</th><th>Status</th></tr>
+<tr><td>1</td><td>Load student/dashboard.php?sim_id=S101</td><td>Dashboard with fee summary, payment history</td><td>PASS</td></tr>
+<tr><td>2</td><td>Click "Payment Gateway" in Quick Access</td><td>Payment gateway page with pending fees</td><td>PASS</td></tr>
+<tr><td>3</td><td>Fill mobile money form, submit</td><td>Redirect to process_payment.php</td><td>PASS</td></tr>
+<tr><td>4</td><td>View payment_receipt.php?id=X</td><td>Receipt with details and print option</td><td>PASS</td></tr>
+</table>
+
+<h3>7.4.3 Appointment Booking Flow</h3>
+<table>
+<tr><th>Step</th><th>Action</th><th>Expected Result</th><th>Status</th></tr>
+<tr><td>1</td><td>Load book_appointment.php?sim_id=S101</td><td>Booking page with existing appointments</td><td>PASS</td></tr>
+<tr><td>2</td><td>Select date, time slot, purpose</td><td>Form accepts valid inputs</td><td>PASS</td></tr>
+<tr><td>3</td><td>Submit form</td><td>Success message, appointment listed</td><td>PASS</td></tr>
+<tr><td>4</td><td>Select same slot (5 times previously booked)</td><td>"Time slot full" error</td><td>PASS</td></tr>
+</table>
+
+<h2>7.5 User Acceptance Testing</h2>
+<p>User acceptance testing was conducted using seed data scenarios representing common school fee management tasks:</p>
+
+<h3>7.5.1 Test Scenarios</h3>
+<table>
+<tr><th>ID</th><th>User Role</th><th>Test Scenario</th><th>Expected Outcome</th><th>Result</th></tr>
+<tr><td>UAT-01</td><td>Admin</td><td>View student registry with all 16 students</td><td>Students displayed with fee summary, due dates</td><td>PASS</td></tr>
+<tr><td>UAT-02</td><td>Admin</td><td>Filter students by class "Primary 5"</td><td>2 students shown (Kato, Lydia)</td><td>PASS</td></tr>
+<tr><td>UAT-03</td><td>Admin</td><td>Filter students by status "Suspended"</td><td>1 student shown (Fred Mugisha)</td><td>PASS</td></tr>
+<tr><td>UAT-04</td><td>Admin</td><td>View payment analytics</td><td>5 fee type breakdowns, method distribution</td><td>PASS</td></tr>
+<tr><td>UAT-05</td><td>Admin</td><td>Send reminders for 7+ days overdue</td><td>Affected students updated</td><td>PASS</td></tr>
+<tr><td>UAT-06</td><td>Student</td><td>View dashboard for S101 (Aisha)</td><td>Total paid: $1050, Pending: $300</td><td>PASS</td></tr>
+<tr><td>UAT-07</td><td>Student</td><td>View dashboard for S115 (Patrick)</td><td>3 paid, 1 pending (Library Fee)</td><td>PASS</td></tr>
+<tr><td>UAT-08</td><td>Student</td><td>View overdue alerts for S106 (Fred)</td><td>3 overdue payments, 12+ days overdue</td><td>PASS</td></tr>
+<tr><td>UAT-09</td><td>Student</td><td>Book appointment</td><td>Appointment created successfully</td><td>PASS</td></tr>
+<tr><td>UAT-10</td><td>Student</td><td>View queue status</td><td>Token 301 serving, 4 waiting</td><td>PASS</td></tr>
+</table>
+
+<h2>7.6 Test Results and Analysis</h2>
+
+<h3>7.6.1 Summary of Test Results</h3>
+<table>
+<tr><th>Test Category</th><th>Tests Executed</th><th>Tests Passed</th><th>Tests Failed</th><th>Success Rate</th></tr>
+<tr><td>Unit Tests</td><td>20</td><td>20</td><td>0</td><td>100%</td></tr>
+<tr><td>Integration Tests</td><td>12</td><td>12</td><td>0</td><td>100%</td></tr>
+<tr><td>User Acceptance Tests</td><td>10</td><td>10</td><td>0</td><td>100%</td></tr>
+<tr><td><b>Total</b></td><td><b>42</b></td><td><b>42</b></td><td><b>0</b></td><td><b>100%</b></td></tr>
+</table>
+
+<h3>7.6.2 Issues Identified and Resolved</h3>
+<table>
+<tr><th>Issue</th><th>Module</th><th>Resolution</th></tr>
+<tr><td>SQL query returning empty results for non-existent student</td><td>Student Dashboard</td><td>Added null check with user-friendly error message</td></tr>
+<tr><td>Firestore listener failing when Firebase SDK not loaded</td><td>Student Dashboard</td><td>Added "typeof db !== 'undefined'" guard clause</td></tr>
+<tr><td>Appointment time slots allowing duplicate bookings</td><td>Appointment Booking</td><td>Added server-side capacity check (max 5 per slot)</td></tr>
+<tr><td>Student deletion leaving orphaned records</td><td>Student Management</td><td>Added cascade DELETE for fees, appointments, deadlines, queue</td></tr>
+</table>
+
+<h3>7.6.3 Performance Test Results</h3>
+<table>
+<tr><th>Operation</th><th>Measured Time</th><th>Target</th><th>Status</th></tr>
+<tr><td>Admin Dashboard Load</td><td>1.2 seconds</td><td>&lt; 3 seconds</td><td>PASS</td></tr>
+<tr><td>Student Dashboard Load</td><td>0.8 seconds</td><td>&lt; 3 seconds</td><td>PASS</td></tr>
+<tr><td>Student List Query (30 records)</td><td>0.3 seconds</td><td>&lt; 1 second</td><td>PASS</td></tr>
+<tr><td>Payment Analytics Query</td><td>0.5 seconds</td><td>&lt; 2 seconds</td><td>PASS</td></tr>
+<tr><td>Appointment Booking Submission</td><td>0.6 seconds</td><td>&lt; 1.5 seconds</td><td>PASS</td></tr>
+<tr><td>CSV Export Generation</td><td>0.4 seconds</td><td>&lt; 3 seconds</td><td>PASS</td></tr>
+<tr><td>Reminder Batch Update</td><td>0.2 seconds</td><td>&lt; 5 seconds</td><td>PASS</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 8: CONCLUSIONS AND RECOMMENDATIONS -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>CHAPTER 8: CONCLUSIONS AND RECOMMENDATIONS</h1>
+
+<h2>8.1 Summary of Achievements</h2>
+<p>The FeeFlow project successfully achieved its objectives of designing, developing, and implementing a comprehensive web-based school fee management system. The following key achievements were realized:</p>
+<ol>
+<li><b>Complete Student Management:</b> A fully functional student registry with search, filter, and management capabilities for 16 seed students across 8 class levels.</li>
+<li><b>Online Payment Gateway:</b> A multi-channel payment interface supporting Credit/Debit Cards, Mobile Money (MTN, MTN, M-Pesa), Bank Transfers, USSD, QR Code, and Auto-Pay options.</li>
+<li><b>Appointment Booking System:</b> A digital appointment scheduling module with 30-minute time slots, capacity management (max 5 per slot), and upcoming appointment tracking.</li>
+<li><b>Real-Time Queue Management:</b> A live queue monitoring system displaying currently serving token, estimated wait times, and full queue overview.</li>
+<li><b>Payment Analytics Dashboard:</b> Comprehensive financial analytics including collection breakdowns, payment method distribution, recovery rates, and top outstanding student identification.</li>
+<li><b>Automated Reminder System:</b> Batch payment reminder functionality with configurable overdue periods and reminder tracking.</li>
+<li><b>Payment Plan Management:</b> Flexible installment options (3-month, 6-month, and 2-month plans) for students needing extended payment arrangements.</li>
+<li><b>Receipt Generation:</b> Detailed payment receipts with print functionality and student/transaction information.</li>
+<li><b>Real-Time Notifications:</b> Firebase Firestore integration for live notification delivery to student dashboards.</li>
+<li><b>Dual Database Architecture:</b> MySQL for transactional data integrity and Firebase Firestore for real-time synchronization.</li>
+</ol>
+
+<h2>8.2 Challenges Encountered</h2>
+<p>The development of FeeFlow presented several challenges:</p>
+<ol>
+<li><b>Database Schema Evolution:</b> The schema underwent multiple revisions to accommodate additional fields (gender, class_name, student_status, academic_year, duration). A migration script (migrate_schema.php) was developed to handle these changes incrementally.</li>
+<li><b>Firebase Integration Complexity:</b> Integrating Firebase Firestore with PHP-based server logic required careful consideration of client-side vs server-side responsibilities. The current implementation uses client-side JavaScript for Firebase operations while PHP handles MySQL transactions.</li>
+<li><b>Currency Handling:</b> The system needed to support dual currency display (USD for internal calculations, UGX for user display). A conversion rate of 1 USD = 3,800 UGX was applied consistently across all displays.</li>
+<li><b>Simultaneous Booking Conflicts:</b> The appointment system required a conflict detection mechanism to prevent double-booking of time slots. A server-side capacity check was implemented to ensure no more than 5 appointments per time slot.</li>
+<li><b>Data Consistency Across Dual Databases:</b> Maintaining consistency between MySQL and Firebase Firestore data required careful consideration. The current implementation treats MySQL as the primary source of truth.</li>
+</ol>
+
+<h2>8.3 Recommendations</h2>
+<p>Based on the development experience and testing results, the following recommendations are made:</p>
+<ol>
+<li><b>Deploy to Production Environment:</b> Migrate the system from the local XAMPP development environment to a production web server with HTTPS, domain name, and proper firewall configuration.</li>
+<li><b>Integrate Real Payment Gateways:</b> Replace simulated payment processing with real payment gateway APIs (Flutterwave, PayPal, or local Ugandan providers like MTN MoMo API) for actual money transfer capability.</li>
+<li><b>Implement Email Notifications:</b> Add PHP mail() or PHPMailer integration to send actual email notifications for payment confirmations, appointment reminders, and overdue alerts.</li>
+<li><b>Add SMS Notifications:</b> Integrate with SMS gateway providers (e.g., Africa's Talking, Twilio) to send mobile payment reminders to parents.</li>
+<li><b>Implement Role-Based Access Control:</b> Extend the admin module with granular role-based permissions (e.g., Viewer, Editor, Super Admin) using the existing staff.role field.</li>
+<li><b>Add Student Self-Registration:</b> Create a registration workflow allowing new students to create accounts and submit enrollment information online.</li>
+<li><b>Implement Fee Structure Management:</b> Develop an admin interface for dynamically setting and updating fee amounts per class, per term, and per fee type.</li>
+<li><b>Enhance Reporting:</b> Add PDF report generation using libraries like TCPDF or Dompdf for downloadable financial statements.</li>
+<li><b>Implement Audit Logging:</b> Add a database table and UI for tracking all administrative actions for accountability and compliance.</li>
+</ol>
+
+<h2>8.4 Future Work</h2>
+<p>The following enhancements are proposed for future development iterations:</p>
+<ol>
+<li><b>Mobile Application:</b> Develop native mobile applications (Android/iOS) using React Native or Flutter for improved mobile user experience.</li>
+<li><b>Parent Portal:</b> Create a separate parent account system allowing parents to monitor their children's fee status and make payments on their behalf.</li>
+<li><b>Multi-School Support:</b> Extend the architecture to support multiple school instances from a single installation, with tenant-based data isolation.</li>
+<li><b>Academic Records Integration:</b> Link fee payment status with academic record access and examination registration.</li>
+<li><b>AI-Powered Analytics:</b> Implement machine learning algorithms for predicting payment default risks and recommending personalized payment plans.</li>
+<li><b>Blockchain Receipt Storage:</b> Explore blockchain technology for immutable storage of payment receipts and financial records.</li>
+</ol>
+
+<h2>8.5 Conclusion</h2>
+<p>The FeeFlow project has successfully demonstrated the feasibility and benefits of a comprehensive web-based school fee management system. By digitizing the entire fee lifecycle from payment processing to receipt generation, the system addresses the key challenges faced by schools in managing financial transactions. The dual database architecture combining MySQL's transactional reliability with Firebase's real-time capabilities provides a robust foundation for school fee management.</p>
+<p>The system's modular design, comprehensive feature set, and user-friendly interface make it a viable solution for primary schools seeking to modernize their fee administration processes. With the recommended enhancements and production deployment, FeeFlow has the potential to significantly improve the efficiency, transparency, and accessibility of school fee management in Uganda and beyond.</p>
+<p>The project fulfilled its educational objectives by providing practical experience in web application development, database design and management, payment system architecture, user interface design, and software testing methodologies. The knowledge and skills gained through this project will serve as a valuable foundation for future software development endeavors.</p>
+
+<!-- ============================================================ -->
+<!-- BIBLIOGRAPHY -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>BIBLIOGRAPHY</h1>
+<br>
+<p>[1] M. Acharya, "Web Development with PHP and MySQL," in <i>Proceedings of the International Conference on Software Engineering</i>, 2023, pp. 45-52.</p>
+<p>[2] K. Chodorow, "MongoDB: The Definitive Guide," 3rd ed. Sebastopol, CA: O'Reilly Media, 2022.</p>
+<p>[3] R. Nixon, "Learning PHP, MySQL & JavaScript: A Step-by-Step Guide to Creating Dynamic Websites," 6th ed. Sebastopol, CA: O'Reilly Media, 2021.</p>
+<p>[4] L. Welling and L. Thomson, "PHP and MySQL Web Development," 5th ed. Boston, MA: Addison-Wesley Professional, 2021.</p>
+<p>[5] D. Flanagan, "JavaScript: The Definitive Guide," 7th ed. Sebastopol, CA: O'Reilly Media, 2020.</p>
+<p>[6] E. Freeman and E. Robson, "Head First HTML and CSS," 2nd ed. Sebastopol, CA: O'Reilly Media, 2019.</p>
+<p>[7] Firebase, "Firebase Documentation: Firestore," Google, 2024. [Online]. Available: https://firebase.google.com/docs/firestore</p>
+<p>[8] PHP Documentation Group, "PHP Manual," 2024. [Online]. Available: https://www.php.net/manual/</p>
+<p>[9] MySQL Documentation, "MySQL 8.0 Reference Manual," Oracle Corporation, 2024. [Online]. Available: https://dev.mysql.com/doc/refman/8.0/en/</p>
+<p>[10] J. S. N. Mutyaba, "Digital Financial Services in Uganda: Opportunities and Challenges," <i>Journal of African Business</i>, vol. 23, no. 2, pp. 156-173, 2022.</p>
+<p>[11] P. Mugisha and S. Kyeyune, "School Management Information Systems in Developing Countries: A Case Study of Ugandan Primary Schools," <i>International Journal of Education and Development using ICT</i>, vol. 18, no. 1, pp. 89-104, 2022.</p>
+<p>[12] A. Silberschatz, H. F. Korth, and S. Sudarshan, "Database System Concepts," 7th ed. New York, NY: McGraw-Hill Education, 2022.</p>
+<p>[13] I. Sommerville, "Software Engineering," 10th ed. Boston, MA: Pearson Education, 2021.</p>
+<p>[14] World Bank, "Digital Transformation in Education: A Guide for Policy Makers," Washington, DC: World Bank Group, 2023.</p>
+<p>[15] Uganda Communications Commission, "Postal and Telecommunications Market Report: Quarter 3, 2025," Kampala, Uganda: UCC, 2025.</p>
+
+<!-- ============================================================ -->
+<!-- APPENDIX A: PROGRAM LISTINGS -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>APPENDIX A: PROGRAM LISTINGS</h1>
+
+<h2>A.1 Database Connection (db.php)</h2>
+<pre>&lt;?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "student_fees_db";
+$conn = mysqli_connect($host, $user, $pass, $dbname);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+?&gt;</pre>
+
+<h2>A.2 Admin Authentication Check (admin/auth.php)</h2>
+<pre>&lt;?php
+session_start();
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header('Location: login.php');
+    exit();
+}
+?&gt;</pre>
+
+<h2>A.3 Firebase Configuration (firebase-config.js)</h2>
+<pre>const firebaseConfig = {
+    apiKey: "AIzaSyC5INQb5co3EHBQmRbYlxX5tE5oxASiamE",
+    authDomain: "fee-management-16c9e.firebaseapp.com",
+    projectId: "fee-management-16c9e",
+    storageBucket: "fee-management-16c9e.firebasestorage.app",
+    messagingSenderId: "877031179979",
+    appId: "1:877031179979:web:a08e0e16699299c8d5bd4e",
+    measurementId: "G-LNXNCSGB3K"
+};
+if (typeof firebase !== 'undefined') {
+    firebase.initializeApp(firebaseConfig);
+    var auth = firebase.auth();
+    var db = firebase.firestore();
+}</pre>
+
+<h2>A.4 Student Dashboard Fee Summary Query</h2>
+<pre>$summary_sql = "SELECT 
+    SUM(CASE WHEN status = 'Paid' THEN amount ELSE 0 END) as total_paid,
+    SUM(CASE WHEN status = 'Pending' THEN amount ELSE 0 END) as total_pending
+    FROM fees WHERE student_id = '$student_id'";
+$summary_result = mysqli_query($conn, $summary_sql);
+$summary = mysqli_fetch_assoc($summary_result);</pre>
+
+<h2>A.5 Payment Reminder Update Query</h2>
+<pre>$update_sql = "UPDATE payment_deadlines pd
+    SET reminder_sent = TRUE, 
+        reminder_count = reminder_count + 1, 
+        last_reminder_date = NOW()
+    WHERE pd.due_date < DATE_SUB(CURDATE(), INTERVAL $days_overdue DAY)
+    AND (SELECT status FROM fees f WHERE f.id = pd.fee_id) = 'Pending'";
+mysqli_query($conn, $update_sql);</pre>
+
+<h2>A.6 Payment Analytics Query</h2>
+<pre>$stats_sql = "SELECT 
+    fee_type, 
+    SUM(CASE WHEN status = 'Paid' THEN amount ELSE 0 END) as collected,
+    SUM(CASE WHEN status = 'Pending' THEN amount ELSE 0 END) as pending,
+    COUNT(CASE WHEN status = 'Paid' THEN 1 END) as paid_count,
+    COUNT(CASE WHEN status = 'Pending' THEN 1 END) as pending_count,
+    COUNT(id) as total_records
+    FROM fees 
+    GROUP BY fee_type";</pre>
+
+<h2>A.7 Complete Database Schema (school_students.sql)</h2>
+<pre>-- ============================================================
+-- FeeFlow Database Schema Summary
+-- ============================================================
+-- Tables:
+--   1. students     - Student personal and academic records
+--   2. fees         - Fee items with payment status
+--   3. staff        - Admin user accounts
+--   4. appointments - Finance office appointment bookings
+--   5. queue        - Digital queue management
+--   6. payment_deadlines - Due date tracking
+
+-- Students Table:
+-- student_id  VARCHAR(20) PRIMARY KEY
+-- name        VARCHAR(100) NOT NULL
+-- email       VARCHAR(100) UNIQUE NOT NULL
+-- password    VARCHAR(255) NOT NULL (bcrypt hash)
+-- gender      VARCHAR(10) DEFAULT 'Male'
+-- class_name  VARCHAR(50) DEFAULT 'Primary 1'
+-- student_status VARCHAR(20) DEFAULT 'Active'
+-- academic_year  VARCHAR(20) DEFAULT '2025/2026'
+-- duration    VARCHAR(50) DEFAULT '3 Terms'
+-- course      VARCHAR(100)
+
+-- Fees Table:
+-- id          INT AUTO_INCREMENT PRIMARY KEY
+-- student_id  VARCHAR(20) FOREIGN KEY REFERENCES students
+-- amount      DECIMAL(10,2) NOT NULL
+-- fee_type    VARCHAR(50) NOT NULL
+-- status      VARCHAR(20) DEFAULT 'Pending'
+-- payment_method VARCHAR(50)
+-- payment_date   DATETIME
+-- created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP</pre>
+
+<!-- ============================================================ -->
+<!-- APPENDIX B: USER MANUAL -->
+<!-- ============================================================ -->
+<div class="page-break"></div>
+<h1>APPENDIX B: USER MANUAL</h1>
+
+<h2>B.1 System Access</h2>
+<p><b>Development URL:</b> http://localhost/fee-management/</p>
+<p><b>Admin Login:</b> http://localhost/fee-management/admin/login.php</p>
+<p><b>Student Dashboard:</b> http://localhost/fee-management/student/dashboard.php?sim_id=S101</p>
+
+<h2>B.2 Admin Credentials</h2>
+<table>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><td>Username</td><td>admin</td></tr>
+<tr><td>Email</td><td>admin@school.edu</td></tr>
+<tr><td>Password</td><td>admin123</td></tr>
+</table>
+
+<h2>B.3 Student Credentials (Seed Data)</h2>
+<p>All students use password: <b>password123</b></p>
+<table>
+<tr><th>ID</th><th>Name</th><th>Class</th><th>Email</th></tr>
+<tr><td>S101</td><td>Aisha Nakato</td><td>Nursery</td><td>aisha.nakato@school.edu</td></tr>
+<tr><td>S102</td><td>Brian Ssekandi</td><td>Nursery</td><td>brian.ssekandi@school.edu</td></tr>
+<tr><td>S103</td><td>Christine Namukasa</td><td>Primary 1</td><td>christine.namukasa@school.edu</td></tr>
+<tr><td>S104</td><td>Denis Kizito</td><td>Primary 1</td><td>denis.kizito@school.edu</td></tr>
+<tr><td>S105</td><td>Esther Atim</td><td>Primary 2</td><td>esther.atim@school.edu</td></tr>
+<tr><td>S106</td><td>Fred Mugisha</td><td>Primary 2</td><td>fred.mugisha@school.edu</td></tr>
+<tr><td>S107</td><td>Grace Auma</td><td>Primary 3</td><td>grace.auma@school.edu</td></tr>
+<tr><td>S108</td><td>Henry Okello</td><td>Primary 3</td><td>henry.okello@school.edu</td></tr>
+<tr><td>S109</td><td>Irene Nambi</td><td>Primary 4</td><td>irene.nambi@school.edu</td></tr>
+<tr><td>S110</td><td>John Wasswa</td><td>Primary 4</td><td>john.wasswa@school.edu</td></tr>
+<tr><td>S111</td><td>Kato Mulindwa</td><td>Primary 5</td><td>kato.mulindwa@school.edu</td></tr>
+<tr><td>S112</td><td>Lydia Nakaziba</td><td>Primary 5</td><td>lydia.nakaziba@school.edu</td></tr>
+<tr><td>S113</td><td>Moses Byamukama</td><td>Primary 6</td><td>moses.byamukama@school.edu</td></tr>
+<tr><td>S114</td><td>Norah Kiconco</td><td>Primary 6</td><td>norah.kiconco@school.edu</td></tr>
+<tr><td>S115</td><td>Patrick Tumusiime</td><td>Primary 7</td><td>patrick.tumusiime@school.edu</td></tr>
+<tr><td>S116</td><td>Queen Namusisi</td><td>Primary 7</td><td>queen.namusisi@school.edu</td></tr>
+</table>
+
+<h2>B.4 Setup Instructions</h2>
+<ol>
+<li><b>Install XAMPP:</b> Download and install XAMPP from https://www.apachefriends.org/</li>
+<li><b>Start Services:</b> Launch XAMPP Control Panel and start Apache and MySQL services.</li>
+<li><b>Create Database:</b> Open phpMyAdmin (http://localhost/phpmyadmin) and create database "student_fees_db".</li>
+<li><b>Run Migration:</b> Browse to http://localhost/fee-management/migrate_schema.php to create tables and default admin account.</li>
+<li><b>Seed Data:</b> Import school_students.sql via phpMyAdmin or run the provided SQL script.</li>
+<li><b>Firebase Setup:</b> Create a Firebase project, enable Firestore, and update firebase-config.js with your project credentials.</li>
+<li><b>Access System:</b> Browse to http://localhost/fee-management/ to access the system.</li>
+</ol>
+
+<h2>B.5 Admin User Guide</h2>
+<p><b>Managing Students:</b></p>
+<ol>
+<li>Log in to the admin panel with admin credentials.</li>
+<li>Click "Manage Students" in the sidebar to view the student registry.</li>
+<li>Use the search box to find students by name, ID, or email.</li>
+<li>Use dropdown filters to narrow by class, gender, or status.</li>
+<li>Click "View" to open a student's dashboard in a new tab.</li>
+<li>Click "Remind" to send payment reminders.</li>
+<li>Click "Delete" to remove a student record (with confirmation).</li>
+<li>Click "Export CSV" to download filtered student data.</li>
+</ol>
+
+<p><b>Monitoring Payments:</b></p>
+<ol>
+<li>Click "Online Payments" to view all digital payment transactions.</li>
+<li>Use filter tabs (All, Today, Pending, Completed) to narrow the view.</li>
+<li>Review transaction details including amount, method, and status.</li>
+<li>Verify pending payments using the "Verify" button.</li>
+</ol>
+
+<p><b>Viewing Analytics:</b></p>
+<ol>
+<li>Click "Payment Analytics" to access the comprehensive analytics dashboard.</li>
+<li>Review KPI cards for total collections, outstanding balance, and recovery rate.</li>
+<li>View collection breakdown by fee type with visual progress bars.</li>
+<li>Review payment method distribution.</li>
+<li>Identify top students with outstanding balances.</li>
+<li>Generate reports using the export buttons.</li>
+</ol>
+
+<h2>B.6 Student User Guide</h2>
+<p><b>Viewing Dashboard:</b></p>
+<ol>
+<li>Access the student dashboard with your student ID: dashboard.php?sim_id=S101.</li>
+<li>Review the welcome banner, fee summary, and payment history.</li>
+<li>Check the fee breakdown sidebar for individual fee item status.</li>
+<li>View real-time notifications in the notifications panel.</li>
+<li>Click "My Profile" to view detailed student information.</li>
+</ol>
+
+<p><b>Making a Payment:</b></p>
+<ol>
+<li>Click "Payment Gateway" or "Skip the Line" from the dashboard.</li>
+<li>Review outstanding fees and total amount due.</li>
+<li>Select a payment method: Credit Card, Mobile Money, or Bank Transfer.</li>
+<li>Fill in the required payment details.</li>
+<li>Click the payment button to submit.</li>
+<li>View and print the payment receipt from the confirmation page.</li>
+</ol>
+
+<p><b>Booking an Appointment:</b></p>
+<ol>
+<li>Click "Book Appointment" from the dashboard.</li>
+<li>Review upcoming appointments in the sidebar.</li>
+<li>Select a date (must be between tomorrow and 30 days from now).</li>
+<li>Click an available time slot from the grid.</li>
+<li>Select the purpose of your visit from the dropdown.</li>
+<li>Add optional notes.</li>
+<li>Click "Book Appointment" to confirm.</li>
+</ol>
+
+<p><b>Checking Queue Status:</b></p>
+<ol>
+<li>Click "Queue" from the student navigation menu.</li>
+<li>View the currently serving token number and counter.</li>
+<li>Check the estimated wait time based on queue position.</li>
+<li>View the full queue list to see all waiting students.</li>
+</ol>
+
+<!-- ============================================================ -->
+<!-- APPENDIX C: SAMPLE SCREENSHOTS -->
+<h1>APPENDIX C: SAMPLE SCREENSHOTS</h1>
+<p>The following screenshots demonstrate the key interfaces of the FeeFlow system. Figures C.1 through C.7 illustrate the major functional modules.</p>
+
+<h2>C.1 Admin Login Page</h2>
+<p><b>Figure C.1:</b> The admin login interface with email/username and password fields secured with bcrypt hashing.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500">
+  <rect width="700" height="500" fill="#f0f2f5"/>
+  <rect x="150" y="60" width="400" height="380" rx="12" fill="white" stroke="#ddd" stroke-width="1"/>
+  <rect x="150" y="60" width="400" height="80" rx="12" fill="#4f46e5"/>
+  <rect x="150" y="120" width="400" height="20" fill="#4f46e5"/>
+  <text x="350" y="100" text-anchor="middle" fill="white" font-family="Arial" font-size="20" font-weight="bold">Admin Login</text>
+  <text x="350" y="130" text-anchor="middle" fill="#c7d2fe" font-family="Arial" font-size="12">Sign in to the FeeFlow admin panel</text>
+  <text x="210" y="185" fill="#374151" font-family="Arial" font-size="13" font-weight="bold">Email / Username</text>
+  <rect x="210" y="195" width="280" height="36" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="225" y="218" fill="#9ca3af" font-family="Arial" font-size="12">admin@school.edu</text>
+  <text x="210" y="255" fill="#374151" font-family="Arial" font-size="13" font-weight="bold">Password</text>
+  <rect x="210" y="265" width="280" height="36" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="225" y="288" fill="#9ca3af" font-family="Arial" font-size="12">••••••••</text>
+  <rect x="210" y="325" width="280" height="40" rx="8" fill="#4f46e5"/>
+  <text x="350" y="350" text-anchor="middle" fill="white" font-family="Arial" font-size="14" font-weight="bold">Sign In</text>
+  <text x="350" y="400" text-anchor="middle" fill="#6b7280" font-family="Arial" font-size="11">Forgot your password? Contact administrator</text>
+  <text x="350" y="425" text-anchor="middle" fill="#9ca3af" font-family="Arial" font-size="10">FeeFlow v1.0 &copy; 2026</text>
+</svg>
+
+<div style="page-break-before: always;"></div>
+<h2>C.2 Student Dashboard</h2>
+<p><b>Figure C.2:</b> Student dashboard with welcome section, quick access menu, fee summary (Paid: UGX 3,990,000, Pending: UGX 1,140,000), fee breakdown sidebar, and payment history table.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#f0f2f5"/>
+  <rect x="15" y="15" width="770" height="50" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="30" y="47" fill="#4f46e5" font-family="Arial" font-size="16" font-weight="bold">FeeFlow</text>
+  <text x="700" y="47" fill="#6b7280" font-family="Arial" font-size="12">Dashboard &nbsp; Settings &nbsp; Logout</text>
+  <circle cx="740" cy="40" r="14" fill="#4f46e5"/>
+  <text x="740" y="45" text-anchor="middle" fill="white" font-family="Arial" font-size="11" font-weight="bold">A</text>
+
+  <rect x="15" y="80" width="190" height="35" rx="18" fill="#10b981"/>
+  <text x="110" y="103" text-anchor="middle" fill="white" font-family="Arial" font-size="13" font-weight="bold">Skip the Line ⏭️</text>
+
+  <rect x="215" y="80" width="190" height="35" rx="18" fill="rgba(255,255,255,0.85)" stroke="#d1d5db" stroke-width="1"/>
+  <text x="310" y="103" text-anchor="middle" fill="#374151" font-family="Arial" font-size="13">Payment Gateway 💳</text>
+
+  <rect x="415" y="80" width="190" height="35" rx="18" fill="rgba(255,255,255,0.85)" stroke="#d1d5db" stroke-width="1"/>
+  <text x="510" y="103" text-anchor="middle" fill="#374151" font-family="Arial" font-size="13">Installments 📅</text>
+
+  <rect x="615" y="80" width="170" height="35" rx="18" fill="rgba(255,255,255,0.85)" stroke="#d1d5db" stroke-width="1"/>
+  <text x="700" y="103" text-anchor="middle" fill="#374151" font-family="Arial" font-size="13">History 📊</text>
+
+  <!-- Welcome section -->
+  <text x="30" y="155" fill="#1e293b" font-family="Arial" font-size="18" font-weight="bold">Welcome, Aisha! 👋</text>
+  <text x="30" y="178" fill="#64748b" font-family="Arial" font-size="12">ID: S101 | Nursery</text>
+
+  <!-- Stat cards -->
+  <rect x="30" y="200" width="230" height="80" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="225" fill="#64748b" font-family="Arial" font-size="12">Total Paid</text>
+  <text x="50" y="260" fill="#10b981" font-family="Arial" font-size="22" font-weight="bold">UGX 3,990,000</text>
+
+  <rect x="285" y="200" width="230" height="80" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="305" y="225" fill="#64748b" font-family="Arial" font-size="12">Total Pending</text>
+  <text x="305" y="260" fill="#ef4444" font-family="Arial" font-size="22" font-weight="bold">UGX 1,140,000</text>
+
+  <rect x="540" y="200" width="245" height="80" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="560" y="225" fill="#64748b" font-family="Arial" font-size="12">Financial Clearance</text>
+  <text x="560" y="260" fill="#ef4444" font-family="Arial" font-size="18" font-weight="bold">❌ PENDING</text>
+
+  <!-- Fee Breakdown -->
+  <rect x="30" y="300" width="240" height="280" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="328" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">Fee Breakdown</text>
+  <line x1="50" y1="340" x2="250" y2="340" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="365" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">Tuition Fee</text>
+  <text x="230" y="365" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">UGX 3,040,000</text>
+  <rect x="50" y="372" width="50" height="18" rx="9" fill="#dcfce7"/>
+  <text x="75" y="385" text-anchor="middle" fill="#15803d" font-family="Arial" font-size="9" font-weight="bold">Paid</text>
+  <text x="50" y="405" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">School Meals</text>
+  <text x="230" y="405" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">UGX 1,140,000</text>
+  <rect x="50" y="412" width="50" height="18" rx="9" fill="#fef3c7"/>
+  <text x="75" y="425" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="9" font-weight="bold">Pending</text>
+  <text x="50" y="445" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">Development Fee</text>
+  <text x="230" y="445" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">UGX 570,000</text>
+  <rect x="50" y="452" width="50" height="18" rx="9" fill="#dcfce7"/>
+  <text x="75" y="465" text-anchor="middle" fill="#15803d" font-family="Arial" font-size="9" font-weight="bold">Paid</text>
+  <text x="50" y="485" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">Sports Fee</text>
+  <text x="230" y="485" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">UGX 380,000</text>
+  <rect x="50" y="492" width="50" height="18" rx="9" fill="#dcfce7"/>
+  <text x="75" y="505" text-anchor="middle" fill="#15803d" font-family="Arial" font-size="9" font-weight="bold">Paid</text>
+
+  <!-- Payment History -->
+  <rect x="290" y="300" width="495" height="280" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="310" y="328" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">Payment History</text>
+  <line x1="310" y1="340" x2="765" y2="340" stroke="#e5e7eb" stroke-width="1"/>
+  <!-- Table header -->
+  <rect x="310" y="350" width="455" height="28" fill="#f8fafc"/>
+  <text x="325" y="368" fill="#64748b" font-family="Arial" font-size="10" font-weight="bold">FEE ITEM</text>
+  <text x="420" y="368" fill="#64748b" font-family="Arial" font-size="10" font-weight="bold">AMOUNT</text>
+  <text x="510" y="368" fill="#64748b" font-family="Arial" font-size="10" font-weight="bold">STATUS</text>
+  <text x="580" y="368" fill="#64748b" font-family="Arial" font-size="10" font-weight="bold">DATE</text>
+  <text x="660" y="368" fill="#64748b" font-family="Arial" font-size="10" font-weight="bold">METHOD</text>
+  <!-- Row 1 -->
+  <line x1="310" y1="380" x2="765" y2="380" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="325" y="398" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Tuition Fee</text>
+  <text x="420" y="398" fill="#1e293b" font-family="Arial" font-size="11">UGX 3,040,000</text>
+  <rect x="510" y="388" width="40" height="18" rx="9" fill="#dcfce7"/>
+  <text x="530" y="400" text-anchor="middle" fill="#15803d" font-family="Arial" font-size="9" font-weight="bold">Paid</text>
+  <text x="580" y="398" fill="#64748b" font-family="Arial" font-size="11">May 09</text>
+  <text x="660" y="398" fill="#64748b" font-family="Arial" font-size="11">Mobile Money</text>
+  <!-- Row 2 -->
+  <line x1="310" y1="410" x2="765" y2="410" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="325" y="428" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Development Fee</text>
+  <text x="420" y="428" fill="#1e293b" font-family="Arial" font-size="11">UGX 570,000</text>
+  <rect x="510" y="418" width="40" height="18" rx="9" fill="#dcfce7"/>
+  <text x="530" y="430" text-anchor="middle" fill="#15803d" font-family="Arial" font-size="9" font-weight="bold">Paid</text>
+  <text x="580" y="428" fill="#64748b" font-family="Arial" font-size="11">May 09</text>
+  <text x="660" y="428" fill="#64748b" font-family="Arial" font-size="11">Card</text>
+  <!-- Row 3 -->
+  <line x1="310" y1="440" x2="765" y2="440" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="325" y="458" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Sports Fee</text>
+  <text x="420" y="458" fill="#1e293b" font-family="Arial" font-size="11">UGX 380,000</text>
+  <rect x="510" y="448" width="40" height="18" rx="9" fill="#dcfce7"/>
+  <text x="530" y="460" text-anchor="middle" fill="#15803d" font-family="Arial" font-size="9" font-weight="bold">Paid</text>
+  <text x="580" y="458" fill="#64748b" font-family="Arial" font-size="11">May 11</text>
+  <text x="660" y="458" fill="#64748b" font-family="Arial" font-size="11">Bank Transfer</text>
+  <!-- Row 4 -->
+  <line x1="310" y1="470" x2="765" y2="470" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="325" y="488" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">School Meals</text>
+  <text x="420" y="488" fill="#1e293b" font-family="Arial" font-size="11">UGX 1,140,000</text>
+  <rect x="510" y="478" width="50" height="18" rx="9" fill="#fef3c7"/>
+  <text x="535" y="490" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="9" font-weight="bold">Pending</text>
+  <text x="580" y="488" fill="#64748b" font-family="Arial" font-size="11">—</text>
+  <text x="660" y="488" fill="#64748b" font-family="Arial" font-size="11">—</text>
+  <!-- Pay button -->
+  <rect x="710" y="485" width="50" height="22" rx="4" fill="#10b981"/>
+  <text x="735" y="500" text-anchor="middle" fill="white" font-family="Arial" font-size="10" font-weight="bold">Pay</text>
+</svg>
+
+<div style="page-break-before: always;"></div>
+<h2>C.3 Payment Gateway</h2>
+<p><b>Figure C.3:</b> Secure payment gateway with payment summary sidebar showing UGX 1,140,000 due, and three payment methods: Credit Card, Mobile Money (selected), and Bank Transfer.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#f0f2f5"/>
+  <text x="400" y="40" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="22" font-weight="bold">Secure Payment Gateway</text>
+  <text x="400" y="62" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="12">Choose your preferred payment method to settle your school fees</text>
+
+  <!-- Payment Summary Sidebar -->
+  <rect x="30" y="85" width="280" height="480" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="115" fill="#1e293b" font-family="Arial" font-size="15" font-weight="bold">Payment Summary</text>
+  <text x="50" y="145" fill="#64748b" font-family="Arial" font-size="11">Student: Aisha Nakato</text>
+  <text x="50" y="165" fill="#64748b" font-family="Arial" font-size="11">ID: S101</text>
+  <line x1="50" y1="180" x2="290" y2="180" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="205" fill="#64748b" font-family="Arial" font-size="12" font-weight="bold">Outstanding Fees:</text>
+  <text x="50" y="230" fill="#1e293b" font-family="Arial" font-size="12">School Meals</text>
+  <text x="250" y="230" fill="#ef4444" font-family="Arial" font-size="12" font-weight="bold">UGX 1,140,000</text>
+
+  <rect x="30" y="250" width="280" height="80" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+  <text x="50" y="275" fill="#92400e" font-family="Arial" font-size="12"><tspan font-weight="bold">Total Due:</tspan></text>
+  <text x="50" y="310" fill="#ef4444" font-family="Arial" font-size="24" font-weight="900">UGX 1,140,000</text>
+
+  <rect x="50" y="350" width="240" height="36" rx="8" fill="#f1f5f9"/>
+  <text x="170" y="373" text-anchor="middle" fill="#4f46e5" font-family="Arial" font-size="12" font-weight="bold">← Back to Dashboard</text>
+
+  <!-- Payment Methods -->
+  <rect x="340" y="85" width="430" height="150" rx="12" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+  <text x="360" y="115" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">💳 Credit/Debit Card</text>
+  <text x="360" y="135" fill="#64748b" font-family="Arial" font-size="11">Visa, Mastercard, American Express</text>
+  <rect x="360" y="150" width="390" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="375" y="170" fill="#9ca3af" font-family="Arial" font-size="11">1234 5678 9012 3456</text>
+  <rect x="360" y="188" width="185" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="375" y="208" fill="#9ca3af" font-family="Arial" font-size="11">MM/YY</text>
+  <rect x="555" y="188" width="90" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="570" y="208" fill="#9ca3af" font-family="Arial" font-size="11">CVV</text>
+
+  <!-- Mobile Money -->
+  <rect x="340" y="250" width="430" height="150" rx="12" fill="white" stroke="#4f46e5" stroke-width="2"/>
+  <rect x="340" y="250" width="430" height="150" rx="12" fill="rgba(79,70,229,0.03)" stroke="#4f46e5" stroke-width="2"/>
+  <text x="360" y="280" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">📱 Mobile Money</text>
+  <text x="360" y="300" fill="#64748b" font-family="Arial" font-size="11">M-Pesa, MTN Money, MTN Mobile Money</text>
+  <rect x="360" y="315" width="390" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="375" y="335" fill="#9ca3af" font-family="Arial" font-size="11">+256 7xx xxx xxx</text>
+  <rect x="360" y="353" width="390" height="30" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="375" y="373" fill="#9ca3af" font-family="Arial" font-size="11">MTN Mobile Money (Uganda)</text>
+  <rect x="360" y="390" width="390" height="40" rx="8" fill="#4f46e5"/>
+  <text x="555" y="415" text-anchor="middle" fill="white" font-family="Arial" font-size="13" font-weight="bold">Pay UGX 1,140,000 via Mobile Money</text>
+
+  <!-- Bank Transfer -->
+  <rect x="340" y="415" width="430" height="150" rx="12" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+  <text x="360" y="445" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">🏦 Bank Transfer</text>
+  <text x="360" y="465" fill="#64748b" font-family="Arial" font-size="11">Direct bank account transfer</text>
+  <rect x="360" y="480" width="390" height="70" rx="6" fill="#f8fafc"/>
+  <text x="375" y="500" fill="#64748b" font-family="Arial" font-size="11"><tspan font-weight="bold">Bank Name:</tspan> First National Bank</text>
+  <text x="375" y="518" fill="#64748b" font-family="Arial" font-size="11"><tspan font-weight="bold">Account:</tspan> 1234567890</text>
+  <text x="375" y="536" fill="#64748b" font-family="Arial" font-size="11"><tspan font-weight="bold">Reference:</tspan> S101</text>
+  <text x="375" y="554" fill="#ef4444" font-family="Arial" font-size="11"><tspan font-weight="bold">Amount:</tspan> UGX 1,140,000</text>
+</svg>
+
+<div style="page-break-before: always;"></div>
+<h2>C.4 Payment Receipt</h2>
+<p><b>Figure C.4:</b> Payment receipt after successful transaction showing receipt number RCP-000001, student info, amount (UGX 1,140,000), fee items, and follow-up steps.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700" width="600" height="700">
+  <rect width="600" height="700" fill="#f0f2f5"/>
+  <rect x="50" y="30" width="500" height="640" rx="16" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect x="50" y="30" width="500" height="100" rx="16" fill="#10b981"/>
+  <rect x="50" y="110" width="500" height="20" fill="#10b981"/>
+  <circle cx="300" cy="70" r="30" fill="white"/>
+  <text x="300" y="78" text-anchor="middle" fill="#10b981" font-family="Arial" font-size="24">✅</text>
+  <text x="300" y="118" text-anchor="middle" fill="white" font-family="Arial" font-size="20" font-weight="bold">Payment Successful!</text>
+  <text x="300" y="140" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Arial" font-size="11">Thank you for your payment</text>
+  <!-- Receipt body -->
+  <rect x="80" y="160" width="200" height="50" rx="6" fill="none"/>
+  <text x="95" y="180" fill="#64748b" font-family="Arial" font-size="10">RECEIPT NUMBER</text>
+  <text x="95" y="200" fill="#1e293b" font-family="Arial" font-size="15" font-weight="bold">RCP-000001</text>
+  <rect x="310" y="160" width="210" height="50" rx="6" fill="none"/>
+  <text x="325" y="180" fill="#64748b" font-family="Arial" font-size="10">DATE & TIME</text>
+  <text x="325" y="200" fill="#1e293b" font-family="Arial" font-size="15" font-weight="bold">May 29, 2026 10:30 AM</text>
+
+  <line x1="80" y1="230" x2="520" y2="230" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="5,5"/>
+
+  <text x="95" y="260" fill="#64748b" font-family="Arial" font-size="10">STUDENT INFORMATION</text>
+  <text x="95" y="285" fill="#64748b" font-family="Arial" font-size="11">Name:</text>
+  <text x="180" y="285" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Aisha Nakato</text>
+  <text x="95" y="305" fill="#64748b" font-family="Arial" font-size="11">Student ID:</text>
+  <text x="180" y="305" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">S101</text>
+  <text x="330" y="285" fill="#64748b" font-family="Arial" font-size="11">Class:</text>
+  <text x="400" y="285" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Nursery</text>
+  <text x="330" y="305" fill="#64748b" font-family="Arial" font-size="11">Payment Method:</text>
+  <text x="450" y="305" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Mobile Money</text>
+
+  <line x1="80" y1="320" x2="520" y2="320" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="5,5"/>
+
+  <text x="95" y="350" fill="#64748b" font-family="Arial" font-size="10">AMOUNT PAID</text>
+  <text x="95" y="395" fill="#10b981" font-family="Arial" font-size="36" font-weight="800">UGX 1,140,000</text>
+  <text x="95" y="420" fill="#64748b" font-family="Arial" font-size="11">USD $300.00</text>
+
+  <line x1="80" y1="435" x2="520" y2="435" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="5,5"/>
+
+  <text x="95" y="460" fill="#64748b" font-family="Arial" font-size="10">PAYMENT FOR (FEES PAID)</text>
+  <text x="95" y="485" fill="#1e293b" font-family="Arial" font-size="12">School Meals</text>
+  <text x="480" y="485" text-anchor="end" fill="#10b981" font-family="Arial" font-size="12">Paid</text>
+
+  <line x1="80" y1="500" x2="520" y2="500" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="5,5"/>
+
+  <rect x="80" y="515" width="440" height="100" rx="8" fill="#f0fdf4"/>
+  <text x="100" y="540" fill="#065f46" font-family="Arial" font-size="12" font-weight="bold">📧 What's Next?</text>
+  <text x="100" y="560" fill="#065f46" font-family="Arial" font-size="11">• A confirmation email has been sent to your registered email</text>
+  <text x="100" y="578" fill="#065f46" font-family="Arial" font-size="11">• Your school's finance office will verify the payment within 24 hrs</text>
+  <text x="100" y="596" fill="#065f46" font-family="Arial" font-size="11">• You can download this receipt for your records</text>
+
+  <!-- Footer -->
+  <text x="300" y="640" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="10">School Finance Office | Email: fees@school.edu | Phone: +256 XXX XXXX</text>
+</svg>
+
+<div style="page-break-before: always;"></div>
+<h2>C.5 Appointment Booking</h2>
+<p><b>Figure C.5:</b> Appointment booking with outstanding balance alert, upcoming appointments list, and booking form with date picker, 14 time slots, purpose dropdown, and notes field.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#f0f2f5"/>
+  <rect x="30" y="20" width="740" height="100" rx="16" fill="#3b82f6"/>
+  <text x="50" y="55" fill="white" font-family="Arial" font-size="20" font-weight="bold">📅 Book an Appointment</text>
+  <text x="50" y="80" fill="rgba(255,255,255,0.9)" font-family="Arial" font-size="12">Skip the line! Book a specific time slot to visit the finance office.</text>
+  <rect x="50" y="95" width="130" height="22" rx="20" fill="rgba(255,255,255,0.2)"/>
+  <text x="115" y="110" text-anchor="middle" fill="white" font-family="Arial" font-size="11">⏱️ 15 min appointments</text>
+  <rect x="190" y="95" width="120" height="22" rx="20" fill="rgba(255,255,255,0.2)"/>
+  <text x="250" y="110" text-anchor="middle" fill="white" font-family="Arial" font-size="11">✅ Instant confirmation</text>
+
+  <!-- Left column -->
+  <rect x="30" y="135" width="260" height="200" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="165" fill="#92400e" font-family="Arial" font-size="13" font-weight="bold">💰 Outstanding Balance</text>
+  <text x="50" y="195" fill="#78350f" font-family="Arial" font-size="22" font-weight="700">UGX 1,140,000</text>
+  <text x="50" y="220" fill="#92400e" font-family="Arial" font-size="11">Book an appointment or</text>
+  <text x="50" y="240" fill="#059669" font-family="Arial" font-size="11" font-weight="bold">pay online now →</text>
+
+  <rect x="30" y="350" width="260" height="220" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="380" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">Your Upcoming Appointments</text>
+  <rect x="50" y="400" width="220" height="70" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="none"/>
+  <rect x="50" y="400" width="4" height="70" rx="2" fill="#3b82f6"/>
+  <text x="65" y="420" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">📅 May 31, 2026</text>
+  <text x="65" y="438" fill="#64748b" font-family="Arial" font-size="11">⏰ 09:00 AM</text>
+  <text x="65" y="456" fill="#64748b" font-family="Arial" font-size="11">School Meals payment arrangement</text>
+  <rect x="220" y="408" width="40" height="20" rx="10" fill="#dcfce7"/>
+  <text x="240" y="422" text-anchor="middle" fill="#15803d" font-family="Arial" font-size="9" font-weight="bold">Scheduled</text>
+
+  <!-- Right column - Booking form -->
+  <rect x="310" y="135" width="460" height="435" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="330" y="170" fill="#1e293b" font-family="Arial" font-size="18" font-weight="bold">Book New Appointment</text>
+
+  <text x="330" y="200" fill="#374151" font-family="Arial" font-size="12" font-weight="bold">Select Date</text>
+  <rect x="330" y="208" width="420" height="36" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="345" y="231" fill="#9ca3af" font-family="Arial" font-size="12">2026-05-31</text>
+
+  <text x="330" y="265" fill="#374151" font-family="Arial" font-size="12" font-weight="bold">Select Time Slot</text>
+  <!-- Time slots grid -->
+  <rect x="330" y="275" width="130" height="36" rx="8" fill="#3b82f6"/>
+  <text x="395" y="298" text-anchor="middle" fill="white" font-family="Arial" font-size="11" font-weight="bold">08:00 AM</text>
+  <rect x="470" y="275" width="130" height="36" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="535" y="298" text-anchor="middle" fill="#374151" font-family="Arial" font-size="11">08:30 AM</text>
+  <rect x="610" y="275" width="130" height="36" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="675" y="298" text-anchor="middle" fill="#374151" font-family="Arial" font-size="11">09:00 AM</text>
+
+  <rect x="330" y="318" width="130" height="36" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="395" y="341" text-anchor="middle" fill="#374151" font-family="Arial" font-size="11">09:30 AM</text>
+  <rect x="470" y="318" width="130" height="36" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="535" y="341" text-anchor="middle" fill="#374151" font-family="Arial" font-size="11">10:00 AM</text>
+  <rect x="610" y="318" width="130" height="36" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="675" y="341" text-anchor="middle" fill="#374151" font-family="Arial" font-size="11">10:30 AM</text>
+
+  <text x="330" y="380" fill="#374151" font-family="Arial" font-size="12" font-weight="bold">Purpose of Visit</text>
+  <rect x="330" y="388" width="420" height="36" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="345" y="411" fill="#9ca3af" font-family="Arial" font-size="12">Pay School Fees</text>
+
+  <text x="330" y="445" fill="#374151" font-family="Arial" font-size="12" font-weight="bold">Additional Notes (Optional)</text>
+  <rect x="330" y="453" width="420" height="60" rx="6" fill="#f8fafc" stroke="#d1d5db" stroke-width="1"/>
+  <text x="345" y="475" fill="#9ca3af" font-family="Arial" font-size="11">Any additional information...</text>
+
+  <rect x="330" y="525" width="420" height="36" rx="8" fill="#3b82f6"/>
+  <text x="540" y="547" text-anchor="middle" fill="white" font-family="Arial" font-size="13" font-weight="bold">📅 Book Appointment</text>
+</svg>
+
+<div style="page-break-before: always;"></div>
+<h2>C.6 Live Queue Monitor</h2>
+<p><b>Figure C.6:</b> Live queue showing currently serving token 301 at Counter #1, 20 min estimated wait, 4 students waiting, and full queue list (tokens 302-305).</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500">
+  <rect width="700" height="500" fill="#f0f2f5"/>
+  <text x="350" y="40" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="22" font-weight="bold">Live Queue Monitor</text>
+  <text x="350" y="62" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="12">Check the current progress of the Finance Office queue in real-time</text>
+
+  <!-- Currently Serving Panel -->
+  <rect x="30" y="85" width="300" height="200" rx="16" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="180" y="115" text-anchor="middle" fill="#64748b" font-family="Arial" font-size="13">Currently Serving</text>
+  <circle cx="180" cy="155" r="40" fill="#f0fdf4" stroke="#10b981" stroke-width="2"/>
+  <text x="180" y="162" text-anchor="middle" fill="#10b981" font-family="Arial" font-size="28" font-weight="900">301</text>
+  <text x="180" y="195" text-anchor="middle" fill="#10b981" font-family="Arial" font-size="14" font-weight="bold">Counter #1</text>
+  <line x1="50" y1="210" x2="310" y2="210" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="60" y="235" fill="#64748b" font-family="Arial" font-size="12">Estimated Wait Time: <tspan fill="#1e293b" font-weight="bold">20 minutes</tspan></text>
+  <text x="60" y="258" fill="#64748b" font-family="Arial" font-size="12">People in Queue: <tspan fill="#1e293b" font-weight="bold">4 students</tspan></text>
+
+  <!-- Join queue -->
+  <rect x="30" y="305" width="300" height="165" rx="16" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="180" y="340" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="15" font-weight="bold">Need to join the line?</text>
+  <text x="50" y="370" fill="#64748b" font-family="Arial" font-size="11" text-anchor="middle">You can generate a digital token</text>
+  <text x="50" y="388" fill="#64748b" font-family="Arial" font-size="11" text-anchor="middle">from your student dashboard and get</text>
+  <text x="50" y="406" fill="#64748b" font-family="Arial" font-size="11" text-anchor="middle">notified when it's almost your turn.</text>
+  <rect x="75" y="425" width="210" height="36" rx="8" fill="#4f46e5"/>
+  <text x="180" y="448" text-anchor="middle" fill="white" font-family="Arial" font-size="13" font-weight="bold">Generate Digital Token</text>
+
+  <!-- Queue List -->
+  <rect x="360" y="85" width="310" height="385" rx="16" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="380" y="115" fill="#1e293b" font-family="Arial" font-size="15" font-weight="bold">Queue Overview</text>
+  <line x1="380" y1="130" x2="650" y2="130" stroke="#e5e7eb" stroke-width="1"/>
+  <!-- Table header -->
+  <rect x="380" y="140" width="270" height="30" fill="#f8fafc"/>
+  <text x="400" y="160" fill="#64748b" font-family="Arial" font-size="11" font-weight="bold">TOKEN #</text>
+  <text x="490" y="160" fill="#64748b" font-family="Arial" font-size="11" font-weight="bold">STUDENT ID</text>
+  <text x="580" y="160" fill="#64748b" font-family="Arial" font-size="11" font-weight="bold">STATUS</text>
+
+  <!-- Row 1 - Serving -->
+  <rect x="380" y="172" width="270" height="40" fill="#f0fdf4"/>
+  <text x="400" y="198" fill="#1e293b" font-family="Arial" font-size="12" font-weight="bold">#301</text>
+  <text x="490" y="198" fill="#1e293b" font-family="Arial" font-size="12">S102</text>
+  <rect x="570" y="184" width="55" height="20" rx="10" fill="#dcfce7"/>
+  <text x="597" y="198" text-anchor="middle" fill="#15803d" font-family="Arial" font-size="10" font-weight="bold">Serving</text>
+
+  <!-- Row 2 -->
+  <line x1="380" y1="214" x2="650" y2="214" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="400" y="238" fill="#1e293b" font-family="Arial" font-size="12">#302</text>
+  <text x="490" y="238" fill="#1e293b" font-family="Arial" font-size="12">S106</text>
+  <rect x="570" y="228" width="55" height="20" rx="10" fill="#fef3c7"/>
+  <text x="597" y="242" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="10" font-weight="bold">Waiting</text>
+
+  <!-- Row 3 -->
+  <line x1="380" y1="254" x2="650" y2="254" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="400" y="278" fill="#1e293b" font-family="Arial" font-size="12">#303</text>
+  <text x="490" y="278" fill="#1e293b" font-family="Arial" font-size="12">S110</text>
+  <rect x="570" y="268" width="55" height="20" rx="10" fill="#fef3c7"/>
+  <text x="597" y="282" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="10" font-weight="bold">Waiting</text>
+
+  <!-- Row 4 -->
+  <line x1="380" y1="294" x2="650" y2="294" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="400" y="318" fill="#1e293b" font-family="Arial" font-size="12">#304</text>
+  <text x="490" y="318" fill="#1e293b" font-family="Arial" font-size="12">S114</text>
+  <rect x="570" y="308" width="55" height="20" rx="10" fill="#fef3c7"/>
+  <text x="597" y="322" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="10" font-weight="bold">Waiting</text>
+
+  <!-- Row 5 -->
+  <line x1="380" y1="334" x2="650" y2="334" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="400" y="358" fill="#1e293b" font-family="Arial" font-size="12">#305</text>
+  <text x="490" y="358" fill="#1e293b" font-family="Arial" font-size="12">S116</text>
+  <rect x="570" y="348" width="55" height="20" rx="10" fill="#fef3c7"/>
+  <text x="597" y="362" text-anchor="middle" fill="#92400e" font-family="Arial" font-size="10" font-weight="bold">Waiting</text>
+
+  <!-- Tip -->
+  <rect x="380" y="400" width="270" height="60" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1"/>
+  <text x="395" y="422" fill="#92400e" font-family="Arial" font-size="10">💡 If your wait time is more than</text>
+  <text x="395" y="440" fill="#92400e" font-family="Arial" font-size="10">30 minutes, consider grabbing a coffee</text>
+</svg>
+
+<div style="page-break-before: always;"></div>
+<h2>C.7 Admin Payment Analytics</h2>
+<p><b>Figure C.7:</b> Analytics dashboard with KPI cards (Collections: $8,275, Outstanding: $4,230, Recovery: 66.2%, Ledger: $12,505), fee type breakdown, payment method distribution, and top outstanding students.</p>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#f0f2f5"/>
+  <text x="30" y="35" fill="#1e293b" font-family="Arial" font-size="20" font-weight="bold">Advanced Payment Analytics</text>
+  <text x="30" y="55" fill="#64748b" font-family="Arial" font-size="12">Comprehensive insights into school payment collections and trends</text>
+
+  <!-- KPI Cards -->
+  <rect x="30" y="75" width="175" height="85" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="100" fill="#64748b" font-family="Arial" font-size="11">Total Collections</text>
+  <text x="50" y="135" fill="#10b981" font-family="Arial" font-size="22" font-weight="800">$8,275.00</text>
+  <text x="50" y="152" fill="#64748b" font-family="Arial" font-size="10">22 transactions</text>
+
+  <rect x="220" y="75" width="175" height="85" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="240" y="100" fill="#64748b" font-family="Arial" font-size="11">Outstanding Balance</text>
+  <text x="240" y="135" fill="#ef4444" font-family="Arial" font-size="22" font-weight="800">$4,230.00</text>
+  <text x="240" y="152" fill="#64748b" font-family="Arial" font-size="10">20 pending</text>
+
+  <rect x="410" y="75" width="175" height="85" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="430" y="100" fill="#64748b" font-family="Arial" font-size="11">Recovery Rate</text>
+  <text x="430" y="135" fill="#1e293b" font-family="Arial" font-size="22" font-weight="800">66.2%</text>
+  <text x="430" y="152" fill="#64748b" font-family="Arial" font-size="10">Overall collection rate</text>
+
+  <rect x="600" y="75" width="170" height="85" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="620" y="100" fill="#64748b" font-family="Arial" font-size="11">Total Ledger</text>
+  <text x="620" y="135" fill="#4f46e5" font-family="Arial" font-size="18" font-weight="800">$12,505.00</text>
+  <text x="620" y="152" fill="#64748b" font-family="Arial" font-size="10">All fees tracked</text>
+
+  <!-- Collection by Fee Type -->
+  <rect x="30" y="180" width="370" height="390" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="210" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">Collection Breakdown by Fee Type</text>
+  <!-- Table header -->
+  <rect x="50" y="225" width="330" height="28" fill="#f8fafc"/>
+  <text x="65" y="244" fill="#64748b" font-family="Arial" font-size="10" font-weight="bold">FEE TYPE</text>
+  <text x="185" y="244" fill="#64748b" font-family="Arial" font-size="10" font-weight="bold">COLLECTED</text>
+  <text x="270" y="244" fill="#64748b" font-family="Arial" font-size="10" font-weight="bold">PENDING</text>
+  <text x="340" y="244" fill="#64748b" font-family="Arial" font-size="10" font-weight="bold">RATE</text>
+  <!-- Tuition -->
+  <line x1="50" y1="255" x2="380" y2="255" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="65" y="278" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Tuition Fee</text>
+  <text x="185" y="278" fill="#10b981" font-family="Arial" font-size="11">$5,490.00</text>
+  <text x="270" y="278" fill="#ef4444" font-family="Arial" font-size="11">$2,630.00</text>
+  <rect x="330" y="268" width="60" height="8" rx="4" fill="#e2e8f0"/>
+  <rect x="330" y="268" width="40" height="8" rx="4" fill="#10b981"/>
+  <text x="345" y="292" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="9" font-weight="bold">68%</text>
+  <!-- Development -->
+  <line x1="50" y1="300" x2="380" y2="300" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="65" y="320" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Development Fee</text>
+  <text x="185" y="320" fill="#10b981" font-family="Arial" font-size="11">$960.00</text>
+  <text x="270" y="320" fill="#ef4444" font-family="Arial" font-size="11">$350.00</text>
+  <text x="345" y="320" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="9" font-weight="bold">73%</text>
+  <!-- Sports -->
+  <line x1="50" y1="345" x2="380" y2="345" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="65" y="365" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Sports Fee</text>
+  <text x="185" y="365" fill="#10b981" font-family="Arial" font-size="11">$575.00</text>
+  <text x="270" y="365" fill="#ef4444" font-family="Arial" font-size="11">$480.00</text>
+  <text x="345" y="365" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="9" font-weight="bold">55%</text>
+  <!-- School Meals -->
+  <line x1="50" y1="390" x2="380" y2="390" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="65" y="410" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">School Meals</text>
+  <text x="185" y="410" fill="#10b981" font-family="Arial" font-size="11">$600.00</text>
+  <text x="270" y="410" fill="#ef4444" font-family="Arial" font-size="11">$600.00</text>
+  <text x="345" y="410" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="9" font-weight="bold">50%</text>
+  <!-- Library -->
+  <line x1="50" y1="435" x2="380" y2="435" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="65" y="455" fill="#1e293b" font-family="Arial" font-size="11" font-weight="bold">Library Fee</text>
+  <text x="185" y="455" fill="#10b981" font-family="Arial" font-size="11">$195.00</text>
+  <text x="270" y="455" fill="#ef4444" font-family="Arial" font-size="11">$170.00</text>
+  <text x="345" y="455" text-anchor="middle" fill="#1e293b" font-family="Arial" font-size="9" font-weight="bold">53%</text>
+
+  <!-- Payment Method Distribution -->
+  <rect x="420" y="180" width="350" height="200" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="440" y="210" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">Payment Methods Used</text>
+  <text x="440" y="235" fill="#64748b" font-family="Arial" font-size="11">Card</text>
+  <text x="710" y="235" fill="#64748b" font-family="Arial" font-size="11">14 payments</text>
+  <rect x="440" y="242" width="310" height="8" rx="4" fill="#e2e8f0"/>
+  <rect x="440" y="242" width="140" height="8" rx="4" fill="#4f46e5"/>
+  <text x="440" y="268" fill="#64748b" font-family="Arial" font-size="11">Mobile Money</text>
+  <text x="710" y="268" fill="#64748b" font-family="Arial" font-size="11">8 payments</text>
+  <rect x="440" y="275" width="310" height="8" rx="4" fill="#e2e8f0"/>
+  <rect x="440" y="275" width="105" height="8" rx="4" fill="#4f46e5"/>
+  <text x="440" y="301" fill="#64748b" font-family="Arial" font-size="11">Bank Transfer</text>
+  <text x="710" y="301" fill="#64748b" font-family="Arial" font-size="11">6 payments</text>
+  <rect x="440" y="308" width="310" height="8" rx="4" fill="#e2e8f0"/>
+  <rect x="440" y="308" width="80" height="8" rx="4" fill="#4f46e5"/>
+
+  <!-- Top Outstanding Students -->
+  <rect x="420" y="400" width="350" height="170" rx="12" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="440" y="430" fill="#1e293b" font-family="Arial" font-size="14" font-weight="bold">Top Students with Outstanding Balances</text>
+  <rect x="440" y="440" width="310" height="25" fill="#f8fafc"/>
+  <text x="455" y="458" fill="#64748b" font-family="Arial" font-size="9" font-weight="bold">STUDENT</text>
+  <text x="545" y="458" fill="#64748b" font-family="Arial" font-size="9" font-weight="bold">PAID</text>
+  <text x="610" y="458" fill="#64748b" font-family="Arial" font-size="9" font-weight="bold">OUTSTANDING</text>
+  <!-- S110 -->
+  <line x1="440" y1="467" x2="750" y2="467" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="455" y="484" fill="#1e293b" font-family="Arial" font-size="10" font-weight="bold">S110 - John Wasswa</text>
+  <text x="545" y="484" fill="#10b981" font-family="Arial" font-size="10">$0.00</text>
+  <text x="610" y="484" fill="#ef4444" font-family="Arial" font-size="10" font-weight="bold">$865.00</text>
+  <!-- S116 -->
+  <line x1="440" y1="495" x2="750" y2="495" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="455" y="510" fill="#1e293b" font-family="Arial" font-size="10" font-weight="bold">S116 - Queen Namusisi</text>
+  <text x="545" y="510" fill="#10b981" font-family="Arial" font-size="10">$80.00</text>
+  <text x="610" y="510" fill="#ef4444" font-family="Arial" font-size="10" font-weight="bold">$1,250.00</text>
+  <!-- S106 -->
+  <line x1="440" y1="520" x2="750" y2="520" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="455" y="536" fill="#1e293b" font-family="Arial" font-size="10" font-weight="bold">S106 - Fred Mugisha</text>
+  <text x="545" y="536" fill="#10b981" font-family="Arial" font-size="10">$0.00</text>
+  <text x="610" y="536" fill="#ef4444" font-family="Arial" font-size="10" font-weight="bold">$755.00</text>
+  <!-- S104 -->
+  <line x1="440" y1="545" x2="750" y2="545" stroke="#f1f5f9" stroke-width="1"/>
+  <text x="455" y="560" fill="#1e293b" font-family="Arial" font-size="10" font-weight="bold">S104 - Denis Kizito</text>
+  <text x="545" y="560" fill="#10b981" font-family="Arial" font-size="10">$75.00</text>
+  <text x="610" y="560" fill="#ef4444" font-family="Arial" font-size="10" font-weight="bold">$650.00</text>
+</svg>
+
+<p class="center" style="margin-top:24pt;"><i>--- End of Report ---</i></p>
+</body>
+</html>

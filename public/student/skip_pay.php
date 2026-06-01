@@ -220,7 +220,7 @@ include 'header.php';
                         <select name="provider" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;" required>
                             <option value="">Select Provider</option>
                             <option value="MTN Mobile Money">MTN Mobile Money</option>
-                            <option value="Airtel Money">Airtel Money</option>
+                            <option value="MTN Money">MTN Money</option>
                         </select>
                     </div>
                     
@@ -280,7 +280,7 @@ include 'header.php';
                     <div class="ussd-step">
                         <span class="step-number">1</span>
                         <div>
-                            <strong>Dial *XXX#</strong> on your MTN or Airtel line
+                            <strong>Dial *XXX#</strong> on your MTN line
                         </div>
                     </div>
                     <div class="ussd-step">
@@ -324,7 +324,7 @@ include 'header.php';
                         <select name="provider" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;" required>
                             <option value="">Select Provider</option>
                             <option value="MTN">MTN</option>
-                            <option value="Airtel">Airtel</option>
+                            <option value="MTN">MTN</option>
                         </select>
                     </div>
                     
